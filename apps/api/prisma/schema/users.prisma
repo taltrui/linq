@@ -1,0 +1,24 @@
+model User {
+    id             String    @id @default(cuid())
+    email          String    @unique
+    firstName      String?
+    lastName       String?
+    address        String?
+    phone          String?
+    image          String? // URL para el avatar o foto de perfil.
+    hashedPassword String? // Nullable, para usuarios que se registran con OAuth (Google).
+    emailVerified  DateTime? // Útil para saber si el usuario ha verificado su email.
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+
+    // La empresa que este usuario posee (si es un OWNER).
+    ownedCompany Company? @relation("CompanyOwner")
+
+    // La lista de empresas a las que pertenece este usuario y su rol en cada una.
+    memberships Membership[]
+
+    // Cuentas de autenticación asociadas (Google, etc.).
+    accounts Account[]
+
+    @@map("users")
+}

@@ -1,0 +1,37 @@
+enum Role {
+    OWNER
+    ADMIN
+    WORKER
+}
+
+model Membership {
+    role      Role
+    createdAt DateTime @default(now())
+
+    // Relaciones
+    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+    companyId String
+
+    // Clave primaria compuesta para asegurar que un usuario solo tenga un rol por empresa.
+    @@id([userId, companyId])
+    @@map("memberships")
+}
+
+model Company {
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relación directa con el dueño de la empresa.
+    // Es una relación 1 a 1: una empresa tiene un solo dueño.
+    owner   User   @relation("CompanyOwner", fields: [ownerId], references: [id])
+    ownerId String @unique // El ID del usuario dueño.
+
+    // Lista de todos los miembros (incluyendo al dueño, admins y workers).
+    members Membership[]
+
+    @@map("companies")
+}
