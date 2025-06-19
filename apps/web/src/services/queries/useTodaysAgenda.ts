@@ -1,13 +1,5 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-
-export interface AgendaItem {
-    id: string;
-    title: string;
-    client: string;
-    time: string;
-    worker: string;
-    status: string;
-}
+import type { AgendaItem } from "@repo/api-client";
 
 const getTodaysAgenda = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1200));

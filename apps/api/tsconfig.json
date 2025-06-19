@@ -1,7 +1,18 @@
 {
   "extends": "../../packages/typescript-config/base.json",
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "outDir": "./dist",
-    "baseUrl": "./"
-  }
+    "baseUrl": "./",
+    "paths": {
+      "@prisma": [
+        "generated/prisma"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
