@@ -10,12 +10,13 @@ import {
 import { routeTree } from './routeTree.gen'
 import { AuthProvider, useAuth } from './lib/auth.js'
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 
 const router = createRouter({
   routeTree,
   context: {
-    auth: undefined!
+    auth: undefined!,
+    queryClient: undefined!
   }
 })
 
@@ -28,7 +29,7 @@ declare module '@tanstack/react-router' {
 function App() {
   const auth = useAuth()
   return (
-    <RouterProvider router={router} context={{ auth }} />
+    <RouterProvider router={router} context={{ auth, queryClient }} />
 
   )
 }
