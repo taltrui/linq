@@ -1,84 +1,100 @@
-# Turborepo starter
+# LINQ - Sistema de Autenticación con Login y Dashboard
 
-This Turborepo starter is maintained by the Turborepo core team.
+Sistema completo de autenticación usando localStorage con páginas protegidas.
 
-## Using this example
+## 🎯 Funcionalidades Implementadas
 
-Run the following command:
+### 🔐 **Sistema de Autenticación**
+- **Login funcional** con validación de credenciales
+- **Persistencia** usando localStorage
+- **Logout** con limpieza de sesión
+- **Protección de rutas** automática
 
-```sh
-npx create-turbo@latest
-```
+### 📊 **Páginas Principales**
 
-## What's inside?
+#### Login Page (`/`)
+- **Ruta**: `/` (pública)
+- **Descripción**: Formulario de login con validación
+- **Credenciales de prueba**: `admin@test.com` / `password`
+- **Componente**: `LoginPage` en `apps/web/src/routes/index.tsx`
+- **Funcionalidad**: 
+  - Redirección automática al dashboard si ya está autenticado
+  - Formulario con validación y manejo de errores
+  - Estados de carga durante autenticación
 
-This Turborepo includes the following packages/apps:
+#### Dashboard (`/dashboard`)
+- **Ruta**: `/dashboard` (protegida)
+- **Descripción**: Panel principal para usuarios autenticados
+- **Componente**: `DashboardPage` en `apps/web/src/routes/dashboard.tsx`
+- **Funcionalidad**:
+  - Acceso solo para usuarios autenticados
+  - Información del usuario logueado
+  - Botón de logout
+  - Redirección automática al login si no autenticado
 
-### Apps and Packages
+## 🔒 **Sistema de Protección de Rutas**
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Rutas Públicas
+- `/` - Login (accesible sin autenticación)
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Rutas Protegidas
+- `/dashboard` - Dashboard (requiere autenticación)
 
-### Utilities
+### Componentes de Seguridad
+- **AuthProvider**: Contexto global de autenticación
+- **ProtectedRoute**: Componente wrapper para rutas que requieren autenticación
+- **useAuth**: Hook para acceder al estado de autenticación
 
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## 🏗️ **Estructura del Proyecto**
 
 ```
-cd my-turborepo
-npx turbo login
+apps/web/src/
+├── auth.tsx                    # Contexto de autenticación
+├── components/
+│   └── ProtectedRoute.tsx      # Componente de protección de rutas
+├── routes/
+│   ├── __root.tsx             # Componente raíz limpio
+│   ├── index.tsx              # Página de login con formulario
+│   └── dashboard.tsx          # Dashboard protegido
+├── main.tsx                   # Setup con AuthProvider
+└── index.css                  # Estilos Tailwind
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🚀 **Cómo Usar**
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
+### 1. **Desarrollo**
+```bash
+cd apps/web
+npm run dev
 ```
-npx turbo link
-```
 
-## Useful Links
+### 2. **Login**
+- Navega a `http://localhost:5173`
+- Usa las credenciales: `admin@test.com` / `password`
+- Serás redirigido automáticamente al dashboard
 
-Learn more about the power of Turborepo:
+### 3. **Dashboard**
+- Acceso directo a `/dashboard` te redirigirá al login si no estás autenticado
+- Una vez logueado, verás tu información de usuario
+- Usa el botón "Logout" para cerrar sesión
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+## ⚡ **Características Técnicas**
+
+### Autenticación
+- **Persistencia**: localStorage mantiene la sesión entre refreshes
+- **Estados de carga**: Indicadores visuales durante autenticación
+- **Manejo de errores**: Mensajes informativos para credenciales incorrectas
+- **Redirecciones automáticas**: Navegación inteligente basada en estado de auth
+
+### Seguridad
+- **Protección de rutas**: Verificación automática en rutas protegidas
+- **Limpieza de sesión**: Logout completo con redirección
+- **Validación de estado**: Verificación continua del estado de autenticación
+
+## 🛠️ **Tecnologías**
+
+- **React 19.1.0 + TypeScript**
+- **TanStack Router** para enrutamiento
+- **Tailwind CSS** para estilos
+- **localStorage** para persistencia
+- **Vite** como bundler
