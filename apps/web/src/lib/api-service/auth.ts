@@ -1,4 +1,4 @@
-import { apiContract, type AuthResponse, type AuthUser } from "@repo/api-client";
+import { apiContract, type AuthResponse, type User } from "@repo/api-client";
 import { apiClient } from "../api";
 import { z } from "zod";
 
@@ -16,9 +16,9 @@ const register = async (payload: z.infer<typeof apiContract.auth.register.body>)
         data: payload,
     });
     return data;
-};
+};  
 
-const getProfile = async (): Promise<AuthUser> => {
+const getProfile = async (): Promise<User> => {
     const { data } = await apiClient(apiContract.auth.getProfile.path, {
         method: apiContract.auth.getProfile.method,
     });

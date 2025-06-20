@@ -1,15 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useAuth } from '@/lib/auth';
 import useAppForm from '@/lib/form';
 import { z } from 'zod';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { useProfile } from '@/services/queries/use-profile';
 
-const updateProfile = async (values: { name: string }) => {
+const updateProfile = async (values: { firstName: string, lastName: string }) => {
   console.log('Updating profile with:', values);
   await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, user: { name: values.name } };
+  return { success: true, user: { firstName: values.firstName, lastName: values.lastName } };
 };
 
 const changePassword = async (values: unknown) => {
@@ -23,12 +23,11 @@ export const Route = createFileRoute('/_authenticated/profile')({
 });
 
 function ProfilePage() {
-  const auth = useAuth();
+  const { data: profile } = useProfile();
 
   const { mutate: updateProfileMutation, isPending: isUpdatingProfile } = useMutation({
     mutationFn: updateProfile,
     onSuccess: (data) => {
-      auth.updateUser(data.user);
       toast.success('Profile updated successfully!');
     },
     onError: (error) => {
@@ -50,17 +49,19 @@ function ProfilePage() {
 
   const profileForm = useAppForm({
     defaultValues: {
-      name: auth.user.name,
-      email: auth.user.email,
+      firstName: profile?.firstName ?? '',
+      lastName: profile?.lastName ?? '',
+      email: profile?.email,
     },
     validators: {
       onChange: z.object({
-        name: z.string().min(3, 'Name must be at least 3 characters'),
+        firstName: z.string().min(3, 'First name must be at least 3 characters'),
+        lastName: z.string().min(3, 'Last name must be at least 3 characters'),
         email: z.string().email(),
       }),
     },
     onSubmit: async ({ value }) => {
-      updateProfileMutation({ name: value.name });
+      updateProfileMutation({ firstName: value.firstName, lastName: value.lastName });
     },
   });
 
@@ -101,7 +102,8 @@ function ProfilePage() {
             }}
               className="space-y-4"
             >
-              <profileForm.AppField name="name" children={(field) => <field.TextInput label="Full Name" />} />
+              <profileForm.AppField name="firstName" children={(field) => <field.TextInput label="First Name" placeholder="John" />} />
+              <profileForm.AppField name="lastName" children={(field) => <field.TextInput label="Last Name" placeholder="Doe" />} />
               <profileForm.AppField name="email" children={(field) => <field.TextInput label="Email Address" disabled />} />
 
               <profileForm.AppForm>

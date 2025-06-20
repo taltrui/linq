@@ -3,7 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
-import { Role, Membership } from '@prisma';
+import { Role, Membership, User } from '@prisma';
 import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class AuthService {
         return null;
     }
 
-    async login(user: { id: string, email: string, memberships: Membership[] }) {
+    async login(user: User & { memberships: Membership[] }) {
         if (!user.memberships?.length) {
             throw new UnauthorizedException('El usuario no pertenece a ninguna empresa.');
         }

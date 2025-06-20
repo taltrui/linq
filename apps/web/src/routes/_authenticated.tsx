@@ -1,10 +1,13 @@
 import { AuthenticatedHeader } from '@/components/general/authenticated-header'
+import { ensureMultipleQueries } from '@/lib/queryUtils'
+import { companyQueryOptions } from '@/services/queries/use-company.js'
+import { profileQueryOptions } from '@/services/queries/use-profile.js'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated')({
   component: AuthenticatedLayout,
   beforeLoad: async ({ context }) => {
-    if (!context.auth.authenticated) {
+    if (!context.auth.isAuthenticated()) {
       console.log('redirecting to /')
       throw redirect({
         to: '/',
@@ -12,6 +15,17 @@ export const Route = createFileRoute('/_authenticated')({
           redirect: location.href,
         },
       })
+    }
+  },
+  loader: async () => {
+    const [profile, company] = await ensureMultipleQueries([
+      profileQueryOptions,
+      companyQueryOptions,
+    ])
+
+    return {
+      profile,
+      company,
     }
   },
 })

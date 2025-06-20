@@ -10,13 +10,15 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useProfile } from '@/services/queries/use-profile.js'
 
 export function AuthenticatedHeader() {
-    const { user, logout } = useAuth()
+    const { data: profile } = useProfile()
+    const { logout } = useAuth()
     const navigate = useNavigate()
 
     const handleLogout = () => {
-        logout()
+        logout();
         navigate({ to: '/' })
     }
 
@@ -37,15 +39,14 @@ export function AuthenticatedHeader() {
                                 className="relative h-8 w-fit justify-start gap-2"
                             >
                                 <UserIcon className="size-4" />
-                                <span>{user.name}</span>
+                                <span>{profile?.firstName} {profile?.lastName}</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56" align="end" forceMount>
                             <DropdownMenuLabel className="font-normal">
                                 <div className="flex flex-col space-y-1">
-                                    <p className="text-sm font-medium leading-none">{user.name}</p>
                                     <p className="text-xs leading-none text-muted-foreground">
-                                        {user.email}
+                                        {profile?.email}
                                     </p>
                                 </div>
                             </DropdownMenuLabel>

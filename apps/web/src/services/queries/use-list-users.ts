@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { apiService } from '@/lib/api-service';
 
 export const usersQueryOptions = {
@@ -7,5 +7,5 @@ export const usersQueryOptions = {
 };
 
 export function useListUsers() {
-    return useQuery(usersQueryOptions);
-}
+    return useSuspenseQuery(usersQueryOptions);
+}   

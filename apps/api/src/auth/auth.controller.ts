@@ -2,6 +2,8 @@ import { Controller, Post, UseGuards, Request, Get, Body } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
+import { CurrentUser } from './decorators/current-user.decorator';
+import type { Membership, User } from '@prisma';
 
 @Controller('auth')
 export class AuthController {
@@ -9,8 +11,8 @@ export class AuthController {
 
     @UseGuards(AuthGuard('local'))
     @Post('login')
-    async login(@Request() req) {
-        return this.authService.login(req.user);
+    async login(@CurrentUser() user: User & { memberships: Membership[] }) {
+        return this.authService.login(user);
     }
 
     @Post('register')
@@ -20,7 +22,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard('jwt'))
     @Get('profile')
-    getProfile(@Request() req) {
-        return req.user;
+    getProfile(@CurrentUser() user: User) {
+        return user;
     }
 }

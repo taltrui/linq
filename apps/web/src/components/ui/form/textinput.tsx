@@ -14,8 +14,8 @@ function TextInput({ label, type = 'text', description, labelProps, ...props }: 
         <div className="grid w-full max-w-sm items-center gap-2">
             <Label htmlFor={field.name} {...labelProps}>{label}</Label>
             <Input id={field.name} type={type} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} onBlur={field.handleBlur} {...props} />
-            {showDescription && <p className="text-muted-foreground text-sm">{description}</p>}
-            {showErrors && <p className="text-red-500 text-sm">{errors}</p>}
+            {showDescription && <p className="text-muted-foreground text-xs">{description}</p>}
+            {showErrors && <p className="text-red-500 text-xs">{errors}</p>}
         </div>
     )
 }

@@ -1,27 +1,27 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { apiService } from '@/lib/api-service';
-import { useNavigate } from '@tanstack/react-router';
 import { type z } from 'zod';
 import { type RegisterSchema } from '@repo/api-client';
-import { toast } from 'sonner';
+import { useAuth } from '@/lib/auth';
+import { toastError, toastSuccess } from '@/lib/toast';
+import type { AxiosError } from 'axios';
+import { useNavigate } from '@tanstack/react-router';
 
 type RegisterPayload = z.infer<typeof RegisterSchema>;
 
 export function useRegister() {
-    const queryClient = useQueryClient();
+    const { setAccessToken } = useAuth();
     const navigate = useNavigate();
-
     return useMutation({
         mutationFn: (payload: RegisterPayload) => apiService.auth.register(payload),
 
         onSuccess: (data) => {
-            localStorage.setItem('auth_token', data.access_token);
-            queryClient.invalidateQueries({ queryKey: ['profile'] });
-            toast.success('Registration successful! Welcome.');
+            setAccessToken(data.access_token);
             navigate({ to: '/dashboard' });
+            toastSuccess('Registration successful! Welcome.');
         },
-        onError: (error: any) => {
-            toast.error(`Registration failed: ${error.response?.data?.message || error.message}`);
+        onError: (error: AxiosError<{ message: string }>) => {
+            toastError(error.response?.data.message || 'An error occurred');
         }
     });
 }
