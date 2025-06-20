@@ -10,6 +10,7 @@ import { useCompany } from '@/services/queries/use-company.js';
 
 export const Route = createFileRoute('/_authenticated/dashboard/')({
   component: DashboardPage,
+  pendingComponent: () => <div>Loading...</div>,
   loader: async () => {
     const [stats, agenda] = await ensureMultipleQueries([
       dashboardStatsQueryOptions,

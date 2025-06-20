@@ -1,0 +1,19 @@
+model Client {
+  id        String    @id @default(cuid())
+  displayId String    
+  name      String
+  phone     String
+  address   String    // Next: Implement a JSON type for address.
+  email     String?
+
+  companyId String
+  company   Company   @relation(fields: [companyId], references: [id])
+  
+  jobs      Job[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([companyId, displayId])
+  @@map("clients")
+}

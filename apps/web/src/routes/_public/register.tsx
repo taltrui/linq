@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import useAppForm from '@/lib/form';
 import { useRegister } from '@/services/mutations/use-register';
 import { RegisterSchema } from '@repo/api-client';

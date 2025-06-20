@@ -1,9 +1,9 @@
 model Account {
     id                String  @id @default(cuid())
     userId            String
-    type              String // ej. "oauth", "email"
-    provider          String // ej. "google", "github"
-    providerAccountId String // El ID del usuario que proviene del proveedor OAuth.
+    type              String
+    provider          String
+    providerAccountId String
     refresh_token     String? @db.Text
     access_token      String? @db.Text
     expires_at        Int?
@@ -14,7 +14,6 @@ model Account {
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    // Un usuario solo puede tener una cuenta por proveedor.
     @@unique([provider, providerAccountId])
     @@map("accounts")
 }

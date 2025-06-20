@@ -7,6 +7,10 @@ import { toastError, toastSuccess } from '@/lib/toast';
 import type { AxiosError } from 'axios';
 import { useNavigate } from '@tanstack/react-router';
 
+const errorCodeToMessage = {
+    'USER_ALREADY_EXISTS': 'El usuario ya existe',
+}
+
 type RegisterPayload = z.infer<typeof RegisterSchema>;
 
 export function useRegister() {
@@ -20,8 +24,8 @@ export function useRegister() {
             navigate({ to: '/dashboard' });
             toastSuccess('Registration successful! Welcome.');
         },
-        onError: (error: AxiosError<{ message: string }>) => {
-            toastError(error.response?.data.message || 'An error occurred');
+        onError: (error: AxiosError<{ code: string }>) => {
+            toastError(errorCodeToMessage[error.response?.data.code as keyof typeof errorCodeToMessage] || 'An error occurred');
         }
     });
 }

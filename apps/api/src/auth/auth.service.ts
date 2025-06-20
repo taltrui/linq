@@ -28,7 +28,9 @@ export class AuthService {
 
     async login(user: User & { memberships: Membership[] }) {
         if (!user.memberships?.length) {
-            throw new UnauthorizedException('El usuario no pertenece a ninguna empresa.');
+            throw new UnauthorizedException({
+                code: 'USER_NOT_IN_COMPANY'
+            });
         }
         const membership = user.memberships[0]!;
         const payload = {
@@ -45,7 +47,9 @@ export class AuthService {
     async register(registerDto: RegisterDto) {
         const existingUser = await this.usersService.findOne({ email: registerDto.email });
         if (existingUser) {
-            throw new ConflictException('El email ya está en uso');
+            throw new ConflictException({
+                code: 'USER_ALREADY_EXISTS'
+            });
         }
 
         return this.prisma.$transaction(async (tx) => {

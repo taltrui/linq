@@ -1,0 +1,64 @@
+enum JobStatus {
+    TO_BE_BUDGETED
+    PENDING
+    CANCELED
+    IN_PROGRESS
+    COMPLETED
+}
+
+model Job {
+    id          String    @id @default(cuid())
+    displayId   String
+    title       String
+    description String
+    price       Decimal   @db.Decimal(10, 2)
+    startDate   DateTime
+    endDate     DateTime
+    status      JobStatus @default(TO_BE_BUDGETED)
+
+    companyId String
+    company   Company @relation(fields: [companyId], references: [id])
+
+    clientId String
+    client   Client @relation(fields: [clientId], references: [id])
+
+    createdById String
+    createdBy   User   @relation("CreatedBy", fields: [createdById], references: [id])
+
+    history         JobHistoryLog[]
+    assignedWorkers JobAssignment[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([companyId, displayId])
+    @@map("jobs")
+}
+
+model JobHistoryLog {
+    id         String    @id @default(cuid())
+    fromStatus JobStatus
+    toStatus   JobStatus
+    changedAt  DateTime  @default(now())
+
+    jobId String
+    job   Job    @relation(fields: [jobId], references: [id])
+
+    changedById String
+    changedBy   User   @relation(fields: [changedById], references: [id])
+
+    @@map("job_history_logs")
+}
+
+model JobAssignment {
+    jobId String
+    job   Job    @relation(fields: [jobId], references: [id])
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    assignedAt DateTime @default(now())
+
+    @@id([jobId, userId])
+    @@map("job_assignments")
+}

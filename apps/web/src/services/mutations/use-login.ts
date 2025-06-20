@@ -7,6 +7,12 @@ import { useAuth } from '@/lib/auth';
 import { toastError } from '@/lib/toast';
 import type { AxiosError } from 'axios';
 
+const errorCodeToMessage = {
+    'USER_NOT_FOUND': 'Usuario no encontrado',
+    'INVALID_CREDENTIALS': 'Credenciales invalidas',
+    'USER_NOT_IN_COMPANY': 'El usuario no pertenece a ninguna empresa',
+}
+
 type LoginPayload = z.infer<typeof LoginSchema>;
 
 export function useLogin() {
@@ -20,8 +26,8 @@ export function useLogin() {
             auth.setAccessToken(data.access_token);
             navigate({ to: '/dashboard' });
         },
-        onError: (error: AxiosError<{ message: string }>) => {
-            toastError(error.response?.data.message || 'An error occurred');
+        onError: (error: AxiosError<{ code: string }>) => {
+            toastError(errorCodeToMessage[error.response?.data.code as keyof typeof errorCodeToMessage] || 'An error occurred');
         }
     });
 }

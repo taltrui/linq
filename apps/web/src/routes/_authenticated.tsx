@@ -3,12 +3,25 @@ import { ensureMultipleQueries } from '@/lib/queryUtils'
 import { companyQueryOptions } from '@/services/queries/use-company.js'
 import { profileQueryOptions } from '@/services/queries/use-profile.js'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { type RootRouterContext } from './__root'
+import { toastError } from '@/lib/toast'
 
+const handleUnauthorized = (error: any, context: RootRouterContext) => {
+  if (error.response?.status === 401 || error.response?.data?.code === 'TOKEN_INVALID_OR_EXPIRED') {
+    context.auth.logout()
+    toastError('Your session has expired. Please log in again.')
+    throw redirect({
+      to: '/',
+      search: {
+        redirect: location.href,
+      },
+    })
+  }
+}
 export const Route = createFileRoute('/_authenticated')({
   component: AuthenticatedLayout,
   beforeLoad: async ({ context }) => {
     if (!context.auth.isAuthenticated()) {
-      console.log('redirecting to /')
       throw redirect({
         to: '/',
         search: {
@@ -17,15 +30,19 @@ export const Route = createFileRoute('/_authenticated')({
       })
     }
   },
-  loader: async () => {
-    const [profile, company] = await ensureMultipleQueries([
-      profileQueryOptions,
-      companyQueryOptions,
-    ])
+  loader: async ({ context }) => {
+    try {
+      const [profile, company] = await ensureMultipleQueries([
+        profileQueryOptions,
+        companyQueryOptions,
+      ])
 
-    return {
-      profile,
-      company,
+      return {
+        profile,
+        company,
+      }
+    } catch (error) {
+      handleUnauthorized(error, context)
     }
   },
 })
