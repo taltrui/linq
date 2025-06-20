@@ -7,25 +7,35 @@ export const Role = {
 } as const;
 export type Role = (typeof Role)[keyof typeof Role];
 
-export type Company = {
-    id: string;
-    name: string;
-    ownerId: string;
-    createdAt: string;
-    updatedAt: string;
-};
+export const CompanySchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    ownerId: z.string(),
+    createdAt: z.string().datetime(),
+    updatedAt: z.string().datetime(),
+});
+
+export type Company = z.infer<typeof CompanySchema>;
+
+export const UpdateCompanySchema = z.object({
+    name: z.string().min(1),
+});
 
 export const companiesContract = {
-    getUserCompany: {
-        path: '/companies/user',
+    getMe: {
+        path: '/companies/me',
         method: 'GET',
-        response: z.object({
-            id: z.string(),
-            name: z.string(),
-            ownerId: z.string(),
-            createdAt: z.string().datetime(),
-            updatedAt: z.string().datetime(),
-        }),
+        response: CompanySchema,
     },
+    updateMe: {
+        path: '/companies/me',
+        method: 'PATCH',
+        body: UpdateCompanySchema,
+        response: CompanySchema,
+    },
+    deleteMe: {
+        path: '/companies/me',
+        method: 'DELETE',
+        response: z.object({ success: z.boolean() }),
+    }
 }
-

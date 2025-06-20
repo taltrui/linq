@@ -2,7 +2,6 @@ import { apiContract, type AuthResponse, type AuthUser } from "@repo/api-client"
 import { apiClient } from "../api";
 import { z } from "zod";
 
-
 const login = async (payload: z.infer<typeof apiContract.auth.login.body>): Promise<AuthResponse> => {
     const { data } = await apiClient(apiContract.auth.login.path, {
         method: apiContract.auth.login.method,
@@ -25,7 +24,6 @@ const getProfile = async (): Promise<AuthUser> => {
     });
     return data;
 };
-
 
 export const authService = {
     login,
