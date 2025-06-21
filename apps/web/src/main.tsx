@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { RouterProvider } from '@tanstack/react-router'
 import './index.css'
 import {
   QueryClient,
@@ -8,18 +8,10 @@ import {
 } from '@tanstack/react-query'
 import { Toaster } from "@/components/ui/sonner"
 
-import { routeTree } from './routeTree.gen'
 import { AuthProvider, useAuth } from './lib/auth.js'
+import { router } from './lib/router.js'
 
 export const queryClient = new QueryClient()
-
-const router = createRouter({
-  routeTree,
-  context: {
-    auth: undefined!,
-    queryClient: undefined!
-  }
-})
 
 declare module '@tanstack/react-router' {
   interface Register {

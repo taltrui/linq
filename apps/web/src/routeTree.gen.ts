@@ -15,10 +15,13 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedJobsRouteImport } from './routes/_authenticated/jobs'
+import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authenticated/jobs/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
+import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
 import { Route as AuthenticatedJobsCreateRouteImport } from './routes/_authenticated/jobs/create'
 import { Route as AuthenticatedJobsJobIdRouteImport } from './routes/_authenticated/jobs/$jobId'
+import { Route as AuthenticatedClientsCreateRouteImport } from './routes/_authenticated/clients/create'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -48,6 +51,11 @@ const AuthenticatedJobsRoute = AuthenticatedJobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedClientsRoute = AuthenticatedClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedJobsIndexRoute = AuthenticatedJobsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -59,6 +67,12 @@ const AuthenticatedDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedClientsIndexRoute =
+  AuthenticatedClientsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedClientsRoute,
+  } as any)
 const AuthenticatedJobsCreateRoute = AuthenticatedJobsCreateRouteImport.update({
   id: '/create',
   path: '/create',
@@ -69,14 +83,23 @@ const AuthenticatedJobsJobIdRoute = AuthenticatedJobsJobIdRouteImport.update({
   path: '/$jobId',
   getParentRoute: () => AuthenticatedJobsRoute,
 } as any)
+const AuthenticatedClientsCreateRoute =
+  AuthenticatedClientsCreateRouteImport.update({
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => AuthenticatedClientsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
+  '/clients': typeof AuthenticatedClientsRouteWithChildren
   '/jobs': typeof AuthenticatedJobsRouteWithChildren
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
   '/': typeof PublicIndexRoute
+  '/clients/create': typeof AuthenticatedClientsCreateRoute
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
   '/jobs/create': typeof AuthenticatedJobsCreateRoute
+  '/clients/': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/jobs/': typeof AuthenticatedJobsIndexRoute
 }
@@ -84,8 +107,10 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
   '/': typeof PublicIndexRoute
+  '/clients/create': typeof AuthenticatedClientsCreateRoute
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
   '/jobs/create': typeof AuthenticatedJobsCreateRoute
+  '/clients': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/jobs': typeof AuthenticatedJobsIndexRoute
 }
@@ -93,24 +118,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
+  '/_authenticated/clients': typeof AuthenticatedClientsRouteWithChildren
   '/_authenticated/jobs': typeof AuthenticatedJobsRouteWithChildren
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/register': typeof PublicRegisterRoute
   '/_public/': typeof PublicIndexRoute
+  '/_authenticated/clients/create': typeof AuthenticatedClientsCreateRoute
   '/_authenticated/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
   '/_authenticated/jobs/create': typeof AuthenticatedJobsCreateRoute
+  '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/jobs/': typeof AuthenticatedJobsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/clients'
     | '/jobs'
     | '/profile'
     | '/register'
     | '/'
+    | '/clients/create'
     | '/jobs/$jobId'
     | '/jobs/create'
+    | '/clients/'
     | '/dashboard'
     | '/jobs/'
   fileRoutesByTo: FileRoutesByTo
@@ -118,20 +149,25 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/'
+    | '/clients/create'
     | '/jobs/$jobId'
     | '/jobs/create'
+    | '/clients'
     | '/dashboard'
     | '/jobs'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_public'
+    | '/_authenticated/clients'
     | '/_authenticated/jobs'
     | '/_authenticated/profile'
     | '/_public/register'
     | '/_public/'
+    | '/_authenticated/clients/create'
     | '/_authenticated/jobs/$jobId'
     | '/_authenticated/jobs/create'
+    | '/_authenticated/clients/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/jobs/'
   fileRoutesById: FileRoutesById
@@ -185,6 +221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedJobsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/clients': {
+      id: '/_authenticated/clients'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof AuthenticatedClientsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/jobs/': {
       id: '/_authenticated/jobs/'
       path: '/'
@@ -198,6 +241,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/clients/': {
+      id: '/_authenticated/clients/'
+      path: '/'
+      fullPath: '/clients/'
+      preLoaderRoute: typeof AuthenticatedClientsIndexRouteImport
+      parentRoute: typeof AuthenticatedClientsRoute
     }
     '/_authenticated/jobs/create': {
       id: '/_authenticated/jobs/create'
@@ -213,8 +263,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedJobsJobIdRouteImport
       parentRoute: typeof AuthenticatedJobsRoute
     }
+    '/_authenticated/clients/create': {
+      id: '/_authenticated/clients/create'
+      path: '/create'
+      fullPath: '/clients/create'
+      preLoaderRoute: typeof AuthenticatedClientsCreateRouteImport
+      parentRoute: typeof AuthenticatedClientsRoute
+    }
   }
 }
+
+interface AuthenticatedClientsRouteChildren {
+  AuthenticatedClientsCreateRoute: typeof AuthenticatedClientsCreateRoute
+  AuthenticatedClientsIndexRoute: typeof AuthenticatedClientsIndexRoute
+}
+
+const AuthenticatedClientsRouteChildren: AuthenticatedClientsRouteChildren = {
+  AuthenticatedClientsCreateRoute: AuthenticatedClientsCreateRoute,
+  AuthenticatedClientsIndexRoute: AuthenticatedClientsIndexRoute,
+}
+
+const AuthenticatedClientsRouteWithChildren =
+  AuthenticatedClientsRoute._addFileChildren(AuthenticatedClientsRouteChildren)
 
 interface AuthenticatedJobsRouteChildren {
   AuthenticatedJobsJobIdRoute: typeof AuthenticatedJobsJobIdRoute
@@ -232,12 +302,14 @@ const AuthenticatedJobsRouteWithChildren =
   AuthenticatedJobsRoute._addFileChildren(AuthenticatedJobsRouteChildren)
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedClientsRoute: typeof AuthenticatedClientsRouteWithChildren
   AuthenticatedJobsRoute: typeof AuthenticatedJobsRouteWithChildren
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedClientsRoute: AuthenticatedClientsRouteWithChildren,
   AuthenticatedJobsRoute: AuthenticatedJobsRouteWithChildren,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,

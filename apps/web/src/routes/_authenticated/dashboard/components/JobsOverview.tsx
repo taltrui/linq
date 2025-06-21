@@ -18,7 +18,7 @@ function JobsOverview() {
 
   return (
     <section>
-      <h2 className="text-2xl font-semibold mb-4">Jobs Overview</h2>
+      <h2 className="text-2xl font-semibold mb-4">Trabajos</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-4">
         {jobStatuses.map(status => (
           <StatusCard key={status} status={status} count={statusCounts[status]} />

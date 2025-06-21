@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Loader2, Plus } from 'lucide-react'
 
-import { useCompany } from '@/services/queries/use-company'
 import { jobsQueryOptions } from '@/services/queries/use-list-jobs'
 import { Button } from '@/components/ui/button'
 import { ensureMultipleQueries } from '@/lib/queryUtils'

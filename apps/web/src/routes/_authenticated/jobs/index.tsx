@@ -20,6 +20,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
+import Select from '@/components/ui/select'
+import { formatStatus } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 
 const jobsSearchSchema = z.object({
     status: z.enum(JobStatus.options).optional(),
@@ -48,9 +51,7 @@ function JobRow({ job }: { job: Job }) {
                     <CardDescription>#{job.displayId}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                        Status: {job.status}
-                    </p>
+                    <Badge>{formatStatus(job.status)}</Badge>
                 </CardContent>
             </Card>
         </Link>
@@ -62,33 +63,33 @@ function JobsPage() {
     const { status, clientId } = Route.useSearch()
     const navigate = useNavigate({ from: Route.fullPath })
 
-    const handleStatusChange = (newStatus: JobStatus | 'all') => {
+    const handleStatusChange = (newStatus: JobStatus | 'ALL') => {
         navigate({
             search: (prev) => ({
                 ...prev,
-                status: newStatus === 'all' ? undefined : newStatus,
+                status: newStatus === 'ALL' ? undefined : newStatus,
             }),
             replace: true,
         })
     }
 
-    const handleClientChange = (newClientId: string | 'all') => {
+    const handleClientChange = (newClientId: string | 'ALL') => {
         navigate({
             search: (prev) => ({
                 ...prev,
-                clientId: newClientId === 'all' ? undefined : newClientId,
+                clientId: newClientId === 'ALL' ? undefined : newClientId,
             }),
             replace: true,
         })
     }
 
     const selectedClient = clients.find((c: Client) => c.id === clientId)
-    const selectedStatus = status
+    const selectedStatus = status ?? 'ALL'
 
     return (
         <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">Jobs</h1>
+                <h1 className="text-3xl font-bold">Tus trabajos</h1>
                 <Link to="/jobs/create">
                     <Button size="lg" className="rounded-full shadow-lg">
                         <Plus className="h-8 w-8" /> Nuevo trabajo
@@ -98,34 +99,10 @@ function JobsPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Filters</CardTitle>
+                    <CardTitle>Filtros</CardTitle>
                 </CardHeader>
                 <CardContent className="flex gap-4">
-                    <div>
-                        <label
-                            htmlFor="status-filter"
-                            className="block text-sm font-medium text-muted-foreground mb-1"
-                        >
-                            Status
-                        </label>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" id="status-filter" className="w-[180px] justify-between">
-                                    {selectedStatus ? selectedStatus : 'All Statuses'}
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem onSelect={() => handleStatusChange('all')}>
-                                    All Statuses
-                                </DropdownMenuItem>
-                                {JobStatus.options.map((s) => (
-                                    <DropdownMenuItem key={s} onSelect={() => handleStatusChange(s)}>
-                                        {s}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+                    <Select label="Estado" value={selectedStatus} onValueChange={handleStatusChange} options={['ALL', ...JobStatus.options].map((s) => ({ label: formatStatus(s), value: s }))} placeholder="Todos" />
                     <div>
                         <label
                             htmlFor="client-filter"

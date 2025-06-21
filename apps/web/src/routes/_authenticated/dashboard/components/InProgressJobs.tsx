@@ -6,7 +6,7 @@ function InProgressJobs() {
   const { data: jobs } = useListJobs({ status: 'IN_PROGRESS' })
   return (
     <section>
-      <h2 className="text-2xl font-semibold mb-4">In Progress Jobs</h2>
+      <h2 className="text-2xl font-semibold mb-4">Trabajos en progreso</h2>
       <div className="space-y-4">
         {jobs.length > 0
           ? (
@@ -14,7 +14,7 @@ function InProgressJobs() {
           )
           : (
             <Card className="p-4">
-              <p>No jobs in progress.</p>
+              <p>No hay trabajos en progreso.</p>
             </Card>
           )}
       </div>

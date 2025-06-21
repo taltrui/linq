@@ -38,8 +38,8 @@ function CreateJobPage() {
             title: '',
             description: '',
             price: '0',
-            startDate: new Date().toISOString().slice(0, 16),
-            endDate: new Date().toISOString().slice(0, 16),
+            startDate: new Date(),
+            endDate: new Date(),
             clientId: '',
         },
         validators: {
@@ -112,16 +112,13 @@ function CreateJobPage() {
                             <form.AppField
                                 name="startDate"
                                 children={(field) => (
-                                    <field.TextInput
-                                        label="Start Date"
-                                        type="datetime-local"
-                                    />
+                                    <field.DatePicker label="Start Date" />
                                 )}
                             />
                             <form.AppField
                                 name="endDate"
                                 children={(field) => (
-                                    <field.TextInput label="End Date" type="datetime-local" />
+                                    <field.DatePicker label="End Date" />
                                 )}
                             />
                         </div>
@@ -129,40 +126,7 @@ function CreateJobPage() {
                         <form.AppField
                             name="clientId"
                             children={(field) => (
-                                <div className="space-y-2">
-                                    <Label>Client</Label>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button
-                                                variant="outline"
-                                                className="w-full justify-between"
-                                                onClick={(e) => {
-                                                    e.preventDefault()
-                                                    e.stopPropagation()
-                                                }}
-                                            >
-                                                {selectedClient
-                                                    ? selectedClient.name
-                                                    : 'Select a client'}
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
-                                            {clients?.map((client: Client) => (
-                                                <DropdownMenuItem
-                                                    key={client.id}
-                                                    onSelect={() => handleClientSelect(client)}
-                                                >
-                                                    {client.name}
-                                                </DropdownMenuItem>
-                                            ))}
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                    {field.state.meta.errors && (
-                                        <p className="text-red-500 text-sm">
-                                            {field.state.meta.errors.join(', ')}
-                                        </p>
-                                    )}
-                                </div>
+                                <field.Select label="Client" options={clients.map((client) => ({ label: client.name, value: client.id }))} />
                             )}
                         />
 

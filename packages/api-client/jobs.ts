@@ -15,9 +15,9 @@ export const JobSchema = z.object({
   displayId: z.string(),
   title: z.string(),
   description: z.string(),
-  price: z.number(),
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime(),
+  price: z.string(),
+  startDate: z.string().date(),
+  endDate: z.string().date(),
   status: JobStatus,
   companyId: z.string(),
   clientId: z.string(),
@@ -32,8 +32,8 @@ export const CreateJobSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   price: z.string(),
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime(),
+  startDate: z.date(),
+  endDate: z.date(),
   clientId: z.string(),
 });
 

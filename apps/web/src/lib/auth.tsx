@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
+import { resetUnauthorizedHandler } from './api';
 
 export interface AuthContextType {
   setAccessToken: (access_token: string) => Promise<boolean>;
@@ -14,6 +15,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const setAccessToken = async (access_token: string): Promise<boolean> => {
     localStorage.setItem('auth_token', access_token);
+    resetUnauthorizedHandler();
     return true;
   };
 
