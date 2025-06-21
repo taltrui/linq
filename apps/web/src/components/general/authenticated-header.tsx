@@ -1,4 +1,4 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate, useRouteContext } from '@tanstack/react-router'
 import { LogOut, User as UserIcon } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
@@ -11,9 +11,11 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useProfile } from '@/services/queries/use-profile.js'
+import { useCompany } from '@/services/queries/use-company'
 
 export function AuthenticatedHeader() {
     const { data: profile } = useProfile()
+    const { data: company } = useCompany()
     const { logout } = useAuth()
     const navigate = useNavigate()
 
@@ -27,7 +29,7 @@ export function AuthenticatedHeader() {
             <div className="container flex max-w-screen-2xl items-center py-3 px-3">
                 <div className="mr-4 flex">
                     <Link to="/dashboard" className="mr-6 flex items-center space-x-2">
-                        <span className="font-bold">Linq</span>
+                        <span className="font-bold">Linq | {company?.name}</span>
                     </Link>
                 </div>
 
