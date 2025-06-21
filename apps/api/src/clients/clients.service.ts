@@ -47,7 +47,11 @@ export class ClientsService {
     return client;
   }
 
-  async update(id: string, updateClientDto: UpdateClientDto, companyId: string) {
+  async update(
+    id: string,
+    updateClientDto: UpdateClientDto,
+    companyId: string,
+  ) {
     await this.findOne(id, companyId); // a validation to check if the client exists and belongs to the company
     return this.prisma.client.update({
       where: { id },
@@ -61,4 +65,4 @@ export class ClientsService {
       where: { id },
     });
   }
-} 
+}

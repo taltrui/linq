@@ -6,33 +6,33 @@ import { UsersService } from '../../users/users.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(
-        configService: ConfigService,
-        private readonly usersService: UsersService,
-    ) {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: configService.get('JWT_SECRET')!,
-        });
+  constructor(
+    configService: ConfigService,
+    private readonly usersService: UsersService,
+  ) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: configService.get('JWT_SECRET')!,
+    });
+  }
+
+  async validate(payload: {
+    sub: string;
+    email: string;
+    companyId: string;
+    role: string;
+  }) {
+    const user = await this.usersService.findOne({ id: payload.sub });
+
+    if (!user) {
+      throw new UnauthorizedException({
+        code: 'USER_NOT_FOUND',
+      });
     }
 
-    async validate(payload: {
-        sub: string;
-        email: string;
-        companyId: string;
-        role: string;
-    }) {
-        const user = await this.usersService.findOne({ id: payload.sub });
+    const { hashedPassword, ...result } = user;
 
-        if (!user) {
-            throw new UnauthorizedException({
-                code: 'USER_NOT_FOUND'
-            });
-        }
-
-        const { hashedPassword, ...result } = user;
-
-        return { ...result, companyId: payload.companyId, role: payload.role };
-    }
+    return { ...result, companyId: payload.companyId, role: payload.role };
+  }
 }

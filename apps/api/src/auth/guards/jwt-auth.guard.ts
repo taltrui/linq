@@ -17,7 +17,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (err || !user) {
       throw err || new UnauthorizedException({ code: 'GENERIC_UNAUTHORIZED' });
     }
-    
+
     return user;
   }
-} 
+}

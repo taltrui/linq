@@ -1,9 +1,4 @@
-import {
-  IsDateString,
-  IsDecimal,
-  IsNotEmpty,
-  IsString,
-} from 'class-validator';
+import { IsDateString, IsDecimal, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateJobDto {
   @IsString()
@@ -29,4 +24,4 @@ export class CreateJobDto {
   @IsString()
   @IsNotEmpty()
   clientId!: string;
-} 
+}

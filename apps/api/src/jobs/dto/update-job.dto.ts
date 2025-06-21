@@ -7,4 +7,4 @@ export class UpdateJobDto extends PartialType(CreateJobDto) {
   @IsEnum(JobStatus)
   @IsOptional()
   status?: JobStatus;
-} 
+}

@@ -32,7 +32,7 @@ export class ClientsController {
   }
 
   @Get()
-  findAll(@CurrentUser() user: { companyId:string }) {
+  findAll(@CurrentUser() user: { companyId: string }) {
     return this.clientsService.findAll(user.companyId);
   }
 
@@ -56,4 +56,4 @@ export class ClientsController {
   remove(@Param('id') id: string, @CurrentUser() user: { companyId: string }) {
     return this.clientsService.remove(id, user.companyId);
   }
-} 
+}

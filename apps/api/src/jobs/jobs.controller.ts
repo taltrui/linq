@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { JobsService } from './jobs.service';
 import { CreateJobDto } from './dto/create-job.dto';
@@ -14,7 +15,7 @@ import { UpdateJobDto } from './dto/update-job.dto';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '@prisma';
+import { JobStatus, Role } from '@prisma';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -32,8 +33,12 @@ export class JobsController {
   }
 
   @Get()
-  findAll(@CurrentUser() user: { companyId: string }) {
-    return this.jobsService.findAll(user.companyId);
+  findAll(
+    @CurrentUser() user: { companyId: string },
+    @Query('status') status?: JobStatus,
+    @Query('clientId') clientId?: string,
+  ) {
+    return this.jobsService.findAll(user.companyId, status, clientId);
   }
 
   @Get(':id')
@@ -56,4 +61,4 @@ export class JobsController {
   remove(@Param('id') id: string, @CurrentUser() user: { companyId: string }) {
     return this.jobsService.remove(id, user.companyId);
   }
-} 
+}

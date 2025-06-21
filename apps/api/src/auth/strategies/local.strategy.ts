@@ -6,17 +6,20 @@ import { Membership, User } from '@prisma';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-    constructor(private authService: AuthService) {
-        super({ usernameField: 'email' });
-    }
+  constructor(private authService: AuthService) {
+    super({ usernameField: 'email' });
+  }
 
-    async validate(email: string, pass: string): Promise<User & { memberships: Membership[] }> {
-        const user = await this.authService.validateUser(email, pass);
-        if (!user) {
-            throw new UnauthorizedException({
-                code: 'INVALID_CREDENTIALS'
-            });
-        }
-        return user;
+  async validate(
+    email: string,
+    pass: string,
+  ): Promise<User & { memberships: Membership[] }> {
+    const user = await this.authService.validateUser(email, pass);
+    if (!user) {
+      throw new UnauthorizedException({
+        code: 'INVALID_CREDENTIALS',
+      });
     }
+    return user;
+  }
 }

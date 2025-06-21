@@ -2,17 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
-import { Prisma } from '@prisma';
+import { JobStatus, Prisma } from '@prisma';
 
 @Injectable()
 export class JobsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
-  async create(
-    createJobDto: CreateJobDto,
-    companyId: string,
-    userId: string,
-  ) {
+  async create(createJobDto: CreateJobDto, companyId: string, userId: string) {
     // a validation to check if the client exists and belongs to the company
     const client = await this.prisma.client.findUnique({
       where: { id: createJobDto.clientId, companyId },
@@ -57,9 +53,22 @@ export class JobsService {
     });
   }
 
-  findAll(companyId: string) {
+  findAll(companyId: string, status?: JobStatus, clientId?: string) {
+    const where: Prisma.JobWhereInput = { companyId };
+
+    if (status) {
+      where.status = status;
+    }
+
+    if (clientId) {
+      where.clientId = clientId;
+    }
+
     return this.prisma.job.findMany({
-      where: { companyId },
+      where,
+      include: {
+        client: true,
+      },
     });
   }
 
@@ -102,4 +111,4 @@ export class JobsService {
       where: { id },
     });
   }
-} 
+}
