@@ -11,8 +11,8 @@ const create = async (payload: CreateClient): Promise<Client> => {
   return response.data;
 };
 
-const getList = async (): Promise<Client[]> => {
-  const response = await apiClient.get(apiContract.clients.getList.path);
+const getList = async ({ search }: { search?: string }): Promise<Client[]> => {
+  const response = await apiClient.get(apiContract.clients.getList.path, { params: { search } });
   return response.data;
 };
 

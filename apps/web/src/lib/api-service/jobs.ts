@@ -3,6 +3,7 @@ import {
   type Job,
   type CreateJob,
   type UpdateJob,
+  JobStatus,
 } from '@repo/api-client';
 import { apiClient } from '../api';
 
@@ -11,8 +12,8 @@ const create = async (payload: CreateJob): Promise<Job> => {
   return response.data;
 };
 
-const getList = async (): Promise<Job[]> => {
-  const response = await apiClient.get(apiContract.jobs.getList.path);
+const getList = async ({ status, clientId }: { status?: JobStatus, clientId?: string }): Promise<Job[]> => {
+  const response = await apiClient.get(apiContract.jobs.getList.path, { params: { status, clientId } });
   return response.data;
 };
 

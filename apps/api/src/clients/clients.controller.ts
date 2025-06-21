@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -32,8 +33,11 @@ export class ClientsController {
   }
 
   @Get()
-  findAll(@CurrentUser() user: { companyId: string }) {
-    return this.clientsService.findAll(user.companyId);
+  findAll(
+    @CurrentUser() user: { companyId: string },
+    @Query('search') search?: string,
+  ) {
+    return this.clientsService.findAll(user.companyId, search);
   }
 
   @Get(':id')

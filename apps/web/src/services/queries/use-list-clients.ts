@@ -6,6 +6,10 @@ export const clientsQueryOptions = {
   queryFn: apiService.clients.getList,
 };
 
-export function useListClients() {
-  return useSuspenseQuery(clientsQueryOptions);
-} 
+export function useListClients({ search }: { search?: string }) {
+  return useSuspenseQuery({
+    ...clientsQueryOptions,
+    queryKey: ['clients', search],
+    queryFn: () => apiService.clients.getList({ search }),
+  });
+}

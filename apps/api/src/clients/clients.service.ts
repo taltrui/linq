@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { Prisma } from '@prisma';
 
 @Injectable()
 export class ClientsService {
@@ -29,9 +30,20 @@ export class ClientsService {
     });
   }
 
-  findAll(companyId: string) {
+  findAll(companyId: string, search?: string) {
+    const where: Prisma.ClientWhereInput = { companyId };
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+        { phone: { contains: search, mode: 'insensitive' } },
+        { address: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
     return this.prisma.client.findMany({
-      where: { companyId },
+      where,
     });
   }
 
