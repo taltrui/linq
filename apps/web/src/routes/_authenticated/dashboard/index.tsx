@@ -1,11 +1,11 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { Loader2, Plus } from 'lucide-react'
+import { createFileRoute } from '@tanstack/react-router'
+import { Loader2 } from 'lucide-react'
 
 import { jobsQueryOptions } from '@/services/queries/use-list-jobs'
-import { Button } from '@/components/ui/button'
 import { ensureMultipleQueries } from '@/lib/queryUtils'
 import JobsOverview from './components/JobsOverview'
 import InProgressJobs from './components/InProgressJobs'
+import NewJob from '@/components/general/new-job'
 
 export const Route = createFileRoute('/_authenticated/dashboard/')({
   component: DashboardPage,
@@ -30,12 +30,9 @@ function DashboardPage() {
 
         <JobsOverview />
         <InProgressJobs />
+
+        <NewJob floating />
       </div>
-      <Link to="/jobs/create" className="fixed bottom-8 right-8">
-        <Button size="lg" className="rounded-full shadow-lg">
-          <Plus className="h-8 w-8" /> Nuevo trabajo
-        </Button>
-      </Link>
     </>
   )
 }

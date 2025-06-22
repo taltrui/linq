@@ -19,10 +19,11 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
 import Select from '@/components/ui/select'
 import { formatStatus } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import BackToButton from '@/components/general/back-to-button'
+import NewJob from '@/components/general/new-job'
 
 const jobsSearchSchema = z.object({
     status: z.enum(JobStatus.options).optional(),
@@ -88,13 +89,10 @@ function JobsPage() {
 
     return (
         <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
+            <BackToButton to="/dashboard" label="Volver al dashboard" />
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold">Tus trabajos</h1>
-                <Link to="/jobs/create">
-                    <Button size="lg" className="rounded-full shadow-lg">
-                        <Plus className="h-8 w-8" /> Nuevo trabajo
-                    </Button>
-                </Link>
+                <NewJob />
             </div>
 
             <Card>

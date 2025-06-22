@@ -5,15 +5,16 @@ import { Label } from "../label"
 function Select({ label, description, options }: { label: string, description?: string, options: { label: string, value: string }[] }) {
     const field = useFieldContext<string>()
 
-    const errors = field.state.meta.errors.map((error) => String(error)).join(', ')
+    const errors = field.state.meta.errors.map((error) => error.message).join(', ')
 
     const showErrors = field.state.meta.isTouched && errors.length > 0
     const showDescription = !showErrors && description
 
+    console.log(field)
     return (
         <div className="space-y-2">
-            <Label htmlFor={field.name}>{label}</Label>
-            <SelectPrimitive>
+            <Label htmlFor={field.name} className="w-full">{label}</Label>
+            <SelectPrimitive onValueChange={field.handleChange}>
                 <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select an option" />
                 </SelectTrigger>

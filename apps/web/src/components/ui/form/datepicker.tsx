@@ -22,13 +22,13 @@ export function DatePicker({ label, description }: { label: string, description?
 
     return (
         <Popover>
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
                 <Label htmlFor={field.name}>{label}</Label>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
                         data-empty={!field.state.value}
-                        className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
+                        className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
                     >
                         <CalendarIcon />
                         {field.state.value ? format(field.state.value, "PPP") : <span>{label}</span>}

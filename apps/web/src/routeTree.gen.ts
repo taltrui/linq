@@ -19,7 +19,6 @@ import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authenticated/jobs/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
-import { Route as AuthenticatedJobsCreateRouteImport } from './routes/_authenticated/jobs/create'
 import { Route as AuthenticatedJobsJobIdRouteImport } from './routes/_authenticated/jobs/$jobId'
 import { Route as AuthenticatedClientsCreateRouteImport } from './routes/_authenticated/clients/create'
 
@@ -73,11 +72,6 @@ const AuthenticatedClientsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedClientsRoute,
   } as any)
-const AuthenticatedJobsCreateRoute = AuthenticatedJobsCreateRouteImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => AuthenticatedJobsRoute,
-} as any)
 const AuthenticatedJobsJobIdRoute = AuthenticatedJobsJobIdRouteImport.update({
   id: '/$jobId',
   path: '/$jobId',
@@ -98,7 +92,6 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/clients/create': typeof AuthenticatedClientsCreateRoute
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
-  '/jobs/create': typeof AuthenticatedJobsCreateRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/jobs/': typeof AuthenticatedJobsIndexRoute
@@ -109,7 +102,6 @@ export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/clients/create': typeof AuthenticatedClientsCreateRoute
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
-  '/jobs/create': typeof AuthenticatedJobsCreateRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/jobs': typeof AuthenticatedJobsIndexRoute
@@ -125,7 +117,6 @@ export interface FileRoutesById {
   '/_public/': typeof PublicIndexRoute
   '/_authenticated/clients/create': typeof AuthenticatedClientsCreateRoute
   '/_authenticated/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
-  '/_authenticated/jobs/create': typeof AuthenticatedJobsCreateRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/jobs/': typeof AuthenticatedJobsIndexRoute
@@ -140,7 +131,6 @@ export interface FileRouteTypes {
     | '/'
     | '/clients/create'
     | '/jobs/$jobId'
-    | '/jobs/create'
     | '/clients/'
     | '/dashboard'
     | '/jobs/'
@@ -151,7 +141,6 @@ export interface FileRouteTypes {
     | '/'
     | '/clients/create'
     | '/jobs/$jobId'
-    | '/jobs/create'
     | '/clients'
     | '/dashboard'
     | '/jobs'
@@ -166,7 +155,6 @@ export interface FileRouteTypes {
     | '/_public/'
     | '/_authenticated/clients/create'
     | '/_authenticated/jobs/$jobId'
-    | '/_authenticated/jobs/create'
     | '/_authenticated/clients/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/jobs/'
@@ -249,13 +237,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientsIndexRouteImport
       parentRoute: typeof AuthenticatedClientsRoute
     }
-    '/_authenticated/jobs/create': {
-      id: '/_authenticated/jobs/create'
-      path: '/create'
-      fullPath: '/jobs/create'
-      preLoaderRoute: typeof AuthenticatedJobsCreateRouteImport
-      parentRoute: typeof AuthenticatedJobsRoute
-    }
     '/_authenticated/jobs/$jobId': {
       id: '/_authenticated/jobs/$jobId'
       path: '/$jobId'
@@ -288,13 +269,11 @@ const AuthenticatedClientsRouteWithChildren =
 
 interface AuthenticatedJobsRouteChildren {
   AuthenticatedJobsJobIdRoute: typeof AuthenticatedJobsJobIdRoute
-  AuthenticatedJobsCreateRoute: typeof AuthenticatedJobsCreateRoute
   AuthenticatedJobsIndexRoute: typeof AuthenticatedJobsIndexRoute
 }
 
 const AuthenticatedJobsRouteChildren: AuthenticatedJobsRouteChildren = {
   AuthenticatedJobsJobIdRoute: AuthenticatedJobsJobIdRoute,
-  AuthenticatedJobsCreateRoute: AuthenticatedJobsCreateRoute,
   AuthenticatedJobsIndexRoute: AuthenticatedJobsIndexRoute,
 }
 
