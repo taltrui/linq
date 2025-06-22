@@ -29,12 +29,12 @@ export const JobSchema = z.object({
 export type Job = z.infer<typeof JobSchema>;
 
 export const CreateJobSchema = z.object({
-  title: z.string().min(1),
-  description: z.string().min(1),
-  price: z.string(),
-  startDate: z.date(),
-  endDate: z.date(),
-  clientId: z.string(),
+  title: z.string().trim().min(1, { message: 'El título es requerido' }),
+  description: z.string().trim().min(1, { message: 'La descripción es requerida' }),
+  price: z.string().trim().min(1, { message: 'El precio debe ser mayor a 0' }),
+  startDate: z.date({ message: 'La fecha de inicio es requerida' }),
+  endDate: z.date({ message: 'La fecha de fin es requerida' }),
+  clientId: z.string().trim().min(1, { message: 'El cliente es requerido' }),
 });
 
 export type CreateJob = z.infer<typeof CreateJobSchema>;
