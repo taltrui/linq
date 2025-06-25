@@ -8,6 +8,7 @@ import { CompaniesModule } from './companies/companies.module';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule } from './clients/clients.module';
 import { JobsModule } from './jobs/jobs.module';
+import { QuotationsModule } from './quotations/quotations.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { JobsModule } from './jobs/jobs.module';
     CompaniesModule,
     ClientsModule,
     JobsModule,
+    QuotationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

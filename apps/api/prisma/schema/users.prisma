@@ -17,9 +17,10 @@ model User {
 
     accounts Account[]
 
-    createdJobs       Job[]           @relation("CreatedBy")
-    jobHistoryEntries JobHistoryLog[]
-    assignedJobs      JobAssignment[]
+    jobHistoryEntries  JobHistoryLog[]
+    assignedJobs       JobAssignment[]
+    approvedQuotations Quotation[]     @relation("ApprovedQuotations")
+    createdQuotations  Quotation[]     @relation("CreatedQuotations")
 
     @@map("users")
 }

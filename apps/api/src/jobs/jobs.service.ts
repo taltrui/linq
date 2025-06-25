@@ -1,54 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
-import { JobStatus, Prisma } from '@prisma';
+import { JobStatus, Prisma, Quotation } from '@prisma';
 
 @Injectable()
 export class JobsService {
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createJobDto: CreateJobDto, companyId: string, userId: string) {
-    // a validation to check if the client exists and belongs to the company
-    const client = await this.prisma.client.findUnique({
-      where: { id: createJobDto.clientId, companyId },
-    });
-
-    if (!client) {
-      throw new NotFoundException(
-        `Client with ID "${createJobDto.clientId}" not found or does not belong to your company`,
-      );
-    }
-
-    const lastJob = await this.prisma.job.findFirst({
-      where: { companyId },
-      orderBy: { displayId: 'desc' },
-      select: { displayId: true },
-    });
-
-    const newDisplayId = lastJob
-      ? (parseInt(lastJob.displayId, 10) + 1).toString()
-      : '1';
-
-    // Prisma's Decimal type expects a string or number. The DTO provides a string.
-    const price = new Prisma.Decimal(createJobDto.price);
-
-    const { clientId, ...restOfDto } = createJobDto;
+  async createFromQuotation(quotation: Quotation) {
+    const { clientId, ...restOfDto } = quotation;
 
     return this.prisma.job.create({
       data: {
         ...restOfDto,
-        price,
-        displayId: newDisplayId,
-        company: {
-          connect: { id: companyId },
+        companyId: quotation.companyId,
+        clientId: clientId,
+        quotations: {
+          connect: { id: quotation.id },
         },
-        createdBy: {
-          connect: { id: userId },
-        },
-        client: {
-          connect: { id: clientId },
-        },
+        status: 'PENDING',
       },
     });
   }
@@ -91,13 +61,7 @@ export class JobsService {
 
   async update(id: string, updateJobDto: UpdateJobDto, companyId: string) {
     await this.findOne(id, companyId);
-
-    const { price, ...restOfDto } = updateJobDto;
-    const data: Prisma.JobUpdateInput = { ...restOfDto };
-
-    if (price) {
-      data.price = new Prisma.Decimal(price);
-    }
+    const data: Prisma.JobUpdateInput = updateJobDto;
 
     return this.prisma.job.update({
       where: { id },
@@ -105,10 +69,4 @@ export class JobsService {
     });
   }
 
-  async remove(id: string, companyId: string) {
-    await this.findOne(id, companyId);
-    return this.prisma.job.delete({
-      where: { id },
-    });
-  }
 }

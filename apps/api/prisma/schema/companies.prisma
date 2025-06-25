@@ -28,8 +28,9 @@ model Company {
 
     members Membership[]
 
-    clients Client[]
-    jobs    Job[]
+    clients    Client[]
+    jobs       Job[]
+    quotations Quotation[]
 
     @@map("companies")
 }

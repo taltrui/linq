@@ -1,4 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { Membership, User } from '@prisma';
 
 export const CurrentUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
@@ -6,3 +7,5 @@ export const CurrentUser = createParamDecorator(
     return request.user;
   },
 );
+
+export type CurrentUserType = User & { companyId: string, role: string, memberships: Membership[] };

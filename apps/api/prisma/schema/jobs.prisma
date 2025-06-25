@@ -1,20 +1,22 @@
 enum JobStatus {
-    TO_BE_BUDGETED
     PENDING
     CANCELED
     IN_PROGRESS
     COMPLETED
 }
 
+enum JobEvent {
+    CREATED
+    UPDATED
+    CANCELED
+}
+
 model Job {
-    id          String    @id @default(cuid())
-    displayId   String
-    title       String
-    description String
-    price       Decimal   @db.Decimal(10, 2)
-    startDate   DateTime
-    endDate     DateTime
-    status      JobStatus @default(TO_BE_BUDGETED)
+    id        String    @id @default(cuid())
+    displayId Int       @unique @default(autoincrement())
+    startDate DateTime?
+    estimatedDaysOfWork Int?
+    status    JobStatus @default(PENDING)
 
     companyId String
     company   Company @relation(fields: [companyId], references: [id])
@@ -22,14 +24,12 @@ model Job {
     clientId String
     client   Client @relation(fields: [clientId], references: [id])
 
-    createdById String
-    createdBy   User   @relation("CreatedBy", fields: [createdById], references: [id])
-
     history         JobHistoryLog[]
     assignedWorkers JobAssignment[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+    quotations Quotation[]
 
     @@unique([companyId, displayId])
     @@map("jobs")
@@ -37,9 +37,9 @@ model Job {
 
 model JobHistoryLog {
     id         String    @id @default(cuid())
-    fromStatus JobStatus
-    toStatus   JobStatus
+    event      JobEvent
     changedAt  DateTime  @default(now())
+    description String?
 
     jobId String
     job   Job    @relation(fields: [jobId], references: [id])
