@@ -3,8 +3,8 @@ import { Loader2 } from 'lucide-react'
 
 import { jobsQueryOptions } from '@/services/queries/use-list-jobs'
 import { ensureMultipleQueries } from '@/lib/queryUtils'
-import JobsOverview from './components/JobsOverview'
-import InProgressJobs from './components/InProgressJobs'
+import JobsOverview from './-components/JobsOverview.js'
+import InProgressJobs from './-components/InProgressJobs.js'
 import NewJob from '@/components/general/new-job'
 
 export const Route = createFileRoute('/_authenticated/dashboard/')({

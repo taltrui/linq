@@ -1,6 +1,6 @@
 import { JobStatus } from "@repo/api-client"
 import { useListJobs } from "@/services/queries/use-list-jobs"
-import StatusCard from "./JobStatusCard"
+import StatusCard from "./JobStatusCard.js"
 import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 

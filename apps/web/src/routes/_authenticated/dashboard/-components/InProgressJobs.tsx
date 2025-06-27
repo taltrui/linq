@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { useListJobs } from "@/services/queries/use-list-jobs";
-import JobCard from "./JobCard";
+import JobCard from "./JobCard.js";
 
 function InProgressJobs() {
   const { data: jobs } = useListJobs({ status: 'IN_PROGRESS' })
