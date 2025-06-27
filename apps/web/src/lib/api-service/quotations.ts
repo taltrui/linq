@@ -1,14 +1,17 @@
 import {
   apiContract,
   type Quotation,
-  CreateQuotationPayload,
   UpdateQuotationPayload,
-} from '@repo/api-client';
-import { apiClient } from '../api';
-import { z } from 'zod';
+  type CreateQuotation,
+} from "@repo/api-client";
+import { apiClient } from "../api";
+import { z } from "zod";
 
-const create = async (payload: typeof CreateQuotationPayload): Promise<Quotation> => {
-  const response = await apiClient.post(apiContract.quotations.create.path, payload);
+const create = async (payload: CreateQuotation): Promise<Quotation> => {
+  const response = await apiClient.post(
+    apiContract.quotations.create.path,
+    payload
+  );
   return response.data;
 };
 
@@ -22,18 +25,24 @@ const getById = async (id: string): Promise<Quotation> => {
   return response.data;
 };
 
-const update = async (id: string, payload: typeof UpdateQuotationPayload): Promise<Quotation> => {
+const update = async (
+  id: string,
+  payload: typeof UpdateQuotationPayload
+): Promise<Quotation> => {
   const response = await apiClient.patch(
     apiContract.quotations.update.path(id),
-    payload,
+    payload
   );
   return response.data;
 };
 
-const sendEmail = async (id: string, payload: z.infer<typeof apiContract.quotations.sendEmail.body>): Promise<{ message: string }> => {
+const sendEmail = async (
+  id: string,
+  payload: z.infer<typeof apiContract.quotations.sendEmail.body>
+): Promise<{ message: string }> => {
   const response = await apiClient.post(
     apiContract.quotations.sendEmail.path(id),
-    payload,
+    payload
   );
   return response.data;
 };

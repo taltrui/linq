@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiService } from "@/lib/api-service";
-import { CreateQuotationPayload } from "@repo/api-client";
 import { toast } from "sonner";
+import type { CreateQuotation } from "@repo/api-client";
 
 export function useCreateQuotation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: typeof CreateQuotationPayload) =>
+    mutationFn: (payload: CreateQuotation) =>
       apiService.quotations.create(payload),
     onSuccess: () => {
       toast.success("Quotation created successfully.");
