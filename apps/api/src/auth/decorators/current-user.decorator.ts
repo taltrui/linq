@@ -3,9 +3,13 @@ import { Membership, User } from '@prisma';
 
 export const CurrentUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
+    const request: Express.Request = ctx.switchToHttp().getRequest();
     return request.user;
   },
 );
 
-export type CurrentUserType = User & { companyId: string, role: string, memberships: Membership[] };
+export type CurrentUserType = User & {
+  companyId: string;
+  role: string;
+  memberships: Membership[];
+};

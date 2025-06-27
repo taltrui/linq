@@ -5,7 +5,7 @@ import { JobStatus, Prisma, Quotation } from '@prisma';
 
 @Injectable()
 export class JobsService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async createFromQuotation(quotation: Quotation) {
     const { clientId, ...restOfDto } = quotation;
@@ -68,5 +68,4 @@ export class JobsService {
       data,
     });
   }
-
 }

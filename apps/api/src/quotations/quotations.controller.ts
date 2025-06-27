@@ -1,17 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { QuotationsService } from './quotations.service';
 import { CreateQuotationDto } from './dto/create-quotation.dto';
 import { UpdateQuotationDto } from './dto/update-quotation.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CurrentUser, type CurrentUserType } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  type CurrentUserType,
+} from '../auth/decorators/current-user.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('quotations')
 export class QuotationsController {
-  constructor(private readonly quotationsService: QuotationsService) { }
+  constructor(private readonly quotationsService: QuotationsService) {}
 
   @Post()
-  create(@Body() createQuotationDto: CreateQuotationDto, @CurrentUser() user: CurrentUserType) {
+  create(
+    @Body() createQuotationDto: CreateQuotationDto,
+    @CurrentUser() user: CurrentUserType,
+  ) {
     return this.quotationsService.create(createQuotationDto, user);
   }
 
@@ -26,7 +40,11 @@ export class QuotationsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuotationDto: UpdateQuotationDto, @CurrentUser() user: CurrentUserType) {
+  update(
+    @Param('id') id: string,
+    @Body() updateQuotationDto: UpdateQuotationDto,
+    @CurrentUser() user: CurrentUserType,
+  ) {
     return this.quotationsService.update(id, updateQuotationDto, user);
   }
 
@@ -34,9 +52,8 @@ export class QuotationsController {
   sendEmail(
     @Param('id') id: string,
     @Body('recipientEmail') email: string,
-    @CurrentUser() user: CurrentUserType
+    @CurrentUser() user: CurrentUserType,
   ) {
     return this.quotationsService.sendEmail(id, email, user);
   }
-
-} 
+}

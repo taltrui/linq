@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { JobsService } from '../jobs/jobs.service';
 import { CreateQuotationDto } from './dto/create-quotation.dto';
@@ -10,9 +14,12 @@ export class QuotationsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jobsService: JobsService,
-  ) { }
+  ) {}
 
-  async create(createQuotationDto: CreateQuotationDto, currentUser: CurrentUserType) {
+  async create(
+    createQuotationDto: CreateQuotationDto,
+    currentUser: CurrentUserType,
+  ) {
     const { clientId, items, notes, title, description } = createQuotationDto;
     const companyId = currentUser.companyId;
 
@@ -40,7 +47,7 @@ export class QuotationsService {
         title,
         description,
         quotationItems: {
-          create: items.map(item => ({
+          create: items.map((item) => ({
             description: item.description,
             quantity: item.quantity,
             unitPrice: item.unitPrice,
@@ -73,7 +80,11 @@ export class QuotationsService {
     return quotation;
   }
 
-  async update(id: string, updateQuotationDto: UpdateQuotationDto, currentUser: CurrentUserType) {
+  async update(
+    id: string,
+    updateQuotationDto: UpdateQuotationDto,
+    currentUser: CurrentUserType,
+  ) {
     const companyId = currentUser.companyId;
 
     const existingQuotation = await this.prisma.quotation.findFirst({
@@ -85,10 +96,15 @@ export class QuotationsService {
     }
 
     if (existingQuotation.status !== 'PENDING') {
-      throw new ForbiddenException(`Cannot update a quotation with status ${existingQuotation.status}.`);
+      throw new ForbiddenException(
+        `Cannot update a quotation with status ${existingQuotation.status}.`,
+      );
     }
 
-    if (updateQuotationDto.status === 'APPROVED' && existingQuotation.status === 'PENDING') {
+    if (
+      updateQuotationDto.status === 'APPROVED' &&
+      existingQuotation.status === 'PENDING'
+    ) {
       await this.jobsService.createFromQuotation(existingQuotation);
       return this.prisma.quotation.update({
         where: { id },
@@ -104,13 +120,16 @@ export class QuotationsService {
       where: { id },
       data: {
         ...updateQuotationDto,
-      }
-    })
+      },
+    });
   }
 
-  async sendEmail(id: string, recipientEmail: string, currentUser: CurrentUserType) {
+  async sendEmail(
+    id: string,
+    recipientEmail: string,
+    currentUser: CurrentUserType,
+  ) {
     // Lógica para enviar email
     throw new Error('Not implemented');
   }
-
-} 
+}

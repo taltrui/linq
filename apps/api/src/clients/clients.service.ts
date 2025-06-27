@@ -15,6 +15,10 @@ export class ClientsService {
       select: { displayId: true },
     });
 
+    const address = await this.prisma.address.create({
+      data: createClientDto.address,
+    });
+
     const newDisplayId = lastClient
       ? (parseInt(lastClient.displayId, 10) + 1).toString()
       : '1';
@@ -22,6 +26,9 @@ export class ClientsService {
     return this.prisma.client.create({
       data: {
         ...createClientDto,
+        address: {
+          connect: { id: address.id },
+        },
         displayId: newDisplayId,
         company: {
           connect: { id: companyId },
@@ -38,7 +45,14 @@ export class ClientsService {
         { name: { contains: search, mode: 'insensitive' } },
         { email: { contains: search, mode: 'insensitive' } },
         { phone: { contains: search, mode: 'insensitive' } },
-        { address: { contains: search, mode: 'insensitive' } },
+        {
+          address: {
+            street: { contains: search, mode: 'insensitive' },
+            city: { contains: search, mode: 'insensitive' },
+            state: { contains: search, mode: 'insensitive' },
+            zipCode: { contains: search, mode: 'insensitive' },
+          },
+        },
       ];
     }
 
@@ -65,9 +79,16 @@ export class ClientsService {
     companyId: string,
   ) {
     await this.findOne(id, companyId); // a validation to check if the client exists and belongs to the company
+    const { address, ...clientData } = updateClientDto;
+
+    const data: Prisma.ClientUpdateInput = {
+      ...clientData,
+      address: address ? { update: address } : undefined,
+    };
+
     return this.prisma.client.update({
       where: { id },
-      data: updateClientDto,
+      data,
     });
   }
 

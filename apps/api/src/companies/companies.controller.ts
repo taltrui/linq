@@ -20,13 +20,16 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Get('me')
-  findOne(@CurrentUser() user: any) {
+  findOne(@CurrentUser() user: { companyId: string }) {
     return this.companiesService.findOne(user.companyId);
   }
 
   @Roles(Role.OWNER, Role.ADMIN)
   @Patch('me')
-  update(@CurrentUser() user: any, @Body() updateCompanyDto: UpdateCompanyDto) {
+  update(
+    @CurrentUser() user: { companyId: string },
+    @Body() updateCompanyDto: UpdateCompanyDto,
+  ) {
     return this.companiesService.update(user.companyId, updateCompanyDto);
   }
 

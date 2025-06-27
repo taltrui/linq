@@ -3,6 +3,12 @@ import { Reflector } from '@nestjs/core';
 import { Role } from '@prisma';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
+interface RequestWithUser {
+  user: {
+    role: Role[];
+  };
+}
+
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
@@ -15,7 +21,7 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    const { user } = context.switchToHttp().getRequest();
+    const { user } = context.switchToHttp().getRequest<RequestWithUser>();
     return requiredRoles.some((role) => user.role?.includes(role));
   }
 }

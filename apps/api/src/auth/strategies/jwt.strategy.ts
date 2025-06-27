@@ -24,7 +24,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     companyId: string;
     role: string;
   }) {
-    const user = await this.usersService.findOne({ id: payload.sub }, { memberships: true });
+    const user = await this.usersService.findOne(
+      { id: payload.sub },
+      { memberships: true },
+    );
 
     if (!user) {
       throw new UnauthorizedException({
@@ -32,6 +35,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { hashedPassword, ...result } = user as CurrentUserType;
 
     return { ...result, companyId: payload.companyId, role: payload.role };

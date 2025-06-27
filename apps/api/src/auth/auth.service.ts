@@ -18,7 +18,13 @@ export class AuthService {
     private prisma: PrismaService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
+  async validateUser(
+    email: string,
+    pass: string,
+  ): Promise<Omit<
+    User & { memberships: Membership[] },
+    'hashedPassword'
+  > | null> {
     const user = await this.prisma.user.findUnique({
       where: { email },
       include: { memberships: true },
@@ -28,13 +34,14 @@ export class AuthService {
       user.hashedPassword &&
       (await bcrypt.compare(pass, user.hashedPassword))
     ) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { hashedPassword, ...result } = user;
       return result;
     }
     return null;
   }
 
-  async login(user: User & { memberships: Membership[] }) {
+  login(user: User & { memberships: Membership[] }) {
     if (!user.memberships?.length) {
       throw new UnauthorizedException({
         code: 'USER_NOT_IN_COMPANY',

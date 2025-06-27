@@ -14,7 +14,6 @@ import { QuotationsModule } from './quotations/quotations.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '../.env',
     }),
     AuthModule,
     UsersModule,

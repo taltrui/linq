@@ -7,4 +7,4 @@ export class UpdateQuotationDto extends PartialType(CreateQuotationDto) {
   @IsOptional()
   @IsEnum(QuotationStatus)
   status?: QuotationStatus;
-} 
+}
