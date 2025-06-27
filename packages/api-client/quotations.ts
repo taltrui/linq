@@ -29,6 +29,8 @@ export const QuotationSchema = z.object({
   description: z.string().nullable(),
 });
 
+export type Quotation = z.infer<typeof QuotationSchema>;
+
 export const CreateQuotationPayload = z.object({
   clientId: z.string(),
   notes: z.string().optional(),
