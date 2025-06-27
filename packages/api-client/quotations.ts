@@ -1,15 +1,20 @@
-import { z } from 'zod';
-import { ClientSchema } from './clients';
+import { z } from "zod";
+import { ClientSchema } from "./clients";
 
-export const QuotationStatusSchema = z.enum(['PENDING', 'APPROVED', 'CANCELED']);
+export const QuotationStatusSchema = z.enum([
+  "PENDING",
+  "APPROVED",
+  "CANCELED",
+]);
 
 export const QuotationItemSchema = z.object({
   id: z.string(),
   description: z.string(),
   quantity: z.number(),
   unitPrice: z.string(),
-  subTotal: z.string(),
 });
+
+export type QuotationItem = z.infer<typeof QuotationItemSchema>;
 
 export const QuotationSchema = z.object({
   id: z.string(),
@@ -32,14 +37,20 @@ export const QuotationSchema = z.object({
 export type Quotation = z.infer<typeof QuotationSchema>;
 
 export const CreateQuotationPayload = z.object({
-  clientId: z.string(),
-  notes: z.string().optional(),
-  items: z.array(z.object({
-    description: z.string().min(1),
-    quantity: z.number().int().positive(),
-    unitPrice: z.number().positive(),
-  })).min(1),
+  clientId: z.string().trim().min(1, {
+    message: "El cliente es requerido",
+  }),
+  notes: z.string().trim().nullable(),
+  items: z.array(QuotationItemSchema).min(1, {
+    message: "Debe agregar al menos un ítem a la cotización",
+  }),
+  title: z.string().trim().min(1, {
+    message: "El título es requerido",
+  }),
+  description: z.string().trim().nullable(),
 });
+
+export type CreateQuotation = z.infer<typeof CreateQuotationPayload>;
 
 export const UpdateQuotationPayload = z.object({
   status: QuotationStatusSchema.optional(),
@@ -48,31 +59,31 @@ export const UpdateQuotationPayload = z.object({
 
 export const quotationsContract = {
   create: {
-    path: '/quotations',
-    method: 'POST',
+    path: "/quotations",
+    method: "POST",
     body: CreateQuotationPayload,
     response: QuotationSchema,
   },
   list: {
-    path: '/quotations',
-    method: 'GET',
+    path: "/quotations",
+    method: "GET",
     response: z.array(QuotationSchema),
   },
   getById: {
     path: (id: string) => `/quotations/${id}`,
-    method: 'GET',
+    method: "GET",
     response: QuotationSchema,
   },
   update: {
     path: (id: string) => `/quotations/${id}`,
-    method: 'PATCH',
+    method: "PATCH",
     body: UpdateQuotationPayload,
     response: QuotationSchema,
   },
   sendEmail: {
     path: (id: string) => `/quotations/${id}/send-email`,
-    method: 'POST',
+    method: "POST",
     body: z.object({ recipientEmail: z.string().email() }),
     response: z.object({ message: z.string() }),
   },
-}; 
+};

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import type { ReactNode } from 'react';
-import { resetUnauthorizedHandler } from './api';
+import { resetUnauthorizedHandler } from './api.js';
 
 export interface AuthContextType {
   setAccessToken: (access_token: string) => Promise<boolean>;
