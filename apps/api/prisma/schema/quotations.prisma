@@ -38,7 +38,6 @@ model QuotationItem {
     description String
     quantity    Int
     unitPrice   Decimal   @db.Decimal(10, 2)
-    subTotal    Decimal   @db.Decimal(10, 2)
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @updatedAt
 

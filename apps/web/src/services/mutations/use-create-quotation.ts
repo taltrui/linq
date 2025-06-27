@@ -1,20 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiService } from "@/lib/api-service";
-import { type CreateClient } from "@repo/api-client";
 import { toast } from "sonner";
+import type { CreateQuotation } from "@repo/api-client";
 
-export function useCreateClient() {
+export function useCreateQuotation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: CreateClient) => apiService.clients.create(payload),
+    mutationFn: (payload: CreateQuotation) =>
+      apiService.quotations.create(payload),
     onSuccess: () => {
-      toast.success("Client created successfully.");
-      queryClient.invalidateQueries({ queryKey: ["clients"] });
+      toast.success("Quotation created successfully.");
+      queryClient.invalidateQueries({ queryKey: ["quotations"] });
     },
     onError: (error: any) => {
       toast.error(
-        `Failed to create client: ${
+        `Failed to create quotation: ${
           error.response?.data?.message || error.message
         }`
       );

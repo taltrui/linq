@@ -23,7 +23,6 @@ export class QuotationsService {
     const { clientId, items, notes, title, description } = createQuotationDto;
     const companyId = currentUser.companyId;
 
-    // Verificar que el cliente pertenece a la misma compañía
     const client = await this.prisma.client.findFirst({
       where: { id: clientId, companyId },
     });
@@ -32,7 +31,7 @@ export class QuotationsService {
     }
 
     const totalAmount = items.reduce((acc, item) => {
-      const subTotal = item.quantity * item.unitPrice;
+      const subTotal = item.quantity * parseFloat(item.unitPrice);
       return acc + subTotal;
     }, 0);
 
@@ -51,7 +50,6 @@ export class QuotationsService {
             description: item.description,
             quantity: item.quantity,
             unitPrice: item.unitPrice,
-            subTotal: item.quantity * item.unitPrice,
           })),
         },
       },

@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsDecimal,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -18,9 +19,9 @@ export class CreateQuotationItemDto {
   @IsPositive()
   quantity!: number;
 
-  @IsNumber()
-  @IsPositive()
-  unitPrice!: number;
+  @IsDecimal()
+  @IsNotEmpty()
+  unitPrice!: string;
 }
 
 export class CreateQuotationDto {

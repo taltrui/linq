@@ -23,7 +23,7 @@ import Select from '@/components/ui/select'
 import { formatStatus } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import BackToButton from '@/components/general/back-to-button'
-import NewJob from '@/components/general/new-job'
+import NewJob from '@/components/general/new-client.js'
 
 const jobsSearchSchema = z.object({
     status: z.enum(JobStatus.options).optional(),

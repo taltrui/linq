@@ -1,5 +1,5 @@
-import { type Address } from '@prisma';
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { AddressDto } from './address-dto';
 
 export class CreateClientDto {
   @IsString()
@@ -10,9 +10,8 @@ export class CreateClientDto {
   @IsNotEmpty()
   phone!: string;
 
-  @IsString()
   @IsNotEmpty()
-  address!: Address;
+  address!: AddressDto;
 
   @IsEmail()
   @IsOptional()

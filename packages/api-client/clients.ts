@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const ClientSchema = z.object({
   id: z.string(),
@@ -12,13 +12,22 @@ export const ClientSchema = z.object({
   updatedAt: z.string().datetime(),
 });
 
+export const AddressSchema = z.object({
+  street: z.string().min(1),
+  city: z.string().min(1),
+  state: z.string().min(1),
+  zipCode: z.string().min(1),
+  country: z.string().min(1),
+});
+export type Address = z.infer<typeof AddressSchema>;
+
 export type Client = z.infer<typeof ClientSchema>;
 
 export const CreateClientSchema = z.object({
   name: z.string().min(1),
   phone: z.string().min(1),
-  address: z.string().min(1),
-  email: z.string().email().optional(),
+  address: AddressSchema,
+  email: z.string().email().nullable(),
 });
 
 export type CreateClient = z.infer<typeof CreateClientSchema>;
@@ -29,30 +38,30 @@ export type UpdateClient = z.infer<typeof UpdateClientSchema>;
 
 export const clientsContract = {
   create: {
-    path: '/clients',
-    method: 'POST',
+    path: "/clients",
+    method: "POST",
     body: CreateClientSchema,
     response: ClientSchema,
   },
   getList: {
-    path: '/clients',
-    method: 'GET',
+    path: "/clients",
+    method: "GET",
     response: z.array(ClientSchema),
   },
   getById: {
     path: (id: string) => `/clients/${id}`,
-    method: 'GET',
+    method: "GET",
     response: ClientSchema,
   },
   update: {
     path: (id: string) => `/clients/${id}`,
-    method: 'PATCH',
+    method: "PATCH",
     body: UpdateClientSchema,
     response: ClientSchema,
   },
   delete: {
     path: (id: string) => `/clients/${id}`,
-    method: 'DELETE',
+    method: "DELETE",
     response: z.object({ success: z.boolean() }),
   },
-}; 
+};

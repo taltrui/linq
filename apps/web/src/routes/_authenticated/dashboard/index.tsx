@@ -5,7 +5,7 @@ import { jobsQueryOptions } from '@/services/queries/use-list-jobs'
 import { ensureMultipleQueries } from '@/lib/queryUtils'
 import JobsOverview from './-components/JobsOverview.js'
 import InProgressJobs from './-components/InProgressJobs.js'
-import NewJob from '@/components/general/new-job'
+import NewJob from '@/components/general/new-client.js'
 
 export const Route = createFileRoute('/_authenticated/dashboard/')({
   component: DashboardPage,
