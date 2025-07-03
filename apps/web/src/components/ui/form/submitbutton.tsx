@@ -1,6 +1,6 @@
 
 import { useFormContext } from "@/lib/form"
-import { LoadingButton } from "../loadingbutton"
+import { LoadingButton } from "../LoadingButton"
 
 function SubmitButton({ label, ...props }: { label: string } & React.ComponentProps<"button">) {
     const form = useFormContext()

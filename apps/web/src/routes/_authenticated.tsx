@@ -1,8 +1,8 @@
-import { AuthenticatedHeader } from "@/components/general/authenticated-header";
-import { Sidebar } from "@/components/general/sidebar";
+import { AuthenticatedHeader } from "@/components/general/AuthenticatedHeader";
+import { Sidebar } from "@/components/general/Sidebar";
 import { ensureMultipleQueries } from "@/lib/queryUtils";
-import { companyQueryOptions } from "@/services/queries/use-company.js";
-import { profileQueryOptions } from "@/services/queries/use-profile.js";
+import { companyQueryOptions } from "@/services/queries/useCompany";
+import { profileQueryOptions } from "@/services/queries/useProfile";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated")({

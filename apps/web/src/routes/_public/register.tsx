@@ -1,19 +1,18 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import useAppForm from '@/lib/form';
-import { useRegister } from '@/services/mutations/use-register';
-import { RegisterSchema } from '@repo/api-client';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import { createFileRoute, Link } from "@tanstack/react-router";
+import useAppForm from "@/lib/form";
+import { useRegister } from "@/services/mutations/useRegister";
+import { RegisterSchema } from "@repo/api-client";
+import { z } from "zod";
+import { Button } from "@/components/ui/Button";
 
 const RegisterValidationSchema = RegisterSchema.extend({
-  confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string().min(8, "Password must be at least 8 characters"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
-  path: ['confirmPassword'],
+  path: ["confirmPassword"],
 });
 
-
-export const Route = createFileRoute('/_public/register')({
+export const Route = createFileRoute("/_public/register")({
   component: RegisterPage,
 });
 
@@ -22,15 +21,15 @@ function RegisterPage() {
 
   const form = useAppForm({
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      firstName: '',
-      lastName: '',
-      companyName: '',
+      email: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      companyName: "",
     },
     validators: {
-      onChange: RegisterValidationSchema
+      onChange: RegisterValidationSchema,
     },
     onSubmit: async ({ value }) => {
       const { confirmPassword, ...registerData } = value;
@@ -64,18 +63,57 @@ function RegisterPage() {
           className="space-y-4"
         >
           <div className="flex gap-4">
-            <form.AppField name="firstName" children={(field) => <field.TextInput label="First Name" placeholder="John" />} />
-            <form.AppField name="lastName" children={(field) => <field.TextInput label="Last Name" placeholder="Doe" />} />
-          </div>
-          <form.AppField name="email" children={(field) => <field.TextInput label="Email Address" placeholder="john.doe@example.com" />} />
-          <form.AppField name="companyName" children={(field) => <field.TextInput label="Company Name" placeholder="Acme Inc." />} />
-          <form.AppField name="password" children={(field) => <field.TextInput label="Password" type="password" placeholder="********" description="At least 8 characters" />} />
-          <form.AppField name="confirmPassword" children={(field) => <field.TextInput label="Confirm Password" type="password" placeholder="********" />} />
-          <form.AppForm>
-            <form.SubmitButton
-              label="Create account"
-              className="w-full"
+            <form.AppField
+              name="firstName"
+              children={(field) => (
+                <field.TextInput label="First Name" placeholder="John" />
+              )}
             />
+            <form.AppField
+              name="lastName"
+              children={(field) => (
+                <field.TextInput label="Last Name" placeholder="Doe" />
+              )}
+            />
+          </div>
+          <form.AppField
+            name="email"
+            children={(field) => (
+              <field.TextInput
+                label="Email Address"
+                placeholder="john.doe@example.com"
+              />
+            )}
+          />
+          <form.AppField
+            name="companyName"
+            children={(field) => (
+              <field.TextInput label="Company Name" placeholder="Acme Inc." />
+            )}
+          />
+          <form.AppField
+            name="password"
+            children={(field) => (
+              <field.TextInput
+                label="Password"
+                type="password"
+                placeholder="********"
+                description="At least 8 characters"
+              />
+            )}
+          />
+          <form.AppField
+            name="confirmPassword"
+            children={(field) => (
+              <field.TextInput
+                label="Confirm Password"
+                type="password"
+                placeholder="********"
+              />
+            )}
+          />
+          <form.AppForm>
+            <form.SubmitButton label="Create account" className="w-full" />
           </form.AppForm>
         </form>
       </div>

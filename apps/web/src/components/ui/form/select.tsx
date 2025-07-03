@@ -5,8 +5,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../primitive-select.js";
-import { Label } from "../label";
+} from "../PrimitiveSelect";
+import { Label } from "../Label";
 
 function Select({
   label,

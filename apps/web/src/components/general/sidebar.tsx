@@ -11,8 +11,8 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { useCompany } from "@/services/queries/use-company";
+import { Button } from "@/components/ui/Button.js";
+import { useCompany } from "@/services/queries/useCompany";
 
 interface SidebarItem {
   title: string;
@@ -71,8 +71,8 @@ export function Sidebar({ className }: SidebarProps) {
       <div
         className={cn(
           "fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300 ease-in-out",
-          isMobileMenuOpen 
-            ? "opacity-100 pointer-events-auto" 
+          isMobileMenuOpen
+            ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         )}
         onClick={() => setIsMobileMenuOpen(false)}
@@ -87,9 +87,7 @@ export function Sidebar({ className }: SidebarProps) {
           // Mobile: fixed positioning, always present but transformed off-screen when closed
           "fixed inset-y-0 left-0 w-64 z-50 flex lg:relative lg:translate-x-0",
           // Mobile transform: slide in/out
-          isMobileMenuOpen 
-            ? "translate-x-0" 
-            : "-translate-x-full",
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
           className
         )}
       >

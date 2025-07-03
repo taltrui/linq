@@ -76,7 +76,7 @@ docker-compose up -d  # Start PostgreSQL and PgAdmin
 - **Backend:** NestJS, Prisma, PostgreSQL, JWT authentication
 - **Frontend:** React 19, Vite, TanStack Router/Query, TailwindCSS
 - **Validation:** Zod schemas (shared via api-client package)
-- **Styling:** TailwindCSS v4 with Radix UI components
+- **Styling:** TailwindCSS v4 with Shadcn/Radix UI components
 - **Database:** PostgreSQL with Docker
 
 ## Coding Guidelines
@@ -101,6 +101,14 @@ Follow these key principles when working with this codebase:
 - Structure files: exported component, subcomponents, helpers, static content, types
 - Use lowercase with dashes for directories (e.g., components/auth-wizard)
 - Favor named exports for components
+- Don't hold back. Give it your all.
+- Include as many relevant features and interactions as possible
+- Add thoughtful details like hover states, transitions, and micro-interactions
+- Use TailwindCSS for styling with utility classes
+- Use Shadcn/Radix UI components for accessible UI elements
+- Create an impressive demonstration showcasing web development capabilities
+- Apply design principles: hierarchy, contrast, balance, and movement
+
 
 **TanStack Router Specific:**
 - File-based routing is used with automatic route generation

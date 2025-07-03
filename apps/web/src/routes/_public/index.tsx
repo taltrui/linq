@@ -1,37 +1,34 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import useAppForm from '@/lib/form.js'
-import { z } from 'zod'
-import { useLogin } from '@/services/mutations/use-login.js'
-import { Button } from '@/components/ui/button'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import useAppForm from "@/lib/form";
+import { z } from "zod";
+import { useLogin } from "@/services/mutations/useLogin";
+import { Button } from "@/components/ui/Button";
 
-export const Route = createFileRoute('/_public/')({
+export const Route = createFileRoute("/_public/")({
   component: LoginPage,
-})
-
+});
 
 function LoginPage() {
-  const { mutate: login } = useLogin()
+  const { mutate: login } = useLogin();
 
-  const form = useAppForm(
-    {
-      defaultValues: {
-        email: '',
-        password: '',
-      },
-      validators: {
-        onChange: z.object({
-          email: z.string().email(),
-          password: z.string().min(8),
-        }),
-      },
-      onSubmit: async ({ value }) => {
-        login({
-          email: value.email,
-          password: value.password,
-        })
-      },
-    }
-  )
+  const form = useAppForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    validators: {
+      onChange: z.object({
+        email: z.string().email(),
+        password: z.string().min(8),
+      }),
+    },
+    onSubmit: async ({ value }) => {
+      login({
+        email: value.email,
+        password: value.password,
+      });
+    },
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -41,7 +38,7 @@ function LoginPage() {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
+            Or{" "}
             <Button variant="link" size="link" asChild>
               <Link
                 to="/register"
@@ -62,7 +59,10 @@ function LoginPage() {
           <form.AppField
             name="email"
             children={(field) => (
-              <field.TextInput label="Email Address" placeholder="you@example.com" />
+              <field.TextInput
+                label="Email Address"
+                placeholder="you@example.com"
+              />
             )}
           />
           <form.AppField
@@ -72,10 +72,7 @@ function LoginPage() {
             )}
           />
           <form.AppForm>
-            <form.SubmitButton
-              label="Sign in"
-              className="w-full"
-            />
+            <form.SubmitButton label="Sign in" className="w-full" />
           </form.AppForm>
         </form>
       </div>

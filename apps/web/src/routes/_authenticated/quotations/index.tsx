@@ -1,4 +1,4 @@
-import { NewQuotation } from "@/components/general/new-quotation";
+import { NewQuotation } from "@/components/general/NewQuotation";
 
 import { createFileRoute } from "@tanstack/react-router";
 import { QuotationsList } from "./-components";

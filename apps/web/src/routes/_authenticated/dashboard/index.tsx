@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 
-import { jobsQueryOptions } from "@/services/queries/use-list-jobs";
+import { jobsQueryOptions } from "@/services/queries/useListJobs";
 import { ensureMultipleQueries } from "@/lib/queryUtils";
-import { QuickActions } from "@/components/dashboard/quick-actions";
-import { CalendarWidget } from "@/components/dashboard/calendar-widget";
+import { QuickActions } from "@/components/dashboard/QuickActions";
+import { CalendarWidget } from "@/components/dashboard/CalendarWidget";
 
 export const Route = createFileRoute("/_authenticated/dashboard/")({
   component: DashboardPage,

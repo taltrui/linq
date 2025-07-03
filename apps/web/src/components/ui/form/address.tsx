@@ -1,4 +1,4 @@
-import SubField from "./sub-field";
+import SubField from "./SubField";
 
 function AddressField({
   name,

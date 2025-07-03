@@ -1,33 +1,35 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { z } from 'zod'
-import { type Client } from '@repo/api-client'
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
+import { type Client } from "@repo/api-client";
 
-import { clientsQueryOptions } from '@/services/queries/use-list-clients'
+import { clientsQueryOptions } from "@/services/queries/useListClients";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { queryClient } from '@/main'
+} from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Plus } from "lucide-react";
+import { Input } from "@/components/ui/Input";
+import { queryClient } from "@/main";
 
 const clientsSearchSchema = z.object({
   search: z.string().optional(),
-})
+});
 
-export const Route = createFileRoute('/_authenticated/clients/')({
+export const Route = createFileRoute("/_authenticated/clients/")({
   validateSearch: clientsSearchSchema,
   loaderDeps: ({ search: { search } }) => ({ search }),
   loader: async ({ deps }) => {
-    const clients = await queryClient.ensureQueryData(clientsQueryOptions(deps.search))
-    return { clients }
+    const clients = await queryClient.ensureQueryData(
+      clientsQueryOptions(deps.search)
+    );
+    return { clients };
   },
   component: ClientsPage,
-})
+});
 
 function ClientRow({ client }: { client: Client }) {
   return (
@@ -38,16 +40,18 @@ function ClientRow({ client }: { client: Client }) {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">Phone: {client.phone}</p>
-        <p className="text-sm text-muted-foreground">Address: {client.address}</p>
+        <p className="text-sm text-muted-foreground">
+          Address: {client.address}
+        </p>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function ClientsPage() {
-  const { clients } = Route.useLoaderData()
-  const { search } = Route.useSearch()
-  const navigate = useNavigate({ from: Route.fullPath })
+  const { clients } = Route.useLoaderData();
+  const { search } = Route.useSearch();
+  const navigate = useNavigate({ from: Route.fullPath });
 
   const handleSearchChange = (value: string) => {
     navigate({
@@ -56,8 +60,8 @@ function ClientsPage() {
         search: value ? value : undefined,
       }),
       replace: true,
-    })
-  }
+    });
+  };
 
   return (
     <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
@@ -77,7 +81,7 @@ function ClientsPage() {
         <CardContent>
           <Input
             placeholder="Search by name, email, or phone..."
-            value={search ?? ''}
+            value={search ?? ""}
             onChange={(e) => handleSearchChange(e.target.value)}
             className="max-w-sm"
           />
@@ -96,5 +100,5 @@ function ClientsPage() {
         )}
       </div>
     </div>
-  )
-} 
+  );
+}

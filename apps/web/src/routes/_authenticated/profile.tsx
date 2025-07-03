@@ -7,10 +7,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/Card";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useProfile } from "@/services/queries/use-profile";
+import { useProfile } from "@/services/queries/useProfile";
 
 const updateProfile = async (values: {
   firstName: string;

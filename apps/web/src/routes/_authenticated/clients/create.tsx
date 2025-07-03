@@ -6,9 +6,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { useCreateClient } from '@/services/mutations/use-create-client'
-import { Button } from '@/components/ui/button'
+} from '@/components/ui/Card.js'
+import { useCreateClient } from '@/services/mutations/useCreateClient'
+import { Button } from '@/components/ui/Button.js'
 import { z } from 'zod'
 
 const ClientFormSchema = z.object({

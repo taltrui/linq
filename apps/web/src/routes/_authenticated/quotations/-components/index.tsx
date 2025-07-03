@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useListQuotations } from "@/services/queries/use-list-quotations";
+import Badge from "@/components/ui/Badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { useListQuotations } from "@/services/queries/useListQuotations";
 
 function Quotations() {
   const { data: quotations } = useListQuotations();

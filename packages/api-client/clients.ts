@@ -1,33 +1,34 @@
 import { z } from "zod";
 
+export const AddressSchema = z.object({
+  street: z.string().min(1, "Calle es requerida"),
+  city: z.string().min(1, "Ciudad es requerida"),
+  state: z.string().min(1, "Provincia es requerida"),
+  zipCode: z.string().min(1, "Código Postal es requerido"),
+  country: z.string().min(1, "País es requerido"),
+});
+
 export const ClientSchema = z.object({
   id: z.string(),
   displayId: z.string(),
   name: z.string(),
   phone: z.string(),
-  address: z.string(),
-  email: z.string().nullable(),
+  address: AddressSchema,
+  email: z.string(),
   companyId: z.string(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 });
 
-export const AddressSchema = z.object({
-  street: z.string().min(1),
-  city: z.string().min(1),
-  state: z.string().min(1),
-  zipCode: z.string().min(1),
-  country: z.string().min(1),
-});
 export type Address = z.infer<typeof AddressSchema>;
 
 export type Client = z.infer<typeof ClientSchema>;
 
 export const CreateClientSchema = z.object({
-  name: z.string().min(1),
-  phone: z.string().min(1),
+  name: z.string().min(1, "Nombre es requerido"),
+  phone: z.string().min(1, "Teléfono es requerido"),
   address: AddressSchema,
-  email: z.string().email().nullable(),
+  email: z.string().min(1, "Email es requerido").email("Email no es válido"),
 });
 
 export type CreateClient = z.infer<typeof CreateClientSchema>;
