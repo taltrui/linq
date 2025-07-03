@@ -1,0 +1,31 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
+export declare const Route: import("@tanstack/router-core").Route<import("@tanstack/router-core").Route<import("@tanstack/router-core").Route<import("@tanstack/react-router").RootRoute<undefined, import("../../__root").RootRouterContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown>, "", "", "/_authenticated", "/_authenticated", undefined, import("@tanstack/router-core").ResolveParams<"">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, ({ context }: import("@tanstack/router-core").BeforeLoadContextOptions<import("@tanstack/react-router").RootRoute<undefined, import("../../__root").RootRouterContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown>, undefined, import("@tanstack/router-core").ResolveParams<"">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext>) => Promise<void>, {}, () => Promise<void>, unknown, unknown>, "/clients", "/clients", "/_authenticated/clients", "/_authenticated/clients", undefined, import("@tanstack/router-core").ResolveParams<"/clients">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown>, "/", "/clients/", "/_authenticated/clients/", "/_authenticated/clients/", z.ZodObject<{
+    search: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    search?: string | undefined;
+}, {
+    search?: string | undefined;
+}>, import("@tanstack/router-core").ResolveParams<"/">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {
+    search: string | undefined;
+}, ({ deps }: import("@tanstack/router-core").LoaderFnContext<import("@tanstack/router-core").Route<import("@tanstack/router-core").Route<import("@tanstack/react-router").RootRoute<undefined, import("../../__root").RootRouterContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown>, "", "", "/_authenticated", "/_authenticated", undefined, import("@tanstack/router-core").ResolveParams<"">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, ({ context }: import("@tanstack/router-core").BeforeLoadContextOptions<import("@tanstack/react-router").RootRoute<undefined, import("../../__root").RootRouterContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown>, undefined, import("@tanstack/router-core").ResolveParams<"">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext>) => Promise<void>, {}, () => Promise<void>, unknown, unknown>, "/clients", "/clients", "/_authenticated/clients", "/_authenticated/clients", undefined, import("@tanstack/router-core").ResolveParams<"/clients">, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, {}, undefined, unknown, unknown>, "/_authenticated/clients/", import("@tanstack/router-core").ResolveParams<"/">, {
+    search: string | undefined;
+}, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext, import("@tanstack/router-core").AnyContext>) => Promise<{
+    clients: {
+        address: {
+            street: string;
+            city: string;
+            state: string;
+            zipCode: string;
+            country: string;
+        };
+        name: string;
+        id: string;
+        email: string;
+        companyId: string;
+        createdAt: string;
+        updatedAt: string;
+        phone: string;
+        displayId: string;
+    }[];
+}>, unknown, unknown>;

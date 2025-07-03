@@ -3,10 +3,10 @@ import SubField from "./SubField";
 
 function QuotationItemField({ index, form }: { index: number; form?: any }) {
   return (
-    <div className="w-full items-center gap-2 rounded-md border p-4">
+    <div className="w-full items-center gap-2 rounded-md border p-4 mb-6">
       <SubField
         name={`items[${index}].description`}
-        label="Descripción"
+        label={`Item - ${index + 1}`}
         placeholder="Descripción del ítem"
         form={form as any}
         key={`items[${index}].description`}

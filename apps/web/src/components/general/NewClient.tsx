@@ -8,21 +8,33 @@ const buttonClass = "rounded-full shadow-lg";
 const floatingButtonClass =
   "rounded-full shadow-lg fixed bottom-8 right-8 z-50";
 
-function NewClient({ floating = false }: { floating?: boolean }) {
+function NewClient({ 
+  floating = false, 
+  children 
+}: { 
+  floating?: boolean;
+  children?: React.ReactNode;
+}) {
   const [open, setOpen] = useState(false);
+
+  const trigger = children ? (
+    <div onClick={() => setOpen(true)}>{children}</div>
+  ) : (
+    <Button
+      size="lg"
+      className={floating ? floatingButtonClass : buttonClass}
+      onClick={() => setOpen(true)}
+    >
+      <Plus className="h-8 w-8" /> Nuevo Cliente
+    </Button>
+  );
 
   return (
     <>
-      <Button
-        size="lg"
-        className={floating ? floatingButtonClass : buttonClass}
-        onClick={() => setOpen(true)}
-      >
-        <Plus className="h-8 w-8" /> Nuevo Cliente
-      </Button>
+      {trigger}
 
       <ResponsiveDialog
-        title="Crear nuevo trabajo"
+        title="Crear nuevo cliente"
         handleOpenChange={setOpen}
         open={open}
       >
@@ -38,4 +50,5 @@ function NewClient({ floating = false }: { floating?: boolean }) {
   );
 }
 
+export { NewClient };
 export default NewClient;

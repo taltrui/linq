@@ -23,7 +23,6 @@ import Select from "@/components/ui/Select";
 import { formatStatus } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
 import BackToButton from "@/components/general/BackToButton";
-import NewJob from "@/components/general/NewClient";
 
 const jobsSearchSchema = z.object({
   status: z.enum(JobStatus.options).optional(),
@@ -92,7 +91,6 @@ function JobsPage() {
       <BackToButton to="/dashboard" label="Volver al dashboard" />
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Tus trabajos</h1>
-        <NewJob />
       </div>
 
       <Card>

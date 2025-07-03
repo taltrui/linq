@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Card, CardContent } from "@/components/ui/Card";
 import {
   Users,
@@ -9,11 +8,13 @@ import {
   UserPlus,
   FileTextIcon,
 } from "lucide-react";
+import { NewClient } from "@/components/general/NewClient";
+import { NewQuotation } from "@/components/general/NewQuotation";
 
 interface QuickAction {
   title: string;
   description: string;
-  href: string;
+  component: React.ComponentType<{ children?: React.ReactNode }>;
   icon: React.ComponentType<{ className?: string }>;
   color: string;
   bgColor: string;
@@ -23,7 +24,7 @@ const quickActions: QuickAction[] = [
   {
     title: "Nueva Cotización",
     description: "Crear una nueva cotización para un cliente",
-    href: "/quotations/create",
+    component: NewQuotation,
     icon: FileText,
     color: "text-blue-600",
     bgColor: "bg-blue-50 hover:bg-blue-100",
@@ -31,7 +32,7 @@ const quickActions: QuickAction[] = [
   {
     title: "Agregar Cliente",
     description: "Registrar un nuevo cliente",
-    href: "/clients/create",
+    component: NewClient,
     icon: UserPlus,
     color: "text-green-600",
     bgColor: "bg-green-50 hover:bg-green-100",
@@ -85,28 +86,31 @@ export function QuickActions() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {quickActions.map((action) => {
             const Icon = action.icon;
+            const Component = action.component;
             return (
-              <Link key={action.title} to={action.href}>
-                <Card
-                  className={`h-full transition-all duration-200 hover:shadow-md cursor-pointer ${action.bgColor} border-0 p-0`}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <div className={`p-2 rounded-lg bg-white shadow-sm`}>
-                        <Icon className={`w-5 h-5 ${action.color}`} />
+              <div key={action.title}>
+                <Component>
+                  <Card
+                    className={`h-full transition-all duration-200 hover:shadow-md cursor-pointer ${action.bgColor} border-0 p-0`}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
+                        <div className={`p-2 rounded-lg bg-white shadow-sm`}>
+                          <Icon className={`w-5 h-5 ${action.color}`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-sm text-gray-900">
+                            {action.title}
+                          </h3>
+                          <p className="text-xs text-gray-600 mt-1">
+                            {action.description}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-sm text-gray-900">
-                          {action.title}
-                        </h3>
-                        <p className="text-xs text-gray-600 mt-1">
-                          {action.description}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                    </CardContent>
+                  </Card>
+                </Component>
+              </div>
             );
           })}
         </div>

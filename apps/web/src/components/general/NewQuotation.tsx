@@ -8,18 +8,30 @@ const buttonClass = "rounded-full shadow-lg";
 const floatingButtonClass =
   "rounded-full shadow-lg fixed bottom-8 right-8 z-50";
 
-export function NewQuotation({ floating = false }: { floating?: boolean }) {
+export function NewQuotation({ 
+  floating = false,
+  children 
+}: { 
+  floating?: boolean;
+  children?: React.ReactNode;
+}) {
   const [open, setOpen] = useState(false);
+
+  const trigger = children ? (
+    <div onClick={() => setOpen(true)}>{children}</div>
+  ) : (
+    <Button
+      size="lg"
+      className={floating ? floatingButtonClass : buttonClass}
+      onClick={() => setOpen(true)}
+    >
+      <Plus className="h-8 w-8" /> Nueva cotización
+    </Button>
+  );
 
   return (
     <>
-      <Button
-        size="lg"
-        className={floating ? floatingButtonClass : buttonClass}
-        onClick={() => setOpen(true)}
-      >
-        <Plus className="h-8 w-8" /> Nueva cotización
-      </Button>
+      {trigger}
 
       <ResponsiveDialog
         title="Crear nueva cotización"

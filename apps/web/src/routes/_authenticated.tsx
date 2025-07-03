@@ -26,7 +26,7 @@ function AuthenticatedLayout() {
   return (
     <div className="relative flex min-h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 flex flex-col lg:ml-0 ml-0">
+      <div className="flex-1 flex flex-col lg:ml-0 ml-0 h-screen overflow-auto">
         <AuthenticatedHeader />
         <main className="flex-1 p-4 sm:p-6 md:p-8">
           <Outlet />

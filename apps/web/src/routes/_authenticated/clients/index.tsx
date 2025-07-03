@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { type Client } from "@repo/api-client";
 
@@ -10,10 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { queryClient } from "@/main";
+import { NewClient } from "@/components/general/NewClient";
 
 const clientsSearchSchema = z.object({
   search: z.string().optional(),
@@ -67,11 +66,7 @@ function ClientsPage() {
     <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Clients</h1>
-        <Link to="/clients/create">
-          <Button size="lg" className="rounded-full shadow-lg">
-            <Plus className="h-8 w-8" /> New Client
-          </Button>
-        </Link>
+        <NewClient />
       </div>
 
       <Card>

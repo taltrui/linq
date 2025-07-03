@@ -13,7 +13,7 @@ export function NewClientForm({
   const form = useAppForm({
     defaultValues: {
       name: "",
-      email: null as string | null,
+      email: "",
       phone: "",
       address: {
         street: "",
@@ -47,24 +47,21 @@ export function NewClientForm({
       <form.AppField
         name="name"
         children={(field) => (
-          <field.TextInput label="Name" placeholder="eg. John Doe" />
+          <field.TextInput label="Nombre" placeholder="Juan Perez" />
         )}
       />
 
       <form.AppField
         name="email"
         children={(field) => (
-          <field.TextInput
-            label="Email"
-            placeholder="eg. john.doe@example.com"
-          />
+          <field.TextInput label="Email" placeholder="juan.perez@ejemplo.com" />
         )}
       />
 
       <form.AppField
         name="phone"
         children={(field) => (
-          <field.TextInput label="Phone" placeholder="eg. 123-456-7890" />
+          <field.TextInput label="Teléfono" placeholder="12-1456-7890" />
         )}
       />
 
@@ -73,7 +70,7 @@ export function NewClientForm({
       </form.AppForm>
 
       <form.AppForm>
-        <form.SubmitButton label="Create Client" />
+        <form.SubmitButton label="Crear cliente" />
       </form.AppForm>
     </form>
   );

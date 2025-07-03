@@ -5,13 +5,12 @@ import {
   FileText,
   Briefcase,
   LayoutDashboard,
-  Settings,
   ChevronRight,
   Menu,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button.js";
+import { Button } from "@/components/ui/Button";
 import { useCompany } from "@/services/queries/useCompany";
 
 interface SidebarItem {
@@ -55,7 +54,6 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile Menu Button */}
       {!isMobileMenuOpen && (
         <Button
           variant="ghost"
@@ -67,7 +65,6 @@ export function Sidebar({ className }: SidebarProps) {
         </Button>
       )}
 
-      {/* Mobile Overlay */}
       <div
         className={cn(
           "fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300 ease-in-out",
@@ -78,21 +75,19 @@ export function Sidebar({ className }: SidebarProps) {
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
-      {/* Sidebar */}
       <div
         className={cn(
-          "h-full flex-col border-r bg-card transition-transform duration-300 ease-in-out",
-          // Desktop: always visible with full width, relative positioning
+          "h-screen flex-col border-r bg-card transition-transform duration-300 ease-in-out",
+
           "hidden lg:flex lg:w-64",
-          // Mobile: fixed positioning, always present but transformed off-screen when closed
+
           "fixed inset-y-0 left-0 w-64 z-50 flex lg:relative lg:translate-x-0",
-          // Mobile transform: slide in/out
+
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
           className
         )}
       >
-        {/* Header */}
-        <div className="p-6 border-b">
+        <div className="py-3 px-6 border-b">
           <div className="flex items-center justify-between">
             <Link to="/dashboard" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
@@ -104,13 +99,9 @@ export function Sidebar({ className }: SidebarProps) {
                 <h2 className="font-semibold text-sm">
                   {company?.name || "Linq"}
                 </h2>
-                <p className="text-xs text-muted-foreground">
-                  Gestión Empresarial
-                </p>
               </div>
             </Link>
 
-            {/* Mobile close button */}
             <Button
               variant="ghost"
               size="icon"
@@ -122,7 +113,6 @@ export function Sidebar({ className }: SidebarProps) {
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2">
           {sidebarItems.map((item) => {
             const isActive =
@@ -154,18 +144,6 @@ export function Sidebar({ className }: SidebarProps) {
             );
           })}
         </nav>
-
-        {/* Settings */}
-        <div className="p-4 border-t">
-          <Link
-            to="/profile"
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            <Settings className="w-4 h-4" />
-            Configuración
-          </Link>
-        </div>
       </div>
     </>
   );
