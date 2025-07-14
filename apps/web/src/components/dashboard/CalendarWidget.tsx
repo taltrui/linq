@@ -96,11 +96,16 @@ export function CalendarWidget() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [events, setEvents] = useState<CalendarEvent[]>(mockEvents);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [newEvent, setNewEvent] = useState({
+  const [newEvent, setNewEvent] = useState<{
+    title: string;
+    type: "job" | "reminder" | "task";
+    description: string;
+    priority: "low" | "medium" | "high";
+  }>({
     title: "",
-    type: "task" as const,
+    type: "task",
     description: "",
-    priority: "medium" as const,
+    priority: "medium",
   });
 
   const eventsForSelectedDate = events.filter((event) =>

@@ -57,6 +57,8 @@ export const UpdateQuotationPayload = z.object({
   notes: z.string().optional(),
 });
 
+export type UpdateQuotation = z.infer<typeof UpdateQuotationPayload>;
+
 export const quotationsContract = {
   create: {
     path: "/quotations",

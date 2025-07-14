@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_authenticated")({
     }
   },
   loader: async () => {
-    await ensureMultipleQueries([profileQueryOptions, companyQueryOptions]);
+    await ensureMultipleQueries([profileQueryOptions, companyQueryOptions] as any);
   },
 });
 
