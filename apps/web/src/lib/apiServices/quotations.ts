@@ -1,7 +1,7 @@
 import {
   apiContract,
   type Quotation,
-  UpdateQuotationPayload,
+  type UpdateQuotation,
   type CreateQuotation,
 } from "@repo/api-client";
 import { apiClient } from "../api";
@@ -27,7 +27,7 @@ const getById = async (id: string): Promise<Quotation> => {
 
 const update = async (
   id: string,
-  payload: typeof UpdateQuotationPayload
+  payload: UpdateQuotation
 ): Promise<Quotation> => {
   const response = await apiClient.patch(
     apiContract.quotations.update.path(id),

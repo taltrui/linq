@@ -23,7 +23,7 @@ const updateProfile = async (values: {
   };
 };
 
-const changePassword = async (values: unknown) => {
+const changePassword = async (_values: unknown) => {
   await new Promise((resolve) => setTimeout(resolve, 1500));
   return { success: true };
 };
@@ -35,10 +35,10 @@ export const Route = createFileRoute("/_authenticated/profile")({
 function ProfilePage() {
   const { data: profile } = useProfile();
 
-  const { mutate: updateProfileMutation, isPending: isUpdatingProfile } =
+  const { mutate: updateProfileMutation } =
     useMutation({
       mutationFn: updateProfile,
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast.success("Profile updated successfully!");
       },
       onError: (error) => {
@@ -46,7 +46,7 @@ function ProfilePage() {
       },
     });
 
-  const { mutate: changePasswordMutation, isPending: isChangingPassword } =
+  const { mutate: changePasswordMutation } =
     useMutation({
       mutationFn: changePassword,
       onSuccess: () => {

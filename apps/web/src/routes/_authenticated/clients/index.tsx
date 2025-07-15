@@ -40,7 +40,7 @@ function ClientRow({ client }: { client: Client }) {
       <CardContent>
         <p className="text-sm text-muted-foreground">Phone: {client.phone}</p>
         <p className="text-sm text-muted-foreground">
-          Address: {client.address}
+          Address: {client.address.street}, {client.address.city}, {client.address.state} {client.address.zipCode}
         </p>
       </CardContent>
     </Card>

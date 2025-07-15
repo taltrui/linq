@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiService } from '@/lib/apiServices/index.js';
-import { type UpdateQuotationPayload } from '@repo/api-client';
 import { toast } from 'sonner';
+import type { UpdateQuotation } from '@repo/api-client';
 
 export function useUpdateQuotation(id: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: UpdateQuotationPayload) => apiService.quotations.update(id, payload),
+    mutationFn: (payload: UpdateQuotation) => apiService.quotations.update(id, payload),
     onSuccess: () => {
       toast.success('Quotation updated successfully.');
       queryClient.invalidateQueries({ queryKey: ['quotations'] });
