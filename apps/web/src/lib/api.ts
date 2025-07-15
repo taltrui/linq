@@ -3,7 +3,7 @@ import { toastError } from "./toast";
 import { router } from "./router";
 
 export const apiClient = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: process.env.API_BASE_URL || "http://localhost:3001",
 });
 
 apiClient.interceptors.request.use(
