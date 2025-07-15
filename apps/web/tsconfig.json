@@ -12,9 +12,10 @@
     "jsx": "react-jsx",
     "outDir": "./dist",
     "declaration": true,
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "types": ["vite/client"]
   },
-  "include": ["src"],
+  "include": ["src", "src/vite-env.d.ts"],
   "exclude": ["node_modules", "dist", "src/**/*.test.tsx", "src/**/*.test.ts"],
   "references": [
     {
