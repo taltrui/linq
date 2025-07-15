@@ -3,8 +3,12 @@ import { Loader2 } from "lucide-react";
 
 import { jobsQueryOptions } from "@/services/queries/useListJobs";
 import { ensureMultipleQueries } from "@/lib/queryUtils";
+import { useProfile } from "@/services/queries/useProfile";
+import { StatisticsCards } from "@/components/dashboard/StatisticsCards";
+import { TodaysAppointments } from "@/components/dashboard/TodaysAppointments";
+import { BusinessPerformance } from "@/components/dashboard/BusinessPerformance";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { QuickActions } from "@/components/dashboard/QuickActions";
-import { CalendarWidget } from "@/components/dashboard/CalendarWidget";
 
 export const Route = createFileRoute("/_authenticated/dashboard/")({
   component: DashboardPage,
@@ -20,18 +24,20 @@ export const Route = createFileRoute("/_authenticated/dashboard/")({
 });
 
 function DashboardPage() {
+  const { data } = useProfile();
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Tablero</h1>
-        <p className="text-muted-foreground mt-2">
-          ¡Bienvenido de vuelta! Esto es lo que está pasando con tu negocio.
-        </p>
-      </div>
-
+    <div className="space-y-10 flex-col">
+      <DashboardHeader userName={data.firstName} />
       <QuickActions />
-
-      <CalendarWidget />
+      <StatisticsCards />
+      <div className="flex gap-6">
+        <div className="flex-1">
+          <TodaysAppointments />
+        </div>
+        <div>
+          <BusinessPerformance />
+        </div>
+      </div>
     </div>
   );
 }
