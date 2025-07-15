@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/Card";
 import { ClipboardList, FileText, Briefcase } from "lucide-react";
 
 interface StatCardProps {
@@ -10,19 +10,26 @@ interface StatCardProps {
   color: string;
 }
 
-function StatCard({ title, count, status, details, icon, color }: StatCardProps) {
+function StatCard({
+  title,
+  count,
+  status,
+  details,
+  icon,
+  color,
+}: StatCardProps) {
   return (
-    <Card className="relative overflow-hidden">
+    <Card className="relative overflow-hidden pt-0 rounded-sm">
       <div className={`h-1 ${color}`} />
-      <CardContent className="p-6">
+      <CardContent>
         <div className="flex items-center gap-3 mb-4">
           <div className="text-muted-foreground">{icon}</div>
-          <span className="text-sm font-medium text-muted-foreground">{title}</span>
+          <span className="text-sm font-medium">{title}</span>
         </div>
-        
-        <div className="mb-4">
-          <div className="text-3xl font-bold text-foreground">{count}</div>
-          <div className="text-sm text-muted-foreground">{status}</div>
+
+        <div className="mb-2">
+          <div className="text-4xl font-bold text-foreground">{count}</div>
+          <div className="text-md">{status}</div>
         </div>
 
         <div className="space-y-2">
@@ -46,38 +53,38 @@ export function StatisticsCards() {
       status: "Nuevas",
       details: [
         { label: "Evaluaciones completas", count: 0 },
-        { label: "Vencidas", count: 0 }
+        { label: "Vencidas", count: 0 },
       ],
       icon: <ClipboardList className="h-5 w-5" />,
-      color: "bg-orange-500"
+      color: "bg-orange-500",
     },
     {
-      title: "Cotizaciones", 
+      title: "Cotizaciones",
       count: 0,
       status: "Aprobadas",
       details: [
         { label: "Borrador", count: 1 },
-        { label: "Cambios solicitados", count: 0 }
+        { label: "Cambios solicitados", count: 0 },
       ],
       icon: <FileText className="h-5 w-5" />,
-      color: "bg-red-500"
+      color: "bg-red-500",
     },
     {
       title: "Trabajos",
-      count: 0, 
+      count: 0,
       status: "Requieren facturación",
       details: [
         { label: "Activos", count: 0 },
-        { label: "Acción requerida", count: 0 }
+        { label: "Acción requerida", count: 0 },
       ],
       icon: <Briefcase className="h-5 w-5" />,
-      color: "bg-green-500"
-    }
+      color: "bg-green-500",
+    },
   ];
 
   return (
     <div className="mb-8">
-      <h2 className="text-xl font-semibold mb-6">Flujo de trabajo</h2>
+      <h2 className="mb-3">Flujo de trabajo</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {mockStats.map((stat, index) => (
           <StatCard key={index} {...stat} />

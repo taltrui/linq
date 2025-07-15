@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { ChevronRight } from "lucide-react";
 
 interface PerformanceSectionProps {
@@ -9,7 +9,7 @@ interface PerformanceSectionProps {
 function PerformanceSection({ title, children }: PerformanceSectionProps) {
   return (
     <Card>
-      <CardHeader className="pb-3">
+      <CardHeader>
         <CardTitle className="text-lg font-semibold flex items-center justify-between">
           {title}
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -22,28 +22,30 @@ function PerformanceSection({ title, children }: PerformanceSectionProps) {
 
 export function BusinessPerformance() {
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold">Rendimiento del negocio</h2>
-      
+    <div className="space-y-3">
+      <h2>Tu negocio</h2>
+
       <PerformanceSection title="Por cobrar">
-        <div className="text-center py-4">
-          <div className="text-2xl font-bold mb-1">0</div>
-          <div className="text-sm text-muted-foreground">clientes te deben</div>
-          <div className="w-full h-px bg-border my-4" />
+        <div>
+          <div className="text-md mb-3">0 clientes te deben</div>
           <div className="text-xs text-muted-foreground">—</div>
         </div>
       </PerformanceSection>
 
       <PerformanceSection title="Próximos trabajos">
-        <div className="text-center py-4">
-          <div className="text-sm text-muted-foreground mb-2">Esta semana (Mañana - Jul 13)</div>
+        <div>
+          <div className="text-sm text-muted-foreground mb-3">
+            Esta semana (Mañana - Jul 13)
+          </div>
           <div className="text-xs text-muted-foreground">—</div>
         </div>
       </PerformanceSection>
 
       <PerformanceSection title="Ingresos">
-        <div className="text-center py-4">
-          <div className="text-sm text-muted-foreground mb-2">Este mes (Jul 1 - Jul 31)</div>
+        <div>
+          <div className="text-sm text-muted-foreground mb-3">
+            Este mes (Jul 1 - Jul 31)
+          </div>
           <div className="text-xs text-muted-foreground">—</div>
         </div>
       </PerformanceSection>

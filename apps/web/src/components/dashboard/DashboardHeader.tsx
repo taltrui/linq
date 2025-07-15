@@ -1,36 +1,25 @@
+import { format } from "date-fns";
+import { es } from "date-fns/locale/es";
+
 interface DashboardHeaderProps {
-  userName?: string;
+  userName: string;
 }
 
-export function DashboardHeader({ userName = "Tomás" }: DashboardHeaderProps) {
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) {
-      return "Buenos días";
-    }
-    if (hour < 17) {
-      return "Buenas tardes";
-    }
-    return "Buenas noches";
-  };
+const getWelcomeByTime = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Buenos días";
+  if (hour < 18) return "Buenas tardes";
+  return "Buenas noches";
+};
 
-  const formatDate = () => {
-    const date = new Date();
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-    };
-    return date.toLocaleDateString("es-ES", options);
-  };
-
+export function DashboardHeader({ userName }: DashboardHeaderProps) {
   return (
-    <div className="mb-8">
-      <div className="text-sm text-muted-foreground mb-1">
-        {formatDate()}
-      </div>
-      <h1 className="text-3xl font-bold text-foreground">
-        {getGreeting()}, {userName}
+    <div>
+      <span className="text-lg">
+        {format(new Date(), "EEEE, dd 'de' MMMM", { locale: es })}
+      </span>
+      <h1>
+        {getWelcomeByTime()}, {userName}
       </h1>
     </div>
   );
