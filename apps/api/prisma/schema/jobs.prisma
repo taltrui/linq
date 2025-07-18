@@ -30,6 +30,10 @@ model Job {
     createdAt  DateTime    @default(now())
     updatedAt  DateTime    @updatedAt
     quotations Quotation[]
+    
+    // Inventory relationships
+    inventoryTransactions InventoryTransaction[]
+    materials             JobMaterial[]
 
     @@unique([companyId, displayId])
     @@map("jobs")
