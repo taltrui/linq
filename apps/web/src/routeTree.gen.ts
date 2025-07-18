@@ -22,6 +22,7 @@ import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authentica
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
+import { Route as AuthenticatedQuotationsQuotationIdRouteImport } from './routes/_authenticated/quotations/$quotationId'
 import { Route as AuthenticatedJobsJobIdRouteImport } from './routes/_authenticated/jobs/$jobId'
 import { Route as AuthenticatedInventorySuppliersRouteImport } from './routes/_authenticated/inventory/suppliers'
 import { Route as AuthenticatedInventorySuppliersIndexRouteImport } from './routes/_authenticated/inventory/suppliers/index'
@@ -97,6 +98,12 @@ const AuthenticatedClientsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedClientsRoute,
   } as any)
+const AuthenticatedQuotationsQuotationIdRoute =
+  AuthenticatedQuotationsQuotationIdRouteImport.update({
+    id: '/quotations/$quotationId',
+    path: '/quotations/$quotationId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedJobsJobIdRoute = AuthenticatedJobsJobIdRouteImport.update({
   id: '/$jobId',
   path: '/$jobId',
@@ -148,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/inventory/suppliers': typeof AuthenticatedInventorySuppliersRouteWithChildren
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
+  '/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/inventory/': typeof AuthenticatedInventoryIndexRoute
@@ -164,6 +172,7 @@ export interface FileRoutesByTo {
   '/register': typeof PublicRegisterRoute
   '/': typeof PublicIndexRoute
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
+  '/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
@@ -187,6 +196,7 @@ export interface FileRoutesById {
   '/_public/': typeof PublicIndexRoute
   '/_authenticated/inventory/suppliers': typeof AuthenticatedInventorySuppliersRouteWithChildren
   '/_authenticated/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
+  '/_authenticated/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/'
     | '/inventory/suppliers'
     | '/jobs/$jobId'
+    | '/quotations/$quotationId'
     | '/clients/'
     | '/dashboard'
     | '/inventory/'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/'
     | '/jobs/$jobId'
+    | '/quotations/$quotationId'
     | '/clients'
     | '/dashboard'
     | '/inventory'
@@ -247,6 +259,7 @@ export interface FileRouteTypes {
     | '/_public/'
     | '/_authenticated/inventory/suppliers'
     | '/_authenticated/jobs/$jobId'
+    | '/_authenticated/quotations/$quotationId'
     | '/_authenticated/clients/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/inventory/'
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/clients/'
       preLoaderRoute: typeof AuthenticatedClientsIndexRouteImport
       parentRoute: typeof AuthenticatedClientsRoute
+    }
+    '/_authenticated/quotations/$quotationId': {
+      id: '/_authenticated/quotations/$quotationId'
+      path: '/quotations/$quotationId'
+      fullPath: '/quotations/$quotationId'
+      preLoaderRoute: typeof AuthenticatedQuotationsQuotationIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/jobs/$jobId': {
       id: '/_authenticated/jobs/$jobId'
@@ -481,6 +501,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRouteWithChildren
   AuthenticatedJobsRoute: typeof AuthenticatedJobsRouteWithChildren
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedQuotationsQuotationIdRoute: typeof AuthenticatedQuotationsQuotationIdRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedQuotationsIndexRoute: typeof AuthenticatedQuotationsIndexRoute
 }
@@ -490,6 +511,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedInventoryRoute: AuthenticatedInventoryRouteWithChildren,
   AuthenticatedJobsRoute: AuthenticatedJobsRouteWithChildren,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedQuotationsQuotationIdRoute:
+    AuthenticatedQuotationsQuotationIdRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedQuotationsIndexRoute: AuthenticatedQuotationsIndexRoute,
 }
