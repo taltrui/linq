@@ -53,7 +53,6 @@ function InventoryItemCard({ item }: { item: InventoryItem }) {
 
   const getStockStatus = () => {
     const available = item.availableQuantity || 0;
-    const physical = item.physicalQuantity || 0;
     
     if (available <= 5) return { color: "destructive", icon: AlertTriangle };
     if (available <= 10) return { color: "warning", icon: TrendingDown };

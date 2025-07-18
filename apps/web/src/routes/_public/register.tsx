@@ -32,6 +32,7 @@ function RegisterPage() {
       onChange: RegisterValidationSchema,
     },
     onSubmit: async ({ value }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...registerData } = value;
       registerMutation.mutate(registerData);
     },

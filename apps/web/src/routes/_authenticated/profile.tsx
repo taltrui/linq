@@ -23,8 +23,9 @@ const updateProfile = async (values: {
   };
 };
 
-const changePassword = async (_values: unknown) => {
+const changePassword = async (values: unknown) => {
   await new Promise((resolve) => setTimeout(resolve, 1500));
+  console.log("Password change values:", values);
   return { success: true };
 };
 

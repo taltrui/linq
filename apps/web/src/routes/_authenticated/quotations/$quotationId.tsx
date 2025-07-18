@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Package, Plus, Edit, Trash2, AlertTriangle } from "lucide-react";
+import { Package, Plus, Edit, Trash2 } from "lucide-react";
 
 import { quotationQueryOptions } from "@/services/queries/useQuotation";
 import { useQuotationMaterials } from "@/services/queries/useQuotationMaterials";
@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
+import Badge from "@/components/ui/Badge";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import {
@@ -34,7 +34,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@/components/ui/PrimitiveSelect";
 import { BackToButton } from "@/components/general/BackToButton";
 import { queryClient } from "@/main";
 import type { QuoteMaterial } from "@repo/api-client/inventory";

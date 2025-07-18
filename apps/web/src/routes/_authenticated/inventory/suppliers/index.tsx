@@ -106,7 +106,7 @@ function SupplierCard({ supplier }: { supplier: Supplier }) {
       <CardContent>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Package className="w-4 h-4" />
-          {supplier._count?.items || 0} productos
+          {(supplier as any)._count?.items || 0} productos
         </div>
       </CardContent>
     </Card>

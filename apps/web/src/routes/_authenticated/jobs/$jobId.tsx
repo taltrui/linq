@@ -26,7 +26,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@/components/ui/PrimitiveSelect";
 import { jobQueryOptions } from "@/services/queries/useJob";
 import { useJobMaterials } from "@/services/queries/useJobMaterials";
 import { useListInventoryItems } from "@/services/queries/useListInventoryItems";
@@ -374,7 +374,7 @@ function JobDetailsPage() {
           </div>
           <div>
             <h3 className="font-semibold">Cliente</h3>
-            <p className="text-muted-foreground">{job.client?.name}</p>
+            <p className="text-muted-foreground">Cliente ID: {job.clientId}</p>
           </div>
           {job.startDate && (
             <div className="grid grid-cols-2 gap-4">
