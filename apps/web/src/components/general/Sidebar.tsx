@@ -11,6 +11,8 @@ import {
   Package,
   ChevronDown,
   Building,
+  BarChart3,
+  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
@@ -59,6 +61,16 @@ const sidebarItems: SidebarItem[] = [
         title: "Proveedores",
         href: "/inventory/suppliers",
         icon: Building,
+      },
+      {
+        title: "Dashboard",
+        href: "/inventory/dashboard",
+        icon: BarChart3,
+      },
+      {
+        title: "Gestión de Stock",
+        href: "/inventory/stock",
+        icon: TrendingUp,
       },
     ],
   },

@@ -5,6 +5,7 @@ import {
   type UpdateInventoryItem,
   type AdjustStock,
   type StockLevels,
+  type InventoryTransaction,
 } from '@repo/api-client/inventory';
 import { apiClient } from '../api.js';
 
@@ -53,6 +54,28 @@ const getStockLevels = async (id: string): Promise<StockLevels> => {
   return response.data;
 };
 
+const getStockAdjustments = async (): Promise<InventoryTransaction[]> => {
+  const response = await apiClient.get('/inventory/adjustments');
+  return response.data;
+};
+
+const createStockAdjustment = async (payload: {
+  itemId: string;
+  quantity: number;
+  reason: string;
+  notes?: string;
+}): Promise<InventoryTransaction> => {
+  const response = await apiClient.post(
+    inventoryContract.adjustStock.path.replace(':id', payload.itemId),
+    {
+      quantity: payload.quantity,
+      type: 'AUDIT_ADJUSTMENT',
+      notes: payload.notes || `${payload.reason}${payload.notes ? ` - ${payload.notes}` : ''}`,
+    }
+  );
+  return response.data;
+};
+
 export const inventoryService = {
   createItem,
   getItems,
@@ -61,4 +84,6 @@ export const inventoryService = {
   deleteItem,
   adjustStock,
   getStockLevels,
+  getStockAdjustments,
+  createStockAdjustment,
 };
