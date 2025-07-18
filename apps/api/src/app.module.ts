@@ -10,6 +10,7 @@ import { ClientsModule } from './clients/clients.module';
 import { JobsModule } from './jobs/jobs.module';
 import { QuotationsModule } from './quotations/quotations.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { SuppliersModule } from './suppliers/suppliers.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { InventoryModule } from './inventory/inventory.module';
     JobsModule,
     QuotationsModule,
     InventoryModule,
+    SuppliersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
