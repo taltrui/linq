@@ -9,6 +9,8 @@ import {
   Menu,
   X,
   Package,
+  ChevronDown,
+  Building,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
@@ -19,6 +21,7 @@ interface SidebarItem {
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   badge?: number;
+  submenu?: SidebarItem[];
 }
 
 const sidebarItems: SidebarItem[] = [
@@ -46,6 +49,18 @@ const sidebarItems: SidebarItem[] = [
     title: "Inventario",
     href: "/inventory",
     icon: Package,
+    submenu: [
+      {
+        title: "Items",
+        href: "/inventory",
+        icon: Package,
+      },
+      {
+        title: "Proveedores",
+        href: "/inventory/suppliers",
+        icon: Building,
+      },
+    ],
   },
 ];
 
@@ -55,8 +70,17 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const location = useLocation();
   const { data: company } = useCompany();
+
+  const toggleExpanded = (href: string) => {
+    setExpandedItems(prev =>
+      prev.includes(href)
+        ? prev.filter(item => item !== href)
+        : [...prev, href]
+    );
+  };
 
   return (
     <>
@@ -125,28 +149,86 @@ export function Sidebar({ className }: SidebarProps) {
               location.pathname === item.href ||
               (item.href !== "/dashboard" &&
                 location.pathname.startsWith(item.href));
+            const isExpanded = expandedItems.includes(item.href);
 
             return (
-              <Link
-                key={item.href}
-                to={item.href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-muted-foreground"
+              <div key={item.href}>
+                {item.submenu ? (
+                  <div>
+                    <button
+                      onClick={() => toggleExpanded(item.href)}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground w-full",
+                        isActive
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      <item.icon className="w-4 h-4" />
+                      {item.title}
+                      {item.badge && (
+                        <span className="ml-auto bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
+                      <ChevronDown className={cn("w-4 h-4 ml-auto transition-transform", isExpanded && "rotate-180")} />
+                    </button>
+                    {isExpanded && (
+                      <div className="mt-2 ml-4 space-y-1">
+                        {item.submenu.map((subitem) => {
+                          const subIsActive =
+                            location.pathname === subitem.href ||
+                            (subitem.href !== "/dashboard" &&
+                              location.pathname.startsWith(subitem.href));
+
+                          return (
+                            <Link
+                              key={subitem.href}
+                              to={subitem.href}
+                              className={cn(
+                                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                                subIsActive
+                                  ? "bg-primary text-primary-foreground shadow-sm"
+                                  : "text-muted-foreground"
+                              )}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              <subitem.icon className="w-4 h-4" />
+                              {subitem.title}
+                              {subitem.badge && (
+                                <span className="ml-auto bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
+                                  {subitem.badge}
+                                </span>
+                              )}
+                              {subIsActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                      isActive
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground"
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.title}
+                    {item.badge && (
+                      <span className="ml-auto bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                    {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+                  </Link>
                 )}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <item.icon className="w-4 h-4" />
-                {item.title}
-                {item.badge && (
-                  <span className="ml-auto bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
-                    {item.badge}
-                  </span>
-                )}
-                {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
-              </Link>
+              </div>
             );
           })}
         </nav>
