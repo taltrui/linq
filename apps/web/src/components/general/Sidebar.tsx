@@ -8,6 +8,7 @@ import {
   ChevronRight,
   Menu,
   X,
+  Package,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
@@ -40,6 +41,11 @@ const sidebarItems: SidebarItem[] = [
     title: "Trabajos",
     href: "/jobs",
     icon: Briefcase,
+  },
+  {
+    title: "Inventario",
+    href: "/inventory",
+    icon: Package,
   },
 ];
 

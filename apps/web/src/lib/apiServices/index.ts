@@ -4,6 +4,8 @@ import { usersService } from "./users";
 import { clientsService } from "./clients";
 import { jobsService } from "./jobs";
 import { quotationsService } from "./quotations";
+import { inventoryService } from "./inventory";
+import { suppliersService } from "./suppliers";
 
 export const apiService = {
     auth: authService,
@@ -12,4 +14,6 @@ export const apiService = {
     clients: clientsService,
     jobs: jobsService,
     quotations: quotationsService,
+    inventory: inventoryService,
+    suppliers: suppliersService,
 };
