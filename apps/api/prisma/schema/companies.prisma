@@ -28,9 +28,11 @@ model Company {
 
     members Membership[]
 
-    clients    Client[]
-    jobs       Job[]
-    quotations Quotation[]
+    clients         Client[]
+    jobs            Job[]
+    quotations      Quotation[]
+    suppliers       Supplier[]
+    inventoryItems  InventoryItem[]
 
     @@map("companies")
 }

@@ -27,6 +27,10 @@ model Quotation {
     quotationItems QuotationItem[]
     job            Job?            @relation(fields: [jobId], references: [id])
     jobId          String?
+    
+    // Inventory relationships
+    inventoryTransactions InventoryTransaction[]
+    materials             QuoteMaterial[]
 
     @@map("quotations")
 }
