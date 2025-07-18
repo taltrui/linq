@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ClientsModule } from './clients/clients.module';
 import { JobsModule } from './jobs/jobs.module';
 import { QuotationsModule } from './quotations/quotations.module';
+import { InventoryModule } from './inventory/inventory.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { QuotationsModule } from './quotations/quotations.module';
     ClientsModule,
     JobsModule,
     QuotationsModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
