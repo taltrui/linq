@@ -2,27 +2,27 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { JobStatus, type Job, type Client } from "@repo/api-client";
 
-import { jobsQueryOptions } from "@/services/queries/useListJobs";
-import { clientsQueryOptions } from "@/services/queries/useListClients";
-import { ensureMultipleQueries } from "@/lib/queryUtils";
+import { jobsQueryOptions } from "@/services/queries/use-list-jobs";
+import { clientsQueryOptions } from "@/services/queries/use-list-clients";
+import { ensureMultipleQueries } from "@/lib/query-utils";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
+} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
-import { Button } from "@/components/ui/Button";
-import Select from "@/components/ui/Select";
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import Select from "@/components/ui/select";
 import { formatStatus } from "@/lib/utils";
-import Badge from "@/components/ui/Badge";
-import BackToButton from "@/components/general/BackToButton";
+import Badge from "@/components/ui/badge";
+import BackToButton from "@/components/general/back-to-button";
 
 const jobsSearchSchema = z.object({
   status: z.enum(JobStatus.options).optional(),

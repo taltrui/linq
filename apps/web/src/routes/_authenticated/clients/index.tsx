@@ -2,17 +2,17 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { type Client } from "@repo/api-client";
 
-import { clientsQueryOptions } from "@/services/queries/useListClients";
+import { clientsQueryOptions } from "@/services/queries/use-list-clients";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { queryClient } from "@/main";
-import { NewClient } from "@/components/general/NewClient";
+import { NewClient } from "@/components/general/new-client";
 
 const clientsSearchSchema = z.object({
   search: z.string().optional(),

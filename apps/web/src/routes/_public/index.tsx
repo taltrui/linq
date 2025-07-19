@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import useAppForm from "@/lib/form";
 import { z } from "zod";
-import { useLogin } from "@/services/mutations/useLogin";
-import { Button } from "@/components/ui/Button";
+import { useLogin } from "@/services/mutations/use-login";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_public/")({
   component: LoginPage,

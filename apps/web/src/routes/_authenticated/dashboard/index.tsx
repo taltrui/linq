@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 
-import { jobsQueryOptions } from "@/services/queries/useListJobs";
-import { ensureMultipleQueries } from "@/lib/queryUtils";
-import { useProfile } from "@/services/queries/useProfile";
-import { StatisticsCards } from "@/components/dashboard/StatisticsCards";
-import { TodaysAppointments } from "@/components/dashboard/TodaysAppointments";
-import { BusinessPerformance } from "@/components/dashboard/BusinessPerformance";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { QuickActions } from "@/components/dashboard/QuickActions";
+import { jobsQueryOptions } from "@/services/queries/use-list-jobs";
+import { ensureMultipleQueries } from "@/lib/query-utils";
+import { useProfile } from "@/services/queries/use-profile";
+import { StatisticsCards } from "@/components/dashboard/statistics-cards";
+import { TodaysAppointments } from "@/components/dashboard/todays-appointments";
+import { BusinessPerformance } from "@/components/dashboard/business-performance";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { QuickActions } from "@/components/dashboard/quick-actions";
 
 export const Route = createFileRoute("/_authenticated/dashboard/")({
   component: DashboardPage,
