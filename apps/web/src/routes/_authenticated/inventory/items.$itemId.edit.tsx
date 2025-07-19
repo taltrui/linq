@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { UpdateInventoryItemSchema, type UpdateInventoryItem } from "@repo/api-client/inventory";
 
 import { inventoryItemQueryOptions } from "@/services/queries/useInventoryItem";
@@ -58,7 +57,6 @@ function EditInventoryItemPage() {
         }
       );
     },
-    validatorAdapter: zodValidator(),
     validators: {
       onChange: UpdateInventoryItemSchema,
     },

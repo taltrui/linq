@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { UpdateSupplierSchema, type UpdateSupplier } from "@repo/api-client/inventory";
 
 import { supplierQueryOptions } from "@/services/queries/useSupplier";
@@ -52,7 +51,6 @@ function EditSupplierPage() {
         }
       );
     },
-    validatorAdapter: zodValidator(),
     validators: {
       onChange: UpdateSupplierSchema,
     },

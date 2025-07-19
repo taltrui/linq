@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { CreateInventoryItemSchema, type CreateInventoryItem } from "@repo/api-client/inventory";
 
 import { useCreateInventoryItem } from "@/services/mutations/useCreateInventoryItem";
@@ -51,7 +50,6 @@ function NewInventoryItemPage() {
         },
       });
     },
-    validatorAdapter: zodValidator(),
     validators: {
       onChange: CreateInventoryItemSchema,
     },
