@@ -1,6 +1,6 @@
 import useAppForm from "@/lib/form";
 
-import { useCreateClient } from "@/services/mutations/useCreateClient";
+import { useCreateClient } from "@/services/mutations/use-create-client";
 import { CreateClientSchema } from "@repo/api-client";
 
 export function NewClientForm({

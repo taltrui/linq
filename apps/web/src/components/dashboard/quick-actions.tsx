@@ -1,7 +1,7 @@
-import { Card, CardContent } from "@/components/ui/Card";
+import { Card, CardContent } from "@/components/ui/card";
 import { FileText, UserPlus } from "lucide-react";
-import { NewClient } from "@/components/general/NewClient";
-import { NewQuotation } from "@/components/general/NewQuotation";
+import { NewClient } from "@/components/general/new-client";
+import { NewQuotation } from "@/components/general/new-quotation";
 
 interface QuickAction {
   title: string;

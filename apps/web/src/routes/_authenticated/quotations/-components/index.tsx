@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import { Link } from "@tanstack/react-router";
 
-import Badge from "@/components/ui/Badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { useListQuotations } from "@/services/queries/useListQuotations";
+import Badge from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useListQuotations } from "@/services/queries/use-list-quotations";
 
 function Quotations() {
   const { data: quotations } = useListQuotations();

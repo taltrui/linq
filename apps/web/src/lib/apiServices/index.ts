@@ -6,8 +6,8 @@ import { jobsService } from "./jobs";
 import { quotationsService } from "./quotations";
 import { inventoryService } from "./inventory";
 import { suppliersService } from "./suppliers";
-import { quotationMaterialsService } from "./quotationMaterials";
-import { jobMaterialsService } from "./jobMaterials";
+import { quotationMaterialsService } from "./quotation-materials";
+import { jobMaterialsService } from "./job-materials";
 
 export const apiService = {
     auth: authService,

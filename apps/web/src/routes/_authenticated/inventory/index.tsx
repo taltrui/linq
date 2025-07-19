@@ -3,18 +3,18 @@ import { z } from "zod";
 import { type InventoryItem } from "@repo/api-client/inventory";
 import { Package, Plus, Edit, Trash2, TrendingUp, TrendingDown, AlertTriangle } from "lucide-react";
 
-import { inventoryItemsQueryOptions } from "@/services/queries/useListInventoryItems";
-import { useDeleteInventoryItem } from "@/services/mutations/useDeleteInventoryItem";
+import { inventoryItemsQueryOptions } from "@/services/queries/use-list-inventory-items";
+import { useDeleteInventoryItem } from "@/services/mutations/use-delete-inventory-item";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Badge from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import { queryClient } from "@/main";
 import { useState } from "react";
 

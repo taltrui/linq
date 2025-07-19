@@ -2,23 +2,23 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Package, Plus, Edit, Trash2 } from "lucide-react";
 
-import { quotationQueryOptions } from "@/services/queries/useQuotation";
-import { useQuotationMaterials } from "@/services/queries/useQuotationMaterials";
-import { useListInventoryItems } from "@/services/queries/useListInventoryItems";
-import { useAddMaterialToQuotation } from "@/services/mutations/useAddMaterialToQuotation";
-import { useUpdateMaterialQuantity } from "@/services/mutations/useUpdateMaterialQuantity";
-import { useRemoveMaterialFromQuotation } from "@/services/mutations/useRemoveMaterialFromQuotation";
+import { quotationQueryOptions } from "@/services/queries/use-quotation";
+import { useQuotationMaterials } from "@/services/queries/use-quotation-materials";
+import { useListInventoryItems } from "@/services/queries/use-list-inventory-items";
+import { useAddMaterialToQuotation } from "@/services/mutations/use-add-material-to-quotation";
+import { useUpdateMaterialQuantity } from "@/services/mutations/use-update-material-quantity";
+import { useRemoveMaterialFromQuotation } from "@/services/mutations/use-remove-material-from-quotation";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Badge from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -27,15 +27,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/PrimitiveSelect";
-import { BackToButton } from "@/components/general/BackToButton";
+} from "@/components/ui/primitive-select";
+import { BackToButton } from "@/components/general/back-to-button";
 import { queryClient } from "@/main";
 import type { QuoteMaterial } from "@repo/api-client/inventory";
 

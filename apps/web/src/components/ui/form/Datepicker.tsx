@@ -2,15 +2,15 @@
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/Button"
-import { Calendar } from "@/components/ui/Calendar"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/Popover"
+} from "@/components/ui/popover"
 import { useFieldContext } from "@/lib/form"
-import { Label } from "../Label"
+import { Label } from "../label"
 
 export function DatePicker({ label, description }: { label: string, description?: string }) {
     const field = useFieldContext<Date>()

@@ -3,14 +3,14 @@
 import * as React from "react";
 import { useMediaQuery } from "usehooks-ts";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -19,7 +19,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/Drawer";
+} from "@/components/ui/drawer";
 
 export function ResponsiveDialog({
   children,

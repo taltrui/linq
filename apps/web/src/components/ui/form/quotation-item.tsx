@@ -1,5 +1,5 @@
 import type { QuotationItem } from "@repo/api-client";
-import SubField from "./SubField";
+import SubField from "./sub-field";
 
 function QuotationItemField({ index, form }: { index: number; form?: any }) {
   return (

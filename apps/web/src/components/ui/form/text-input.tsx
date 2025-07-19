@@ -1,17 +1,19 @@
 import { useFieldContext } from "@/lib/form";
-import { Textarea } from "../TextArea";
-import { Label } from "../Label";
+import { Input } from "../input";
+import { Label } from "../label";
 
-function TextareaInput({
+function TextInput({
   label,
+  type = "text",
   description,
   labelProps,
   ...props
 }: {
   label: string;
+  type?: "text" | "password" | "number" | "datetime-local";
   description?: string;
   labelProps?: React.ComponentProps<"label">;
-} & React.ComponentProps<"textarea">) {
+} & React.ComponentProps<"input">) {
   const field = useFieldContext<string>();
 
   const errors = field.state.meta.errors
@@ -26,8 +28,9 @@ function TextareaInput({
       <Label htmlFor={field.name} {...labelProps}>
         {label}
       </Label>
-      <Textarea
+      <Input
         id={field.name}
+        type={type}
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
         onBlur={field.handleBlur}
@@ -41,4 +44,4 @@ function TextareaInput({
   );
 }
 
-export default TextareaInput;
+export default TextInput;

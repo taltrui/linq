@@ -1,5 +1,5 @@
-import { Label } from "../Label";
-import SubField from "./SubField";
+import { Label } from "../label";
+import SubField from "./sub-field";
 
 function AddressField({
   name,

@@ -7,10 +7,10 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/Card.js";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+} from "@/components/ui/card.js";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -19,24 +19,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/PrimitiveSelect";
-import { jobQueryOptions } from "@/services/queries/useJob";
-import { useJobMaterials } from "@/services/queries/useJobMaterials";
-import { useListInventoryItems } from "@/services/queries/useListInventoryItems";
-import { useListQuotations } from "@/services/queries/useListQuotations";
-import { useAddMaterialToJob } from "@/services/mutations/useAddMaterialToJob";
-import { useUpdateJobMaterialQuantity } from "@/services/mutations/useUpdateJobMaterialQuantity";
-import { useRemoveMaterialFromJob } from "@/services/mutations/useRemoveMaterialFromJob";
-import { useCopyMaterialsFromQuotation } from "@/services/mutations/useCopyMaterialsFromQuotation";
+} from "@/components/ui/primitive-select";
+import { jobQueryOptions } from "@/services/queries/use-job";
+import { useJobMaterials } from "@/services/queries/use-job-materials";
+import { useListInventoryItems } from "@/services/queries/use-list-inventory-items";
+import { useListQuotations } from "@/services/queries/use-list-quotations";
+import { useAddMaterialToJob } from "@/services/mutations/use-add-material-to-job";
+import { useUpdateJobMaterialQuantity } from "@/services/mutations/use-update-job-material-quantity";
+import { useRemoveMaterialFromJob } from "@/services/mutations/use-remove-material-from-job";
+import { useCopyMaterialsFromQuotation } from "@/services/mutations/use-copy-materials-from-quotation";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import Badge from "@/components/ui/Badge.js";
+import Badge from "@/components/ui/badge.js";
 import { formatStatus } from "@/lib/utils";
 import type { JobMaterial } from "@repo/api-client/inventory";
 

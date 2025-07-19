@@ -2,20 +2,20 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
 import { UpdateSupplierSchema, type UpdateSupplier } from "@repo/api-client/inventory";
 
-import { supplierQueryOptions } from "@/services/queries/useSupplier";
-import { useUpdateSupplier } from "@/services/mutations/useUpdateSupplier";
+import { supplierQueryOptions } from "@/services/queries/use-supplier";
+import { useUpdateSupplier } from "@/services/mutations/use-update-supplier";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { TextInput } from "@/components/ui/form/TextInput";
-import { TextAreaInput } from "@/components/ui/form/TextAreaInput";
-import { SubmitButton } from "@/components/ui/form/SubmitButton";
-import { BackToButton } from "@/components/general/BackToButton";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { TextInput } from "@/components/ui/form/text-input";
+import { TextAreaInput } from "@/components/ui/form/text-area-input";
+import { SubmitButton } from "@/components/ui/form/submit-button";
+import { BackToButton } from "@/components/general/back-to-button";
 import { queryClient } from "@/main";
 
 export const Route = createFileRoute("/_authenticated/inventory/suppliers/$supplierId/edit")({

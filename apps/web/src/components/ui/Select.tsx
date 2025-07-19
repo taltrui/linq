@@ -1,11 +1,11 @@
-import { Label } from "./Label";
+import { Label } from "./label";
 import {
   Select as SelectPrimitive,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./PrimitiveSelect";
+} from "./primitive-select";
 
 function Select({
   label,

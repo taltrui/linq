@@ -1,6 +1,6 @@
 import type useAppForm from "@/lib/form";
-import { Label } from "../Label";
-import { Input } from "../Input";
+import { Label } from "../label";
+import { Input } from "../input";
 
 function SubField({
   name,

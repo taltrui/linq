@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { LogOut, User as UserIcon } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
-import { useProfile } from "@/services/queries/useProfile";
+} from "@/components/ui/dropdown-menu";
+import { useProfile } from "@/services/queries/use-profile";
 
 export function AuthenticatedHeader() {
   const { data: profile } = useProfile();

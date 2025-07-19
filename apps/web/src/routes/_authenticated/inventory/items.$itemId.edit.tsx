@@ -2,22 +2,22 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
 import { UpdateInventoryItemSchema, type UpdateInventoryItem } from "@repo/api-client/inventory";
 
-import { inventoryItemQueryOptions } from "@/services/queries/useInventoryItem";
-import { useUpdateInventoryItem } from "@/services/mutations/useUpdateInventoryItem";
-import { useListSuppliers } from "@/services/queries/useListSuppliers";
+import { inventoryItemQueryOptions } from "@/services/queries/use-inventory-item";
+import { useUpdateInventoryItem } from "@/services/mutations/use-update-inventory-item";
+import { useListSuppliers } from "@/services/queries/use-list-suppliers";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { TextInput } from "@/components/ui/form/TextInput";
-import { TextAreaInput } from "@/components/ui/form/TextAreaInput";
-import { Select } from "@/components/ui/form/Select";
-import { SubmitButton } from "@/components/ui/form/SubmitButton";
-import { BackToButton } from "@/components/general/BackToButton";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { TextInput } from "@/components/ui/form/text-input";
+import { TextAreaInput } from "@/components/ui/form/text-area-input";
+import { Select } from "@/components/ui/form/select";
+import { SubmitButton } from "@/components/ui/form/submit-button";
+import { BackToButton } from "@/components/general/back-to-button";
 import { queryClient } from "@/main";
 
 export const Route = createFileRoute("/_authenticated/inventory/items/$itemId/edit")({

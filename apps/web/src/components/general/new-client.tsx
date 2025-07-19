@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
-import { ResponsiveDialog } from "../ui/ResponsiveDialog";
-import { Button } from "../ui/Button";
+import { ResponsiveDialog } from "../ui/responsive-dialog";
+import { Button } from "../ui/button";
 import { Suspense, useState } from "react";
 import { NewClientForm } from "../forms/NewClientForm";
 

@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TrendingUp, TrendingDown, AlertTriangle, Package, Building } from "lucide-react";
 
-import { inventoryItemsQueryOptions } from "@/services/queries/useListInventoryItems";
-import { suppliersQueryOptions } from "@/services/queries/useListSuppliers";
+import { inventoryItemsQueryOptions } from "@/services/queries/use-list-inventory-items";
+import { suppliersQueryOptions } from "@/services/queries/use-list-suppliers";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import Badge from "@/components/ui/Badge";
+} from "@/components/ui/card";
+import Badge from "@/components/ui/badge";
 import { queryClient } from "@/main";
 
 export const Route = createFileRoute("/_authenticated/inventory/dashboard")({

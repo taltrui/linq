@@ -1,5 +1,5 @@
 import { Loader2Icon } from "lucide-react"
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 
 function LoadingButton({ children, loading, ...props }: React.ComponentProps<"button"> & { loading: boolean }) {
     return (

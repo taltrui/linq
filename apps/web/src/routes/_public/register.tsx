@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import useAppForm from "@/lib/form";
-import { useRegister } from "@/services/mutations/useRegister";
+import { useRegister } from "@/services/mutations/use-register";
 import { RegisterSchema } from "@repo/api-client";
 import { z } from "zod";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 const RegisterValidationSchema = RegisterSchema.extend({
   confirmPassword: z.string().min(8, "Password must be at least 8 characters"),

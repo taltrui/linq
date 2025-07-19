@@ -1,11 +1,11 @@
 import useAppForm from "@/lib/form";
 
-import { useListClients } from "@/services/queries/useListClients";
-import { useCreateQuotation } from "@/services/mutations/useCreateQuotation";
+import { useListClients } from "@/services/queries/use-list-clients";
+import { useCreateQuotation } from "@/services/mutations/use-create-quotation";
 import { CreateQuotationPayload, type QuotationItem } from "@repo/api-client";
 
-import { Button } from "@/components/ui/Button";
-import QuotationItemField from "../ui/form/QuotationItem";
+import { Button } from "@/components/ui/button";
+import QuotationItemField from "../ui/form/quotation-item";
 
 export function NewQuotationForm({
   handleSuccess,

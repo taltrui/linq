@@ -3,17 +3,17 @@ import { z } from "zod";
 import { type Supplier } from "@repo/api-client/inventory";
 import { Building, Plus, Edit, Trash2, Package } from "lucide-react";
 
-import { suppliersQueryOptions } from "@/services/queries/useListSuppliers";
-import { useDeleteSupplier } from "@/services/mutations/useDeleteSupplier";
+import { suppliersQueryOptions } from "@/services/queries/use-list-suppliers";
+import { useDeleteSupplier } from "@/services/mutations/use-delete-supplier";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -22,7 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import { queryClient } from "@/main";
 import { useState } from "react";
 

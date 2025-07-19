@@ -7,11 +7,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
-import { Textarea } from "@/components/ui/TextArea";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/text-area";
 import {
   Dialog,
   DialogContent,
@@ -20,14 +20,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/PrimitiveSelect";
+} from "@/components/ui/primitive-select";
 import {
   Table,
   TableBody,
@@ -35,11 +35,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/Table";
-import Badge from "@/components/ui/Badge";
-import { useListInventoryItems } from "@/services/queries/useListInventoryItems";
-import { useStockAdjustments } from "@/services/queries/useStockAdjustments";
-import { useCreateStockAdjustment } from "@/services/mutations/useCreateStockAdjustment";
+} from "@/components/ui/table";
+import Badge from "@/components/ui/badge";
+import { useListInventoryItems } from "@/services/queries/use-list-inventory-items";
+import { useStockAdjustments } from "@/services/queries/use-stock-adjustments";
+import { useCreateStockAdjustment } from "@/services/mutations/use-create-stock-adjustment";
 
 export const Route = createFileRoute("/_authenticated/inventory/stock")({
   component: StockManagementPage,

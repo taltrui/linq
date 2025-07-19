@@ -15,8 +15,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
-import { useCompany } from "@/services/queries/useCompany";
+import { Button } from "@/components/ui/button";
+import { useCompany } from "@/services/queries/use-company";
 
 interface SidebarItem {
   title: string;
