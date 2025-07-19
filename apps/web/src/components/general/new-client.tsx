@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 import { ResponsiveDialog } from "../ui/responsive-dialog";
 import { Button } from "../ui/button";
 import { Suspense, useState } from "react";
-import { NewClientForm } from "../forms/NewClientForm";
+import { NewClientForm } from "../forms/new-client-form";
 
 const buttonClass = "rounded-full shadow-lg";
 const floatingButtonClass =

@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useForm } from "@tanstack/react-form";
+import useAppForm from "@/lib/form";
 import { UpdateSupplierSchema, type UpdateSupplier } from "@repo/api-client/inventory";
 
 import { supplierQueryOptions } from "@/services/queries/use-supplier";
@@ -12,10 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TextInput } from "@/components/ui/form/text-input";
-import { TextAreaInput } from "@/components/ui/form/text-area-input";
-import { SubmitButton } from "@/components/ui/form/submit-button";
-import { BackToButton } from "@/components/general/back-to-button";
+import BackToButton from "@/components/general/back-to-button";
 import { queryClient } from "@/main";
 
 export const Route = createFileRoute("/_authenticated/inventory/suppliers/$supplierId/edit")({
@@ -31,7 +28,7 @@ function EditSupplierPage() {
   const { supplier } = Route.useLoaderData();
   const updateSupplier = useUpdateSupplier();
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       name: supplier.name,
       contactInfo: supplier.contactInfo || "",
@@ -59,7 +56,7 @@ function EditSupplierPage() {
   return (
     <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
       <div className="flex items-center gap-4">
-        <BackToButton to="/inventory/suppliers" />
+        <BackToButton to="/inventory/suppliers" label="Volver a Proveedores" />
         <div>
           <h1 className="text-3xl font-bold">Editar Proveedor</h1>
           <p className="text-muted-foreground">
@@ -84,15 +81,10 @@ function EditSupplierPage() {
             }}
             className="space-y-6"
           >
-            <form.Field
+            <form.AppField
               name="name"
               children={(field) => (
-                <TextInput
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  errorMessage={field.state.meta.errors?.[0]}
+                <field.TextInput
                   label="Nombre del Proveedor"
                   placeholder="Ej: Proveedor ABC S.A."
                   required
@@ -100,15 +92,10 @@ function EditSupplierPage() {
               )}
             />
 
-            <form.Field
+            <form.AppField
               name="contactInfo"
               children={(field) => (
-                <TextAreaInput
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  errorMessage={field.state.meta.errors?.[0]}
+                <field.TextareaInput
                   label="Información de Contacto"
                   placeholder="Email, teléfono, dirección, etc."
                   rows={3}
@@ -116,27 +103,11 @@ function EditSupplierPage() {
               )}
             />
 
-            {supplier.items && supplier.items.length > 0 && (
-              <div className="bg-muted/50 p-4 rounded-lg">
-                <h4 className="font-medium mb-2">Productos Asociados</h4>
-                <div className="space-y-2">
-                  {supplier.items.map((item) => (
-                    <div key={item.id} className="flex justify-between items-center text-sm">
-                      <span>{item.name} ({item.sku})</span>
-                      <span className="text-muted-foreground">${item.unitPrice}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
             <div className="flex gap-4">
-              <SubmitButton
-                isSubmitting={updateSupplier.isPending}
-                canSubmit={form.state.canSubmit}
-              >
-                Actualizar Proveedor
-              </SubmitButton>
+              <form.AppForm>
+                <form.SubmitButton label="Actualizar Proveedor" />
+              </form.AppForm>
               <Button
                 type="button"
                 variant="outline"

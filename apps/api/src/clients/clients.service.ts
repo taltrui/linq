@@ -34,6 +34,9 @@ export class ClientsService {
           connect: { id: companyId },
         },
       },
+      include: {
+        address: true,
+      },
     });
   }
 
@@ -58,12 +61,18 @@ export class ClientsService {
 
     return this.prisma.client.findMany({
       where,
+      include: {
+        address: true,
+      },
     });
   }
 
   async findOne(id: string, companyId: string) {
     const client = await this.prisma.client.findUnique({
       where: { id, companyId },
+      include: {
+        address: true,
+      },
     });
 
     if (!client) {
@@ -89,6 +98,9 @@ export class ClientsService {
     return this.prisma.client.update({
       where: { id },
       data,
+      include: {
+        address: true,
+      },
     });
   }
 

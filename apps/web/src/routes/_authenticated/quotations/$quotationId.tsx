@@ -35,7 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/primitive-select";
-import { BackToButton } from "@/components/general/back-to-button";
+import BackToButton from "@/components/general/back-to-button";
 import { queryClient } from "@/main";
 import type { QuoteMaterial } from "@repo/api-client/inventory";
 
@@ -280,7 +280,7 @@ function QuotationDetailPage() {
   return (
     <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
       <div className="flex items-center gap-4">
-        <BackToButton to="/quotations" />
+        <BackToButton to="/quotations" label="Volver a Cotizaciones" />
         <div>
           <h1 className="text-3xl font-bold">{quotation.title}</h1>
           <p className="text-muted-foreground">

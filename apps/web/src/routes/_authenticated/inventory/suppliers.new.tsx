@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useForm } from "@tanstack/react-form";
+import useAppForm from "@/lib/form";
 import { CreateSupplierSchema, type CreateSupplier } from "@repo/api-client/inventory";
 
 import { useCreateSupplier } from "@/services/mutations/use-create-supplier";
@@ -11,10 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TextInput } from "@/components/ui/form/text-input";
-import { TextAreaInput } from "@/components/ui/form/text-area-input";
-import { SubmitButton } from "@/components/ui/form/submit-button";
-import { BackToButton } from "@/components/general/back-to-button";
+import BackToButton from "@/components/general/back-to-button";
 
 export const Route = createFileRoute("/_authenticated/inventory/suppliers/new")({
   component: NewSupplierPage,
@@ -24,7 +21,7 @@ function NewSupplierPage() {
   const navigate = useNavigate();
   const createSupplier = useCreateSupplier();
 
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       name: "",
       contactInfo: "",
@@ -49,7 +46,7 @@ function NewSupplierPage() {
   return (
     <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
       <div className="flex items-center gap-4">
-        <BackToButton to="/inventory/suppliers" />
+        <BackToButton to="/inventory/suppliers" label="Volver a Proveedores" />
         <div>
           <h1 className="text-3xl font-bold">Nuevo Proveedor</h1>
           <p className="text-muted-foreground">Agrega un nuevo proveedor a tu sistema</p>
@@ -72,15 +69,10 @@ function NewSupplierPage() {
             }}
             className="space-y-6"
           >
-            <form.Field
+            <form.AppField
               name="name"
               children={(field) => (
-                <TextInput
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  errorMessage={field.state.meta.errors?.[0]}
+                <field.TextInput
                   label="Nombre del Proveedor"
                   placeholder="Ej: Proveedor ABC S.A."
                   required
@@ -88,15 +80,10 @@ function NewSupplierPage() {
               )}
             />
 
-            <form.Field
+            <form.AppField
               name="contactInfo"
               children={(field) => (
-                <TextAreaInput
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  errorMessage={field.state.meta.errors?.[0]}
+                <field.TextareaInput
                   label="Información de Contacto"
                   placeholder="Email, teléfono, dirección, etc."
                   rows={3}
@@ -105,12 +92,9 @@ function NewSupplierPage() {
             />
 
             <div className="flex gap-4">
-              <SubmitButton
-                isSubmitting={createSupplier.isPending}
-                canSubmit={form.state.canSubmit}
-              >
-                Crear Proveedor
-              </SubmitButton>
+              <form.AppForm>
+                <form.SubmitButton label="Crear Proveedor" />
+              </form.AppForm>
               <Button
                 type="button"
                 variant="outline"
