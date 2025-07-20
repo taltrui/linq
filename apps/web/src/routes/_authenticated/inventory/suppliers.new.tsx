@@ -3,15 +3,8 @@ import useAppForm from "@/lib/form";
 import { CreateSupplierSchema, type CreateSupplier } from "@repo/api-client/inventory";
 
 import { useCreateSupplier } from "@/services/mutations/use-create-supplier";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import BackToButton from "@/components/general/back-to-button";
+import FormPageLayout from "@/components/general/form-page-layout";
 
 export const Route = createFileRoute("/_authenticated/inventory/suppliers/new")({
   component: NewSupplierPage,
@@ -44,68 +37,57 @@ function NewSupplierPage() {
   });
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
-      <div className="flex items-center gap-4">
-        <BackToButton to="/inventory/suppliers" label="Volver a Proveedores" />
-        <div>
-          <h1 className="text-3xl font-bold">Nuevo Proveedor</h1>
-          <p className="text-muted-foreground">Agrega un nuevo proveedor a tu sistema</p>
-        </div>
-      </div>
+    <FormPageLayout
+      backTo="/inventory/suppliers"
+      backLabel="Volver a Proveedores"
+      title="Nuevo Proveedor"
+      description="Agrega un nuevo proveedor a tu sistema"
+      formTitle="Información del Proveedor"
+      formDescription="Ingresa los detalles del proveedor que quieres agregar"
+    >
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
+        className="space-y-6"
+      >
+        <form.AppField
+          name="name"
+          children={(field) => (
+            <field.TextInput
+              label="Nombre del Proveedor"
+              placeholder="Ej: Proveedor ABC S.A."
+              required
+            />
+          )}
+        />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Información del Proveedor</CardTitle>
-          <CardDescription>
-            Ingresa los detalles del proveedor que quieres agregar
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              form.handleSubmit();
-            }}
-            className="space-y-6"
+        <form.AppField
+          name="contactInfo"
+          children={(field) => (
+            <field.TextareaInput
+              label="Información de Contacto"
+              placeholder="Email, teléfono, dirección, etc."
+              rows={3}
+            />
+          )}
+        />
+
+        <div className="flex gap-4">
+          <form.AppForm>
+            <form.SubmitButton label="Crear Proveedor" />
+          </form.AppForm>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => navigate({ to: "/inventory/suppliers" })}
           >
-            <form.AppField
-              name="name"
-              children={(field) => (
-                <field.TextInput
-                  label="Nombre del Proveedor"
-                  placeholder="Ej: Proveedor ABC S.A."
-                  required
-                />
-              )}
-            />
-
-            <form.AppField
-              name="contactInfo"
-              children={(field) => (
-                <field.TextareaInput
-                  label="Información de Contacto"
-                  placeholder="Email, teléfono, dirección, etc."
-                  rows={3}
-                />
-              )}
-            />
-
-            <div className="flex gap-4">
-              <form.AppForm>
-                <form.SubmitButton label="Crear Proveedor" />
-              </form.AppForm>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => navigate({ to: "/inventory/suppliers" })}
-              >
-                Cancelar
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+            Cancelar
+          </Button>
+        </div>
+      </form>
+    </FormPageLayout>
   );
 }

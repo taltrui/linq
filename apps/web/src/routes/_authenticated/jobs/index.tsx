@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { JobStatus, type Job, type Client } from "@repo/api-client";
+import { Briefcase } from "lucide-react";
 
 import { jobsQueryOptions } from "@/services/queries/use-list-jobs";
 import { clientsQueryOptions } from "@/services/queries/use-list-clients";
@@ -8,7 +9,6 @@ import { ensureMultipleQueries } from "@/lib/query-utils";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -23,6 +23,10 @@ import Select from "@/components/ui/select";
 import { formatStatus } from "@/lib/utils";
 import Badge from "@/components/ui/badge";
 import BackToButton from "@/components/general/back-to-button";
+import ResourceCard from "@/components/general/resource-card";
+import ResourceListLayout from "@/components/general/resource-list-layout";
+import EmptyState from "@/components/states/empty-state";
+import { useResourceList } from "@/lib/hooks";
 
 const jobsSearchSchema = z.object({
   status: z.enum(JobStatus.options).optional(),
@@ -42,18 +46,16 @@ export const Route = createFileRoute("/_authenticated/jobs/")({
   component: JobsPage,
 });
 
-function JobRow({ job }: { job: Job }) {
+function JobCard({ job }: { job: Job }) {
   return (
     <Link to="/jobs/$jobId" params={{ jobId: job.id }}>
-      <Card className="hover:bg-muted/50 transition-colors">
-        <CardHeader>
-          <CardTitle>{job.title}</CardTitle>
-          <CardDescription>#{job.displayId}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Badge>{formatStatus(job.status)}</Badge>
-        </CardContent>
-      </Card>
+      <ResourceCard
+        title={job.title}
+        subtitle={`#${job.displayId}`}
+        icon={<Briefcase className="w-5 h-5" />}
+      >
+        <Badge>{formatStatus(job.status)}</Badge>
+      </ResourceCard>
     </Link>
   );
 }
@@ -86,72 +88,97 @@ function JobsPage() {
   const selectedClient = clients.find((c: Client) => c.id === clientId);
   const selectedStatus = status ?? "ALL";
 
+  const { data: filteredJobs, isEmpty } = useResourceList({
+    data: jobs,
+    filterConfig: {
+      filters: { status, clientId },
+      customFilter: (job, filters) => {
+        if (filters.status && job.status !== filters.status) return false;
+        if (filters.clientId && job.clientId !== filters.clientId) return false;
+        return true;
+      },
+    },
+  });
+
+  const hasActiveFilters = Boolean(status || clientId);
+
+  const filtersExtra = (
+    <Card>
+      <CardHeader>
+        <CardTitle>Filtros Avanzados</CardTitle>
+      </CardHeader>
+      <CardContent className="flex gap-4">
+        <Select
+          label="Estado"
+          value={selectedStatus}
+          onValueChange={handleStatusChange}
+          options={["ALL", ...JobStatus.options].map((s) => ({
+            label: formatStatus(s),
+            value: s,
+          }))}
+          placeholder="Todos"
+        />
+        <div>
+          <label
+            htmlFor="client-filter"
+            className="block text-sm font-medium text-muted-foreground mb-1"
+          >
+            Cliente
+          </label>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                id="client-filter"
+                className="w-[180px] justify-between"
+              >
+                {selectedClient ? selectedClient.name : "Todos los Clientes"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onSelect={() => handleClientChange("ALL")}>
+                Todos los Clientes
+              </DropdownMenuItem>
+              {clients.map((c: Client) => (
+                <DropdownMenuItem
+                  key={c.id}
+                  onSelect={() => handleClientChange(c.id)}
+                >
+                  {c.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
       <BackToButton to="/dashboard" label="Volver al dashboard" />
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Tus trabajos</h1>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Filtros</CardTitle>
-        </CardHeader>
-        <CardContent className="flex gap-4">
-          <Select
-            label="Estado"
-            value={selectedStatus}
-            onValueChange={handleStatusChange}
-            options={["ALL", ...JobStatus.options].map((s) => ({
-              label: formatStatus(s),
-              value: s,
-            }))}
-            placeholder="Todos"
-          />
-          <div>
-            <label
-              htmlFor="client-filter"
-              className="block text-sm font-medium text-muted-foreground mb-1"
-            >
-              Client
-            </label>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  id="client-filter"
-                  className="w-[180px] justify-between"
-                >
-                  {selectedClient ? selectedClient.name : "All Clients"}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onSelect={() => handleClientChange("all")}>
-                  All Clients
-                </DropdownMenuItem>
-                {clients.map((c: Client) => (
-                  <DropdownMenuItem
-                    key={c.id}
-                    onSelect={() => handleClientChange(c.id)}
-                  >
-                    {c.name}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="space-y-4">
-        {jobs.length > 0 ? (
-          jobs.map((job: Job) => <JobRow key={job.id} job={job} />)
+      
+      <ResourceListLayout
+        title="Tus trabajos"
+        description="Gestiona y monitorea el progreso de tus trabajos"
+        showSearch={false}
+        filterExtra={filtersExtra}
+      >
+        {!isEmpty ? (
+          filteredJobs.map((job: Job) => <JobCard key={job.id} job={job} />)
         ) : (
-          <Card>
-            <CardContent className="p-4">No jobs found.</CardContent>
-          </Card>
+          <EmptyState
+            icon={<Briefcase className="w-12 h-12" />}
+            title="No hay trabajos"
+            description={
+              hasActiveFilters
+                ? "No se encontraron trabajos que coincidan con los filtros aplicados."
+                : "No tienes trabajos asignados en este momento."
+            }
+            isSearchResult={hasActiveFilters}
+          />
         )}
-      </div>
+      </ResourceListLayout>
     </div>
   );
 }
