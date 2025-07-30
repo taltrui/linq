@@ -51,12 +51,8 @@ export class QuotationsController {
   }
 
   @Post(':id/send-email')
-  sendEmail(
-    @Param('id') id: string,
-    @Body('recipientEmail') email: string,
-    @CurrentUser() user: CurrentUserType,
-  ) {
-    return this.quotationsService.sendEmail(id, email, user);
+  sendEmail() {
+    return this.quotationsService.sendEmail();
   }
 
   // Material management endpoints
