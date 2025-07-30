@@ -10,7 +10,17 @@ async function bootstrap() {
     app.useGlobalInterceptors(new DelayInterceptor());
   }
 
-  app.enableCors();
+  // Configure CORS
+  const allowedOrigins = process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(',')
+    : ['http://localhost:5173', 'http://localhost:3000'];
+
+  app.enableCors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
+  });
 
   app.useGlobalPipes(new ValidationPipe());
 
