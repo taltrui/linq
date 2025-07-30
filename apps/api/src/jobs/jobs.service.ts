@@ -1,8 +1,14 @@
-import { Injectable, NotFoundException, BadRequestException, forwardRef, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  forwardRef,
+  Inject,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { UpdateJobDto } from './dto/update-job.dto';
-import { JobStatus, Prisma, Quotation } from '@prisma';
+import { JobStatus, Prisma, Quotation, Job } from '@prisma';
 
 export interface AddMaterialToJobDto {
   itemId: string;
@@ -100,10 +106,14 @@ export class JobsService {
 
   async update(id: string, updateJobDto: UpdateJobDto, companyId: string) {
     const existingJob = await this.findOne(id, companyId);
-    
+
     // Check if status is changing and handle inventory lifecycle
     if (updateJobDto.status && updateJobDto.status !== existingJob.status) {
-      return this.updateJobWithInventoryLifecycle(id, updateJobDto, existingJob);
+      return this.updateJobWithInventoryLifecycle(
+        id,
+        updateJobDto,
+        existingJob,
+      );
     }
 
     // Regular update without status change
@@ -117,7 +127,7 @@ export class JobsService {
   private async updateJobWithInventoryLifecycle(
     jobId: string,
     updateJobDto: UpdateJobDto,
-    existingJob: any,
+    existingJob: Job,
   ) {
     const newStatus = updateJobDto.status;
     const oldStatus = existingJob.status;
@@ -129,7 +139,7 @@ export class JobsService {
       } else if (oldStatus === 'IN_PROGRESS' && newStatus === 'COMPLETED') {
         await this.handleJobCompletion(jobId, existingJob, tx);
       } else if (newStatus === 'CANCELED' && oldStatus === 'IN_PROGRESS') {
-        await this.handleJobCancellation(jobId, tx);
+        await this.handleJobCancellation(jobId);
       }
 
       // Update the job status
@@ -148,7 +158,11 @@ export class JobsService {
     });
   }
 
-  private async handleJobStart(jobId: string, job: any, tx: any) {
+  private async handleJobStart(
+    jobId: string,
+    _job: Job,
+    tx: Prisma.TransactionClient,
+  ) {
     // Get materials for this job
     const materials = await tx.jobMaterial.findMany({
       where: { jobId },
@@ -162,17 +176,19 @@ export class JobsService {
 
     // Check material availability before reserving
     for (const material of materials) {
-      const stockLevels = await this.inventoryService.getAggregatedStockLevels(material.itemId);
-      
+      const stockLevels = await this.inventoryService.getAggregatedStockLevels(
+        material.itemId,
+      );
+
       if (stockLevels.availableQuantity < material.quantityRequired) {
         throw new BadRequestException(
-          `Insufficient stock for ${material.item.name}. Available: ${stockLevels.availableQuantity}, Required: ${material.quantityRequired}`
+          `Insufficient stock for ${material.item.name}. Available: ${stockLevels.availableQuantity}, Required: ${material.quantityRequired}`,
         );
       }
     }
 
     // Reserve materials
-    const materialData = materials.map((m: any) => ({
+    const materialData = materials.map((m) => ({
       itemId: m.itemId,
       quantity: m.quantityRequired,
     }));
@@ -180,7 +196,11 @@ export class JobsService {
     await this.inventoryService.reserveMaterialsForJob(jobId, materialData);
   }
 
-  private async handleJobCompletion(jobId: string, job: any, tx: any) {
+  private async handleJobCompletion(
+    jobId: string,
+    _job: Job,
+    tx: Prisma.TransactionClient,
+  ) {
     // Get materials for this job
     const materials = await tx.jobMaterial.findMany({
       where: { jobId },
@@ -191,7 +211,7 @@ export class JobsService {
     }
 
     // Consume materials (this will compensate reservations and record consumption)
-    const materialData = materials.map((m: any) => ({
+    const materialData = materials.map((m) => ({
       itemId: m.itemId,
       quantity: m.quantityUsed || m.quantityRequired, // Use actual quantity used or planned quantity
     }));
@@ -199,7 +219,7 @@ export class JobsService {
     await this.inventoryService.consumeMaterialsForJob(jobId, materialData);
   }
 
-  private async handleJobCancellation(jobId: string, tx: any) {
+  private async handleJobCancellation(jobId: string) {
     // Cancel reservations
     await this.inventoryService.cancelReservationsForJob(jobId);
   }
@@ -213,7 +233,9 @@ export class JobsService {
     const job = await this.findOne(jobId, companyId);
 
     if (job.status !== 'PENDING') {
-      throw new BadRequestException('Cannot add materials to a job that is not pending');
+      throw new BadRequestException(
+        'Cannot add materials to a job that is not pending',
+      );
     }
 
     // Check if material already exists in job
@@ -245,11 +267,17 @@ export class JobsService {
     });
   }
 
-  async removeMaterialFromJob(jobId: string, itemId: string, companyId: string) {
+  async removeMaterialFromJob(
+    jobId: string,
+    itemId: string,
+    companyId: string,
+  ) {
     const job = await this.findOne(jobId, companyId);
 
     if (job.status !== 'PENDING') {
-      throw new BadRequestException('Cannot remove materials from a job that is not pending');
+      throw new BadRequestException(
+        'Cannot remove materials from a job that is not pending',
+      );
     }
 
     const jobMaterial = await this.prisma.jobMaterial.findFirst({
@@ -331,7 +359,7 @@ export class JobsService {
     }
 
     // Create job materials based on quotation materials
-    const jobMaterialsData = quoteMaterials.map(qm => ({
+    const jobMaterialsData = quoteMaterials.map((qm) => ({
       jobId,
       itemId: qm.itemId,
       quantityRequired: qm.quantity,

@@ -4,7 +4,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '@prisma';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('users')
@@ -13,7 +12,7 @@ export class UsersController {
 
   @Roles(Role.OWNER, Role.ADMIN)
   @Get()
-  findAllInCompany(@CurrentUser() user: any) {
+  findAllInCompany() {
     // En un futuro, podrías añadir paginación aquí
     // return this.usersService.findAllInCompany(user.companyId);
     return 'Endpoint para listar usuarios de la empresa';

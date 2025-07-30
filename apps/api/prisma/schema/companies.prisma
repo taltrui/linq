@@ -1,38 +1,38 @@
 enum Role {
-    OWNER
-    ADMIN
-    WORKER
+  OWNER
+  ADMIN
+  WORKER
 }
 
 model Membership {
-    role      Role
-    createdAt DateTime @default(now())
+  role      Role
+  createdAt DateTime @default(now())
 
-    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String
-    company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-    companyId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
 
-    @@id([userId, companyId])
-    @@map("memberships")
+  @@id([userId, companyId])
+  @@map("memberships")
 }
 
 model Company {
-    id        String   @id @default(cuid())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    owner   User   @relation("CompanyOwner", fields: [ownerId], references: [id])
-    ownerId String @unique
+  owner   User   @relation("CompanyOwner", fields: [ownerId], references: [id])
+  ownerId String @unique
 
-    members Membership[]
+  members Membership[]
 
-    clients         Client[]
-    jobs            Job[]
-    quotations      Quotation[]
-    suppliers       Supplier[]
-    inventoryItems  InventoryItem[]
+  clients        Client[]
+  jobs           Job[]
+  quotations     Quotation[]
+  suppliers      Supplier[]
+  inventoryItems InventoryItem[]
 
-    @@map("companies")
+  @@map("companies")
 }

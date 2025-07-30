@@ -1,32 +1,36 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import useAppForm from "@/lib/form";
 import { z } from "zod";
-import { useLogin } from "@/services/mutations/use-login";
+import { useRequestMagicLink } from "@/services/mutations/use-request-magic-link";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export const Route = createFileRoute("/_public/")({
   component: LoginPage,
 });
 
 function LoginPage() {
-  const { mutate: login } = useLogin();
+  const { mutate: requestMagicLink } = useRequestMagicLink();
+  const [emailSent, setEmailSent] = useState(false);
 
   const form = useAppForm({
     defaultValues: {
       email: "",
-      password: "",
     },
     validators: {
       onChange: z.object({
         email: z.string().email(),
-        password: z.string().min(8),
       }),
     },
     onSubmit: async ({ value }) => {
-      login({
-        email: value.email,
-        password: value.password,
-      });
+      requestMagicLink(
+        { email: value.email },
+        {
+          onSuccess: () => {
+            setEmailSent(true);
+          },
+        }
+      );
     },
   });
 
@@ -49,32 +53,48 @@ function LoginPage() {
             </Button>
           </p>
         </div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit();
-          }}
-          className="space-y-6"
-        >
-          <form.AppField
-            name="email"
-            children={(field) => (
-              <field.TextInput
-                label="Email Address"
-                placeholder="you@example.com"
-              />
-            )}
-          />
-          <form.AppField
-            name="password"
-            children={(field) => (
-              <field.TextInput label="Password" type="password" />
-            )}
-          />
-          <form.AppForm>
-            <form.SubmitButton label="Sign in" className="w-full" />
-          </form.AppForm>
-        </form>
+        {emailSent ? (
+          <div className="text-center space-y-4">
+            <div className="text-green-600 font-medium">
+              Check your email!
+            </div>
+            <p className="text-gray-600">
+              We've sent a magic link to your email address. Click the link to sign in.
+            </p>
+            <p className="text-sm text-gray-500">
+              The link will expire in 15 minutes.
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => setEmailSent(false)}
+              className="mt-4"
+            >
+              Send another link
+            </Button>
+          </div>
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+            className="space-y-6"
+          >
+            <form.AppField
+              name="email"
+              children={(field) => (
+                <field.TextInput
+                  label="Email Address"
+                  placeholder="you@example.com"
+                  description="We'll send you a magic link to sign in"
+                />
+              )}
+            />
+            <form.AppForm>
+              <form.SubmitButton label="Send magic link" className="w-full" />
+            </form.AppForm>
+          </form>
+        )}
       </div>
     </div>
   );
