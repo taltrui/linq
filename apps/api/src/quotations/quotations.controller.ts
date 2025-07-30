@@ -74,7 +74,11 @@ export class QuotationsController {
     @Body() addMaterialDto: AddMaterialToQuotationDto,
     @CurrentUser() user: CurrentUserType,
   ) {
-    return this.quotationsService.addMaterialToQuotation(id, addMaterialDto, user);
+    return this.quotationsService.addMaterialToQuotation(
+      id,
+      addMaterialDto,
+      user,
+    );
   }
 
   @Patch(':id/materials/:itemId')
@@ -84,7 +88,12 @@ export class QuotationsController {
     @Body('quantity') quantity: number,
     @CurrentUser() user: CurrentUserType,
   ) {
-    return this.quotationsService.updateMaterialQuantity(id, itemId, quantity, user);
+    return this.quotationsService.updateMaterialQuantity(
+      id,
+      itemId,
+      quantity,
+      user,
+    );
   }
 
   @Delete(':id/materials/:itemId')

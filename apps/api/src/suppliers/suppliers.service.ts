@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import type { CurrentUserType } from '../auth/decorators/current-user.decorator';
 
@@ -30,7 +34,7 @@ export class SuppliersService {
 
   async findAll(currentUser: CurrentUserType, search?: string) {
     const companyId = currentUser.companyId;
-    
+
     const where = {
       companyId,
       ...(search && {
@@ -56,7 +60,7 @@ export class SuppliersService {
 
   async findOne(id: string, currentUser: CurrentUserType) {
     const companyId = currentUser.companyId;
-    
+
     const supplier = await this.prisma.supplier.findFirst({
       where: { id, companyId },
       include: {
@@ -80,7 +84,11 @@ export class SuppliersService {
     return supplier;
   }
 
-  async update(id: string, updateDto: UpdateSupplierDto, currentUser: CurrentUserType) {
+  async update(
+    id: string,
+    updateDto: UpdateSupplierDto,
+    currentUser: CurrentUserType,
+  ) {
     const companyId = currentUser.companyId;
 
     // Verify supplier exists and belongs to company
@@ -119,7 +127,7 @@ export class SuppliersService {
     // Check if supplier has associated inventory items
     if (supplier._count.items > 0) {
       throw new ForbiddenException(
-        `Cannot delete supplier. It has ${supplier._count.items} associated inventory items.`
+        `Cannot delete supplier. It has ${supplier._count.items} associated inventory items.`,
       );
     }
 

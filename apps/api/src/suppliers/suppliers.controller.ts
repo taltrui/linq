@@ -1,13 +1,13 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Body, 
-  Patch, 
-  Param, 
-  Delete, 
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
   UseGuards,
-  Query 
+  Query,
 } from '@nestjs/common';
 import { SuppliersService } from './suppliers.service';
 import type { CreateSupplierDto, UpdateSupplierDto } from './suppliers.service';
@@ -21,28 +21,34 @@ export class SuppliersController {
   constructor(private readonly suppliersService: SuppliersService) {}
 
   @Post()
-  create(@Body() createDto: CreateSupplierDto, @CurrentUser() currentUser: CurrentUserType) {
+  create(
+    @Body() createDto: CreateSupplierDto,
+    @CurrentUser() currentUser: CurrentUserType,
+  ) {
     return this.suppliersService.create(createDto, currentUser);
   }
 
   @Get()
   findAll(
     @CurrentUser() currentUser: CurrentUserType,
-    @Query('search') search?: string
+    @Query('search') search?: string,
   ) {
     return this.suppliersService.findAll(currentUser, search);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @CurrentUser() currentUser: CurrentUserType) {
+  findOne(
+    @Param('id') id: string,
+    @CurrentUser() currentUser: CurrentUserType,
+  ) {
     return this.suppliersService.findOne(id, currentUser);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string, 
-    @Body() updateDto: UpdateSupplierDto, 
-    @CurrentUser() currentUser: CurrentUserType
+    @Param('id') id: string,
+    @Body() updateDto: UpdateSupplierDto,
+    @CurrentUser() currentUser: CurrentUserType,
   ) {
     return this.suppliersService.update(id, updateDto, currentUser);
   }

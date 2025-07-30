@@ -22,6 +22,7 @@ import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authentica
 import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
+import { Route as PublicAuthVerifyRouteImport } from './routes/_public/auth.verify'
 import { Route as AuthenticatedQuotationsQuotationIdRouteImport } from './routes/_authenticated/quotations/$quotationId'
 import { Route as AuthenticatedJobsJobIdRouteImport } from './routes/_authenticated/jobs/$jobId'
 import { Route as AuthenticatedInventorySuppliersRouteImport } from './routes/_authenticated/inventory/suppliers'
@@ -100,6 +101,11 @@ const AuthenticatedClientsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedClientsRoute,
   } as any)
+const PublicAuthVerifyRoute = PublicAuthVerifyRouteImport.update({
+  id: '/auth/verify',
+  path: '/auth/verify',
+  getParentRoute: () => PublicRoute,
+} as any)
 const AuthenticatedQuotationsQuotationIdRoute =
   AuthenticatedQuotationsQuotationIdRouteImport.update({
     id: '/quotations/$quotationId',
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/inventory/suppliers': typeof AuthenticatedInventorySuppliersRouteWithChildren
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
   '/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
+  '/auth/verify': typeof PublicAuthVerifyRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/inventory/': typeof AuthenticatedInventoryIndexRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/inventory/stock': typeof AuthenticatedInventoryStockRoute
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
   '/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
+  '/auth/verify': typeof PublicAuthVerifyRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/inventory': typeof AuthenticatedInventoryIndexRoute
@@ -217,6 +225,7 @@ export interface FileRoutesById {
   '/_authenticated/inventory/suppliers': typeof AuthenticatedInventorySuppliersRouteWithChildren
   '/_authenticated/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
   '/_authenticated/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
+  '/_public/auth/verify': typeof PublicAuthVerifyRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
     | '/inventory/suppliers'
     | '/jobs/$jobId'
     | '/quotations/$quotationId'
+    | '/auth/verify'
     | '/clients/'
     | '/dashboard'
     | '/inventory/'
@@ -261,6 +271,7 @@ export interface FileRouteTypes {
     | '/inventory/stock'
     | '/jobs/$jobId'
     | '/quotations/$quotationId'
+    | '/auth/verify'
     | '/clients'
     | '/dashboard'
     | '/inventory'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/_authenticated/inventory/suppliers'
     | '/_authenticated/jobs/$jobId'
     | '/_authenticated/quotations/$quotationId'
+    | '/_public/auth/verify'
     | '/_authenticated/clients/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/inventory/'
@@ -395,6 +407,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/clients/'
       preLoaderRoute: typeof AuthenticatedClientsIndexRouteImport
       parentRoute: typeof AuthenticatedClientsRoute
+    }
+    '/_public/auth/verify': {
+      id: '/_public/auth/verify'
+      path: '/auth/verify'
+      fullPath: '/auth/verify'
+      preLoaderRoute: typeof PublicAuthVerifyRouteImport
+      parentRoute: typeof PublicRoute
     }
     '/_authenticated/quotations/$quotationId': {
       id: '/_authenticated/quotations/$quotationId'
@@ -568,11 +587,13 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 interface PublicRouteChildren {
   PublicRegisterRoute: typeof PublicRegisterRoute
   PublicIndexRoute: typeof PublicIndexRoute
+  PublicAuthVerifyRoute: typeof PublicAuthVerifyRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicRegisterRoute: PublicRegisterRoute,
   PublicIndexRoute: PublicIndexRoute,
+  PublicAuthVerifyRoute: PublicAuthVerifyRoute,
 }
 
 const PublicRouteWithChildren =

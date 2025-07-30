@@ -1,68 +1,68 @@
 enum JobStatus {
-    PENDING
-    CANCELED
-    IN_PROGRESS
-    COMPLETED
+  PENDING
+  CANCELED
+  IN_PROGRESS
+  COMPLETED
 }
 
 enum JobEvent {
-    CREATED
-    UPDATED
-    CANCELED
+  CREATED
+  UPDATED
+  CANCELED
 }
 
 model Job {
-    id        String    @id @default(cuid())
-    displayId Int       @unique @default(autoincrement())
-    startDate DateTime?
-    estimatedDaysOfWork Int?
-    status    JobStatus @default(PENDING)
+  id                  String    @id @default(cuid())
+  displayId           Int       @unique @default(autoincrement())
+  startDate           DateTime?
+  estimatedDaysOfWork Int?
+  status              JobStatus @default(PENDING)
 
-    companyId String
-    company   Company @relation(fields: [companyId], references: [id])
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
 
-    clientId String
-    client   Client @relation(fields: [clientId], references: [id])
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id])
 
-    history         JobHistoryLog[]
-    assignedWorkers JobAssignment[]
+  history         JobHistoryLog[]
+  assignedWorkers JobAssignment[]
 
-    createdAt  DateTime    @default(now())
-    updatedAt  DateTime    @updatedAt
-    quotations Quotation[]
-    
-    // Inventory relationships
-    inventoryTransactions InventoryTransaction[]
-    materials             JobMaterial[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  quotations Quotation[]
 
-    @@unique([companyId, displayId])
-    @@map("jobs")
+  // Inventory relationships
+  inventoryTransactions InventoryTransaction[]
+  materials             JobMaterial[]
+
+  @@unique([companyId, displayId])
+  @@map("jobs")
 }
 
 model JobHistoryLog {
-    id         String    @id @default(cuid())
-    event      JobEvent
-    changedAt  DateTime  @default(now())
-    description String?
+  id          String   @id @default(cuid())
+  event       JobEvent
+  changedAt   DateTime @default(now())
+  description String?
 
-    jobId String
-    job   Job    @relation(fields: [jobId], references: [id])
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id])
 
-    changedById String
-    changedBy   User   @relation(fields: [changedById], references: [id])
+  changedById String
+  changedBy   User   @relation(fields: [changedById], references: [id])
 
-    @@map("job_history_logs")
+  @@map("job_history_logs")
 }
 
 model JobAssignment {
-    jobId String
-    job   Job    @relation(fields: [jobId], references: [id])
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id])
 
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-    assignedAt DateTime @default(now())
+  assignedAt DateTime @default(now())
 
-    @@id([jobId, userId])
-    @@map("job_assignments")
+  @@id([jobId, userId])
+  @@map("job_assignments")
 }

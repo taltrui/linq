@@ -9,7 +9,11 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
-import { CurrentUser, type CurrentUserType } from './decorators/current-user.decorator';
+import { RequestMagicLinkDto, VerifyMagicLinkDto } from './dto/magic-link.dto';
+import {
+  CurrentUser,
+  type CurrentUserType,
+} from './decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -17,13 +21,23 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@CurrentUser() user: CurrentUserType) {
+  login(@CurrentUser() user: CurrentUserType) {
     return this.authService.login(user);
   }
 
   @Post('register')
-  async register(@Body() registerDto: RegisterDto) {
+  async register(@Body() registerDto: Omit<RegisterDto, 'password'>) {
     return this.authService.register(registerDto);
+  }
+
+  @Post('request-magic-link')
+  async requestMagicLink(@Body() requestMagicLinkDto: RequestMagicLinkDto) {
+    return this.authService.requestMagicLink(requestMagicLinkDto.email);
+  }
+
+  @Post('verify-magic-link')
+  async verifyMagicLink(@Body() verifyMagicLinkDto: VerifyMagicLinkDto) {
+    return this.authService.verifyMagicLink(verifyMagicLinkDto.token);
   }
 
   @UseGuards(AuthGuard('jwt'))

@@ -5,13 +5,9 @@ import { RegisterSchema } from "@repo/api-client";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { NameFieldGroup } from "@/components/ui/form";
+import { useState } from "react";
 
-const RegisterValidationSchema = RegisterSchema.extend({
-  confirmPassword: z.string().min(8, "Password must be at least 8 characters"),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const RegisterValidationSchema = RegisterSchema;
 
 export const Route = createFileRoute("/_public/register")({
   component: RegisterPage,
@@ -19,12 +15,11 @@ export const Route = createFileRoute("/_public/register")({
 
 function RegisterPage() {
   const registerMutation = useRegister();
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const form = useAppForm({
     defaultValues: {
       email: "",
-      password: "",
-      confirmPassword: "",
       firstName: "",
       lastName: "",
       companyName: "",
@@ -33,9 +28,11 @@ function RegisterPage() {
       onChange: RegisterValidationSchema,
     },
     onSubmit: async ({ value }) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { confirmPassword, ...registerData } = value;
-      registerMutation.mutate(registerData);
+      registerMutation.mutate(value, {
+        onSuccess: () => {
+          setRegistrationSuccess(true);
+        },
+      });
     },
   });
 
@@ -57,6 +54,26 @@ function RegisterPage() {
             </Button>
           </p>
         </div>
+        {registrationSuccess ? (
+          <div className="text-center space-y-4">
+            <div className="text-green-600 font-medium">
+              Registration successful!
+            </div>
+            <p className="text-gray-600">
+              Check your email for a magic link to sign in to your new account.
+            </p>
+            <p className="text-sm text-gray-500">
+              The link will expire in 15 minutes.
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => window.location.href = "/"}
+              className="mt-4"
+            >
+              Go to Sign In
+            </Button>
+          </div>
+        ) : (
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -99,31 +116,11 @@ function RegisterPage() {
               <field.TextInput label="Company Name" placeholder="Acme Inc." />
             )}
           />
-          <form.AppField
-            name="password"
-            children={(field) => (
-              <field.TextInput
-                label="Password"
-                type="password"
-                placeholder="********"
-                description="At least 8 characters"
-              />
-            )}
-          />
-          <form.AppField
-            name="confirmPassword"
-            children={(field) => (
-              <field.TextInput
-                label="Confirm Password"
-                type="password"
-                placeholder="********"
-              />
-            )}
-          />
           <form.AppForm>
             <form.SubmitButton label="Create account" className="w-full" />
           </form.AppForm>
         </form>
+        )}
       </div>
     </div>
   );
