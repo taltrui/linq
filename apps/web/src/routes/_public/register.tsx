@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import useAppForm from "@/lib/form";
-import { useRegister } from "@/services/mutations/useRegister";
+import { useRegister } from "@/services/mutations/use-register";
 import { RegisterSchema } from "@repo/api-client";
 import { z } from "zod";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
+import { NameFieldGroup } from "@/components/ui/form";
 
 const RegisterValidationSchema = RegisterSchema.extend({
   confirmPassword: z.string().min(8, "Password must be at least 8 characters"),
@@ -32,6 +33,7 @@ function RegisterPage() {
       onChange: RegisterValidationSchema,
     },
     onSubmit: async ({ value }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...registerData } = value;
       registerMutation.mutate(registerData);
     },
@@ -62,20 +64,26 @@ function RegisterPage() {
           }}
           className="space-y-4"
         >
-          <div className="flex gap-4">
-            <form.AppField
-              name="firstName"
-              children={(field) => (
-                <field.TextInput label="First Name" placeholder="John" />
-              )}
-            />
-            <form.AppField
-              name="lastName"
-              children={(field) => (
-                <field.TextInput label="Last Name" placeholder="Doe" />
-              )}
-            />
-          </div>
+          <NameFieldGroup
+            firstNameField={
+              <form.AppField
+                name="firstName"
+                children={(field) => (
+                  <field.TextInput label="First Name" placeholder="John" />
+                )}
+              />
+            }
+            lastNameField={
+              <form.AppField
+                name="lastName"
+                children={(field) => (
+                  <field.TextInput label="Last Name" placeholder="Doe" />
+                )}
+              />
+            }
+            layout="horizontal"
+            responsive="sm"
+          />
           <form.AppField
             name="email"
             children={(field) => (

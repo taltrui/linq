@@ -1,18 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { type Client } from "@repo/api-client";
+import { Users } from "lucide-react";
 
-import { clientsQueryOptions } from "@/services/queries/useListClients";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { clientsQueryOptions } from "@/services/queries/use-list-clients";
 import { queryClient } from "@/main";
-import { NewClient } from "@/components/general/NewClient";
+import { NewClient } from "@/components/general/new-client";
+import ResourceCard from "@/components/general/resource-card";
+import ResourceListLayout from "@/components/general/resource-list-layout";
+import EmptyState from "@/components/states/empty-state";
+import { useResourceList } from "@/lib/hooks";
 
 const clientsSearchSchema = z.object({
   search: z.string().optional(),
@@ -30,20 +27,26 @@ export const Route = createFileRoute("/_authenticated/clients/")({
   component: ClientsPage,
 });
 
-function ClientRow({ client }: { client: Client }) {
+function ClientCard({ client }: { client: Client }) {
+  const addressText = client.address 
+    ? `${client.address.street}, ${client.address.city}, ${client.address.state} ${client.address.zipCode}`
+    : "Sin dirección";
+
   return (
-    <Card className="hover:bg-muted/50 transition-colors">
-      <CardHeader>
-        <CardTitle>{client.name}</CardTitle>
-        <CardDescription>{client.email}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">Phone: {client.phone}</p>
+    <ResourceCard
+      title={client.name}
+      subtitle={client.email}
+      icon={<Users className="w-5 h-5" />}
+    >
+      <div className="space-y-1">
         <p className="text-sm text-muted-foreground">
-          Address: {client.address.street}, {client.address.city}, {client.address.state} {client.address.zipCode}
+          <span className="font-medium">Teléfono:</span> {client.phone || "No especificado"}
         </p>
-      </CardContent>
-    </Card>
+        <p className="text-sm text-muted-foreground">
+          <span className="font-medium">Dirección:</span> {addressText}
+        </p>
+      </div>
+    </ResourceCard>
   );
 }
 
@@ -62,38 +65,47 @@ function ClientsPage() {
     });
   };
 
+  const { data: filteredClients, isEmpty, isSearching } = useResourceList({
+    data: clients,
+    filterConfig: {
+      search,
+      searchFields: ['name', 'email', 'phone'],
+    },
+  });
+
   return (
-    <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Clients</h1>
-        <NewClient />
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Filter</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Input
-            placeholder="Search by name, email, or phone..."
-            value={search ?? ""}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="max-w-sm"
-          />
-        </CardContent>
-      </Card>
-
-      <div className="space-y-4">
-        {clients.length > 0 ? (
-          clients.map((client: Client) => (
-            <ClientRow key={client.id} client={client} />
-          ))
-        ) : (
-          <Card>
-            <CardContent className="p-4">No clients found.</CardContent>
-          </Card>
-        )}
-      </div>
-    </div>
+    <ResourceListLayout
+      title="Clientes"
+      description="Gestiona tus clientes y contactos"
+      createAction={<NewClient />}
+      searchValue={search}
+      onSearchChange={handleSearchChange}
+      searchPlaceholder="Buscar por nombre, email, o teléfono..."
+    >
+      {!isEmpty ? (
+        filteredClients.map((client: Client) => (
+          <ClientCard key={client.id} client={client} />
+        ))
+      ) : (
+        <EmptyState
+          icon={<Users className="w-12 h-12" />}
+          title="No hay clientes"
+          description={
+            isSearching
+              ? "No se encontraron clientes que coincidan con tu búsqueda."
+              : "Comienza agregando tu primer cliente."
+          }
+          isSearchResult={isSearching}
+          action={!isSearching ? {
+            label: "Crear Primer Cliente",
+            onClick: () => {
+              // The NewClient component handles the creation
+              (document.querySelector('[data-new-client]') as HTMLElement)?.click();
+            },
+            icon: <Users className="w-4 h-4 mr-2" />,
+          } : undefined}
+        />
+      )}
+    </ResourceListLayout>
   );
 }

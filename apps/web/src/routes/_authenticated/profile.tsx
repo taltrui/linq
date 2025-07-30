@@ -7,10 +7,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
+} from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useProfile } from "@/services/queries/useProfile";
+import { useProfile } from "@/services/queries/use-profile";
 
 const updateProfile = async (values: {
   firstName: string;
@@ -23,8 +23,9 @@ const updateProfile = async (values: {
   };
 };
 
-const changePassword = async (_values: unknown) => {
+const changePassword = async (values: unknown) => {
   await new Promise((resolve) => setTimeout(resolve, 1500));
+  console.log("Password change values:", values);
   return { success: true };
 };
 
