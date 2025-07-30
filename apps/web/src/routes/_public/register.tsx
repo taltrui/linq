@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import useAppForm from "@/lib/form";
 import { useRegister } from "@/services/mutations/use-register";
 import { RegisterSchema } from "@repo/api-client";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { NameFieldGroup } from "@/components/ui/form";
 import { useState } from "react";
