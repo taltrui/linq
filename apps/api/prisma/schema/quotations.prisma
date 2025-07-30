@@ -1,49 +1,49 @@
 enum QuotationStatus {
-    PENDING
-    APPROVED
-    CANCELED
+  PENDING
+  APPROVED
+  CANCELED
 }
 
 model Quotation {
-    id               String          @id @default(cuid())
-    quotationNumber  Int             @unique @default(autoincrement())
-    clientId         String
-    client           Client          @relation(fields: [clientId], references: [id])
-    companyId        String
-    company          Company         @relation(fields: [companyId], references: [id])
-    status           QuotationStatus @default(PENDING)
-    totalAmount      Decimal         @db.Decimal(10, 2)
-    notes            String?
-    createdAt        DateTime        @default(now())
-    updatedAt        DateTime        @updatedAt
-    approvedAt       DateTime?
-    createdById      String
-    createdBy        User            @relation(name: "CreatedQuotations", fields: [createdById], references: [id])
-    approvedByUserId String?
-    approvedByUser   User?           @relation(name: "ApprovedQuotations", fields: [approvedByUserId], references: [id])
-    title            String
-    description      String?
+  id               String          @id @default(cuid())
+  quotationNumber  Int             @unique @default(autoincrement())
+  clientId         String
+  client           Client          @relation(fields: [clientId], references: [id])
+  companyId        String
+  company          Company         @relation(fields: [companyId], references: [id])
+  status           QuotationStatus @default(PENDING)
+  totalAmount      Decimal         @db.Decimal(10, 2)
+  notes            String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  approvedAt       DateTime?
+  createdById      String
+  createdBy        User            @relation(name: "CreatedQuotations", fields: [createdById], references: [id])
+  approvedByUserId String?
+  approvedByUser   User?           @relation(name: "ApprovedQuotations", fields: [approvedByUserId], references: [id])
+  title            String
+  description      String?
 
-    quotationItems QuotationItem[]
-    job            Job?            @relation(fields: [jobId], references: [id])
-    jobId          String?
-    
-    // Inventory relationships
-    inventoryTransactions InventoryTransaction[]
-    materials             QuoteMaterial[]
+  quotationItems QuotationItem[]
+  job            Job?            @relation(fields: [jobId], references: [id])
+  jobId          String?
 
-    @@map("quotations")
+  // Inventory relationships
+  inventoryTransactions InventoryTransaction[]
+  materials             QuoteMaterial[]
+
+  @@map("quotations")
 }
 
 model QuotationItem {
-    id          String    @id @default(cuid())
-    quotationId String
-    quotation   Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
-    description String
-    quantity    Int
-    unitPrice   Decimal   @db.Decimal(10, 2)
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  quotationId String
+  quotation   Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
+  description String
+  quantity    Int
+  unitPrice   Decimal   @db.Decimal(10, 2)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-    @@map("quotation_items")
+  @@map("quotation_items")
 }

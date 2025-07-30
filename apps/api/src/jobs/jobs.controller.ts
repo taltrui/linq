@@ -63,7 +63,11 @@ export class JobsController {
     @Body() addMaterialDto: AddMaterialToJobDto,
     @CurrentUser() user: { companyId: string },
   ) {
-    return this.jobsService.addMaterialToJob(id, addMaterialDto, user.companyId);
+    return this.jobsService.addMaterialToJob(
+      id,
+      addMaterialDto,
+      user.companyId,
+    );
   }
 
   @Patch(':id/materials/:itemId')
@@ -98,7 +102,6 @@ export class JobsController {
   copyMaterialsFromQuotation(
     @Param('id') id: string,
     @Body('quotationId') quotationId: string,
-    @CurrentUser() user: { companyId: string },
   ) {
     return this.jobsService.copyMaterialsFromQuotation(id, quotationId);
   }

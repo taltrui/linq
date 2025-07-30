@@ -1,95 +1,95 @@
 enum TransactionType {
-    STOCK_IN                // Entrada de nuevo stock (compra a proveedor)
-    INITIAL_COUNT           // Conteo inicial al crear el artículo
-    RESERVATION             // Reserva de stock para un trabajo
-    RESERVATION_COMPENSATION // Liberación de una reserva (por cancelación o finalización)
-    CONSUMPTION             // Consumo final del material en un trabajo completado
-    AUDIT_ADJUSTMENT        // Ajuste manual por recuento de inventario
+  STOCK_IN // Entrada de nuevo stock (compra a proveedor)
+  INITIAL_COUNT // Conteo inicial al crear el artículo
+  RESERVATION // Reserva de stock para un trabajo
+  RESERVATION_COMPENSATION // Liberación de una reserva (por cancelación o finalización)
+  CONSUMPTION // Consumo final del material en un trabajo completado
+  AUDIT_ADJUSTMENT // Ajuste manual por recuento de inventario
 }
 
 model Supplier {
-    id          String   @id @default(cuid())
-    name        String
-    contactInfo String?
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  contactInfo String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-    companyId String
-    company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-    items InventoryItem[]
+  items InventoryItem[]
 
-    @@map("suppliers")
+  @@map("suppliers")
 }
 
 model InventoryItem {
-    id          String   @id @default(cuid())
-    sku         String   // Stock Keeping Unit
-    name        String
-    description String?
-    unitPrice   Decimal  @db.Decimal(10, 2)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+  id          String   @id @default(cuid())
+  sku         String // Stock Keeping Unit
+  name        String
+  description String?
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-    companyId String
-    company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-    supplierId String?
-    supplier   Supplier? @relation(fields: [supplierId], references: [id])
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id])
 
-    transactions   InventoryTransaction[]
-    quoteMaterials QuoteMaterial[]
-    jobMaterials   JobMaterial[]
+  transactions   InventoryTransaction[]
+  quoteMaterials QuoteMaterial[]
+  jobMaterials   JobMaterial[]
 
-    @@unique([companyId, sku])
-    @@map("inventory_items")
+  @@unique([companyId, sku])
+  @@map("inventory_items")
 }
 
 model InventoryTransaction {
-    id        String          @id @default(cuid())
-    quantity  Int             // Positivo para entradas, negativo para salidas/reservas
-    notes     String?
-    createdAt DateTime        @default(now())
-    type      TransactionType
+  id        String          @id @default(cuid())
+  quantity  Int // Positivo para entradas, negativo para salidas/reservas
+  notes     String?
+  createdAt DateTime        @default(now())
+  type      TransactionType
 
-    itemId String
-    item   InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId String
+  item   InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
 
-    // Opcionalmente vinculado a un trabajo o presupuesto para trazabilidad
-    jobId   String?
-    job     Job?    @relation(fields: [jobId], references: [id])
-    quoteId String?
-    quote   Quotation? @relation(fields: [quoteId], references: [id])
+  // Opcionalmente vinculado a un trabajo o presupuesto para trazabilidad
+  jobId   String?
+  job     Job?       @relation(fields: [jobId], references: [id])
+  quoteId String?
+  quote   Quotation? @relation(fields: [quoteId], references: [id])
 
-    @@map("inventory_transactions")
+  @@map("inventory_transactions")
 }
 
 model QuoteMaterial {
-    id                     String @id @default(cuid())
-    quantity               Int
-    unitPriceAtTimeOfQuote Decimal @db.Decimal(10, 2) // Congela el precio en el momento del presupuesto
+  id                     String  @id @default(cuid())
+  quantity               Int
+  unitPriceAtTimeOfQuote Decimal @db.Decimal(10, 2) // Congela el precio en el momento del presupuesto
 
-    quotationId String
-    quotation   Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
+  quotationId String
+  quotation   Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
 
-    itemId String
-    item   InventoryItem @relation(fields: [itemId], references: [id])
+  itemId String
+  item   InventoryItem @relation(fields: [itemId], references: [id])
 
-    @@unique([quotationId, itemId])
-    @@map("quote_materials")
+  @@unique([quotationId, itemId])
+  @@map("quote_materials")
 }
 
 model JobMaterial {
-    id               String @id @default(cuid())
-    quantityRequired Int    // Cantidad planificada para el trabajo
-    quantityUsed     Int?   // Cantidad real utilizada (puede variar)
+  id               String @id @default(cuid())
+  quantityRequired Int // Cantidad planificada para el trabajo
+  quantityUsed     Int? // Cantidad real utilizada (puede variar)
 
-    jobId String
-    job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
-    itemId String
-    item   InventoryItem @relation(fields: [itemId], references: [id])
+  itemId String
+  item   InventoryItem @relation(fields: [itemId], references: [id])
 
-    @@unique([jobId, itemId])
-    @@map("job_materials")
+  @@unique([jobId, itemId])
+  @@map("job_materials")
 }

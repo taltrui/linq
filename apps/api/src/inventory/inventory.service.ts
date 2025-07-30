@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { TransactionType } from '@prisma';
 import type { CurrentUserType } from '../auth/decorators/current-user.decorator';
@@ -35,7 +39,10 @@ export interface StockLevels {
 export class InventoryService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createDto: CreateInventoryItemDto, currentUser: CurrentUserType) {
+  async create(
+    createDto: CreateInventoryItemDto,
+    currentUser: CurrentUserType,
+  ) {
     const companyId = currentUser.companyId;
 
     // Check if SKU already exists for this company
@@ -53,7 +60,9 @@ export class InventoryService {
         where: { id: createDto.supplierId, companyId },
       });
       if (!supplier) {
-        throw new NotFoundException(`Supplier with ID ${createDto.supplierId} not found`);
+        throw new NotFoundException(
+          `Supplier with ID ${createDto.supplierId} not found`,
+        );
       }
     }
 
@@ -91,7 +100,7 @@ export class InventoryService {
 
   async findAll(currentUser: CurrentUserType) {
     const companyId = currentUser.companyId;
-    
+
     const items = await this.prisma.inventoryItem.findMany({
       where: { companyId },
       include: {
@@ -113,7 +122,7 @@ export class InventoryService {
           ...item,
           ...stockLevels,
         };
-      })
+      }),
     );
 
     return itemsWithStock;
@@ -121,7 +130,7 @@ export class InventoryService {
 
   async findOne(id: string, currentUser: CurrentUserType) {
     const companyId = currentUser.companyId;
-    
+
     const item = await this.prisma.inventoryItem.findFirst({
       where: { id, companyId },
       include: {
@@ -153,7 +162,11 @@ export class InventoryService {
     };
   }
 
-  async update(id: string, updateDto: UpdateInventoryItemDto, currentUser: CurrentUserType) {
+  async update(
+    id: string,
+    updateDto: UpdateInventoryItemDto,
+    currentUser: CurrentUserType,
+  ) {
     const companyId = currentUser.companyId;
 
     // Verify item exists and belongs to company
@@ -171,7 +184,9 @@ export class InventoryService {
         where: { id: updateDto.supplierId, companyId },
       });
       if (!supplier) {
-        throw new NotFoundException(`Supplier with ID ${updateDto.supplierId} not found`);
+        throw new NotFoundException(
+          `Supplier with ID ${updateDto.supplierId} not found`,
+        );
       }
     }
 
@@ -200,7 +215,11 @@ export class InventoryService {
     });
   }
 
-  async adjustStock(id: string, adjustDto: AdjustStockDto, currentUser: CurrentUserType) {
+  async adjustStock(
+    id: string,
+    adjustDto: AdjustStockDto,
+    currentUser: CurrentUserType,
+  ) {
     const companyId = currentUser.companyId;
 
     const item = await this.prisma.inventoryItem.findFirst({
@@ -288,23 +307,29 @@ export class InventoryService {
     });
   }
 
-  async reserveMaterialsForJob(jobId: string, materials: Array<{ itemId: string; quantity: number }>) {
+  async reserveMaterialsForJob(
+    jobId: string,
+    materials: Array<{ itemId: string; quantity: number }>,
+  ) {
     const transactions = await Promise.all(
-      materials.map(material =>
+      materials.map((material) =>
         this.createTransaction({
           itemId: material.itemId,
           quantity: -material.quantity, // negative for reservation
           type: TransactionType.RESERVATION,
           jobId,
           notes: `Reserved for job ${jobId}`,
-        })
-      )
+        }),
+      ),
     );
 
     return transactions;
   }
 
-  async consumeMaterialsForJob(jobId: string, materials: Array<{ itemId: string; quantity: number }>) {
+  async consumeMaterialsForJob(
+    jobId: string,
+    materials: Array<{ itemId: string; quantity: number }>,
+  ) {
     return this.prisma.$transaction(async (tx) => {
       const transactions = [];
 
@@ -349,15 +374,15 @@ export class InventoryService {
 
     // Create compensation transactions
     const compensations = await Promise.all(
-      reservations.map(reservation =>
+      reservations.map((reservation) =>
         this.createTransaction({
           itemId: reservation.itemId,
           quantity: Math.abs(reservation.quantity), // positive to cancel negative reservation
           type: TransactionType.RESERVATION_COMPENSATION,
           jobId,
           notes: `Reservation cancelled for job ${jobId}`,
-        })
-      )
+        }),
+      ),
     );
 
     return compensations;
