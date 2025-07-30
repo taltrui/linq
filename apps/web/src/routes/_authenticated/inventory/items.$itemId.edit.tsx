@@ -8,15 +8,8 @@ import {
 import { inventoryItemQueryOptions } from "@/services/queries/use-inventory-item";
 import { useUpdateInventoryItem } from "@/services/mutations/use-update-inventory-item";
 import { useListSuppliers } from "@/services/queries/use-list-suppliers";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import BackToButton from "@/components/general/back-to-button";
+import FormPageLayout from "@/components/general/form-page-layout";
+import { FormActionButtons, GridFormSection, ReadOnlyField, InfoSection, InfoGrid, InfoItem } from "@/components/ui/form";
 import { queryClient } from "@/main";
 
 export const Route = createFileRoute(
@@ -74,23 +67,14 @@ function EditInventoryItemPage() {
   ];
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
-      <div className="flex items-center gap-4">
-        <BackToButton to="/inventory" label="Volver a Inventario" />
-        <div>
-          <h1 className="text-3xl font-bold">Editar Item de Inventario</h1>
-          <p className="text-muted-foreground">
-            Modifica la información de "{item.name}" (SKU: {item.sku})
-          </p>
-        </div>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Información del Item</CardTitle>
-          <CardDescription>Actualiza los detalles del producto</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <FormPageLayout
+      backTo="/inventory"
+      backLabel="Volver a Inventario"
+      title="Editar Item de Inventario"
+      description={`Modifica la información de "${item.name}" (SKU: ${item.sku})`}
+      formTitle="Información del Item"
+      formDescription="Actualiza los detalles del producto"
+    >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -99,18 +83,13 @@ function EditInventoryItemPage() {
             }}
             className="space-y-6"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">
-                  SKU
-                </label>
-                <p className="mt-1 p-3 bg-muted rounded-md text-sm">
-                  {item.sku}
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  El SKU no se puede modificar
-                </p>
-              </div>
+            <GridFormSection columns={2} title="Información Básica">
+              <ReadOnlyField
+                label="SKU"
+                value={item.sku}
+                description="El SKU no se puede modificar"
+                bordered
+              />
 
               <form.AppField
                 name="name"
@@ -122,7 +101,7 @@ function EditInventoryItemPage() {
                   />
                 )}
               />
-            </div>
+            </GridFormSection>
 
             <form.AppField
               name="description"
@@ -134,7 +113,7 @@ function EditInventoryItemPage() {
               )}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <GridFormSection columns={2} title="Precio y Proveedor">
               <form.AppField
                 name="unitPrice"
                 children={(field) => (
@@ -158,41 +137,34 @@ function EditInventoryItemPage() {
                   />
                 )}
               />
-            </div>
+            </GridFormSection>
 
-            <div className="bg-muted/50 p-4 rounded-lg">
-              <h4 className="font-medium mb-2">Información de Stock</h4>
-              <div className="grid grid-cols-3 gap-4 text-sm">
-                <div>
-                  <span className="text-muted-foreground">Stock Físico:</span>
-                  <p className="font-semibold">{item.physicalQuantity || 0}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Reservado:</span>
-                  <p className="font-semibold">{item.reservedQuantity || 0}</p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Disponible:</span>
-                  <p className="font-semibold">{item.availableQuantity || 0}</p>
-                </div>
-              </div>
-            </div>
+            <InfoSection
+              title="Información de Stock"
+              description="Stock actual del producto"
+              variant="muted"
+            >
+              <InfoGrid columns={3}>
+                <InfoItem
+                  label="Stock Físico"
+                  value={item.physicalQuantity || 0}
+                />
+                <InfoItem
+                  label="Reservado"
+                  value={item.reservedQuantity || 0}
+                />
+                <InfoItem
+                  label="Disponible"
+                  value={item.availableQuantity || 0}
+                />
+              </InfoGrid>
+            </InfoSection>
 
-            <div className="flex gap-4">
-              <form.AppForm>
-                <form.SubmitButton label="Actualizar Item" />
-              </form.AppForm>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => navigate({ to: "/inventory" })}
-              >
-                Cancelar
-              </Button>
-            </div>
+            <FormActionButtons
+              submitLabel="Actualizar Item"
+              onCancel={() => navigate({ to: "/inventory" })}
+            />
           </form>
-        </CardContent>
-      </Card>
-    </div>
+    </FormPageLayout>
   );
 }

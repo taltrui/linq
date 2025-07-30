@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { InfoSection, InfoGrid, InfoItem } from "@/components/ui/form";
 import {
   Dialog,
   DialogContent,
@@ -367,33 +368,34 @@ function JobDetailsPage() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h3 className="font-semibold">Descripción</h3>
-            <p className="text-muted-foreground">{job.description || "Sin descripción"}</p>
-          </div>
-          <div>
-            <h3 className="font-semibold">Cliente</h3>
-            <p className="text-muted-foreground">Cliente ID: {job.clientId}</p>
-          </div>
-          {job.startDate && (
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <h3 className="font-semibold">Fecha de inicio</h3>
-                <p className="text-muted-foreground">
-                  {new Date(job.startDate).toLocaleDateString()}
-                </p>
-              </div>
-              {job.endDate && (
-                <div>
-                  <h3 className="font-semibold">Fecha de fin</h3>
-                  <p className="text-muted-foreground">
-                    {new Date(job.endDate).toLocaleDateString()}
-                  </p>
-                </div>
+        <CardContent>
+          <InfoSection
+            title="Detalles del Trabajo"
+            description="Información del proyecto"
+          >
+            <InfoGrid columns={2}>
+              <InfoItem
+                label="Descripción"
+                value={job.description || "Sin descripción"}
+              />
+              <InfoItem
+                label="Cliente"
+                value={`Cliente ID: ${job.clientId}`}
+              />
+              {job.startDate && (
+                <InfoItem
+                  label="Fecha de inicio"
+                  value={new Date(job.startDate).toLocaleDateString()}
+                />
               )}
-            </div>
-          )}
+              {job.endDate && (
+                <InfoItem
+                  label="Fecha de fin"
+                  value={new Date(job.endDate).toLocaleDateString()}
+                />
+              )}
+            </InfoGrid>
+          </InfoSection>
         </CardContent>
       </Card>
 

@@ -3,8 +3,8 @@ import useAppForm from "@/lib/form";
 import { CreateSupplierSchema, type CreateSupplier } from "@repo/api-client/inventory";
 
 import { useCreateSupplier } from "@/services/mutations/use-create-supplier";
-import { Button } from "@/components/ui/button";
 import FormPageLayout from "@/components/general/form-page-layout";
+import { FormActionButtons } from "@/components/ui/form";
 
 export const Route = createFileRoute("/_authenticated/inventory/suppliers/new")({
   component: NewSupplierPage,
@@ -75,18 +75,10 @@ function NewSupplierPage() {
           )}
         />
 
-        <div className="flex gap-4">
-          <form.AppForm>
-            <form.SubmitButton label="Crear Proveedor" />
-          </form.AppForm>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => navigate({ to: "/inventory/suppliers" })}
-          >
-            Cancelar
-          </Button>
-        </div>
+        <FormActionButtons
+          submitLabel="Crear Proveedor"
+          onCancel={() => navigate({ to: "/inventory/suppliers" })}
+        />
       </form>
     </FormPageLayout>
   );

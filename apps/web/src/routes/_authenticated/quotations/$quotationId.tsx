@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import Badge from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { InfoSection, InfoGrid, InfoItem } from "@/components/ui/form";
 import {
   Dialog,
   DialogContent,
@@ -289,36 +290,31 @@ function QuotationDetailPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Estado</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Badge variant={quotation.status === "PENDING" ? "default" : "secondary"}>
-              {quotation.status}
-            </Badge>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Total General</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">${quotation.totalAmount}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Materiales</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">${materialsTotal.toFixed(2)}</p>
-          </CardContent>
-        </Card>
-      </div>
+      <InfoSection
+        title="Resumen de Cotización"
+        description="Información general y totales"
+        variant="bordered"
+      >
+        <InfoGrid columns={3}>
+          <InfoItem
+            label="Estado"
+            value={quotation.status}
+            renderValue={(value) => (
+              <Badge variant={quotation.status === "PENDING" ? "default" : "secondary"}>
+                {value}
+              </Badge>
+            )}
+          />
+          <InfoItem
+            label="Total General"
+            value={`$${quotation.totalAmount}`}
+          />
+          <InfoItem
+            label="Total Materiales"
+            value={`$${materialsTotal.toFixed(2)}`}
+          />
+        </InfoGrid>
+      </InfoSection>
 
       <Card>
         <CardHeader>

@@ -7,15 +7,8 @@ import {
 
 import { useCreateInventoryItem } from "@/services/mutations/use-create-inventory-item";
 import { useListSuppliers } from "@/services/queries/use-list-suppliers";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import BackToButton from "@/components/general/back-to-button";
+import FormPageLayout from "@/components/general/form-page-layout";
+import { FormActionButtons, GridFormSection } from "@/components/ui/form";
 
 export const Route = createFileRoute("/_authenticated/inventory/items/new")({
   component: NewInventoryItemPage,
@@ -63,25 +56,14 @@ function NewInventoryItemPage() {
   ];
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
-      <div className="flex items-center gap-4">
-        <BackToButton to="/inventory" label="Volver a Inventario" />
-        <div>
-          <h1 className="text-3xl font-bold">Nuevo Item de Inventario</h1>
-          <p className="text-muted-foreground">
-            Agrega un nuevo producto a tu inventario
-          </p>
-        </div>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Información del Item</CardTitle>
-          <CardDescription>
-            Ingresa los detalles del producto que quieres agregar al inventario
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+    <FormPageLayout
+      backTo="/inventory"
+      backLabel="Volver a Inventario"
+      title="Nuevo Item de Inventario"
+      description="Agrega un nuevo producto a tu inventario"
+      formTitle="Información del Item"
+      formDescription="Ingresa los detalles del producto que quieres agregar al inventario"
+    >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -90,7 +72,7 @@ function NewInventoryItemPage() {
             }}
             className="space-y-6"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <GridFormSection columns={2} title="Información Básica">
               <form.AppField
                 name="sku"
                 children={(field) => (
@@ -112,7 +94,7 @@ function NewInventoryItemPage() {
                   />
                 )}
               />
-            </div>
+            </GridFormSection>
 
             <form.AppField
               name="description"
@@ -124,7 +106,7 @@ function NewInventoryItemPage() {
               )}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <GridFormSection columns={3} title="Precio y Stock">
               <form.AppField
                 name="unitPrice"
                 children={(field) => (
@@ -160,23 +142,13 @@ function NewInventoryItemPage() {
                   />
                 )}
               />
-            </div>
+            </GridFormSection>
 
-            <div className="flex gap-4">
-              <form.AppForm>
-                <form.SubmitButton label="Crear Item" />
-              </form.AppForm>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => navigate({ to: "/inventory" })}
-              >
-                Cancelar
-              </Button>
-            </div>
+            <FormActionButtons
+              submitLabel="Crear Item"
+              onCancel={() => navigate({ to: "/inventory" })}
+            />
           </form>
-        </CardContent>
-      </Card>
-    </div>
+    </FormPageLayout>
   );
 }

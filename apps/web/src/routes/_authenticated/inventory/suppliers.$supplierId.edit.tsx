@@ -4,15 +4,8 @@ import { UpdateSupplierSchema, type UpdateSupplier } from "@repo/api-client/inve
 
 import { supplierQueryOptions } from "@/services/queries/use-supplier";
 import { useUpdateSupplier } from "@/services/mutations/use-update-supplier";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import BackToButton from "@/components/general/back-to-button";
+import FormPageLayout from "@/components/general/form-page-layout";
+import { FormActionButtons } from "@/components/ui/form";
 import { queryClient } from "@/main";
 
 export const Route = createFileRoute("/_authenticated/inventory/suppliers/$supplierId/edit")({
@@ -54,25 +47,14 @@ function EditSupplierPage() {
   });
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 md:p-8 space-y-8">
-      <div className="flex items-center gap-4">
-        <BackToButton to="/inventory/suppliers" label="Volver a Proveedores" />
-        <div>
-          <h1 className="text-3xl font-bold">Editar Proveedor</h1>
-          <p className="text-muted-foreground">
-            Modifica la información de "{supplier.name}"
-          </p>
-        </div>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Información del Proveedor</CardTitle>
-          <CardDescription>
-            Actualiza los detalles del proveedor
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+    <FormPageLayout
+      backTo="/inventory/suppliers"
+      backLabel="Volver a Proveedores"
+      title="Editar Proveedor"
+      description={`Modifica la información de "${supplier.name}"`}
+      formTitle="Información del Proveedor"
+      formDescription="Actualiza los detalles del proveedor"
+    >
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -104,21 +86,11 @@ function EditSupplierPage() {
             />
 
 
-            <div className="flex gap-4">
-              <form.AppForm>
-                <form.SubmitButton label="Actualizar Proveedor" />
-              </form.AppForm>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => navigate({ to: "/inventory/suppliers" })}
-              >
-                Cancelar
-              </Button>
-            </div>
+            <FormActionButtons
+              submitLabel="Actualizar Proveedor"
+              onCancel={() => navigate({ to: "/inventory/suppliers" })}
+            />
           </form>
-        </CardContent>
-      </Card>
-    </div>
+    </FormPageLayout>
   );
 }
