@@ -15,12 +15,23 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedJobsRouteImport } from './routes/_authenticated/jobs'
+import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedQuotationsIndexRouteImport } from './routes/_authenticated/quotations/index'
 import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authenticated/jobs/index'
+import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedClientsIndexRouteImport } from './routes/_authenticated/clients/index'
+import { Route as AuthenticatedQuotationsQuotationIdRouteImport } from './routes/_authenticated/quotations/$quotationId'
 import { Route as AuthenticatedJobsJobIdRouteImport } from './routes/_authenticated/jobs/$jobId'
+import { Route as AuthenticatedInventorySuppliersRouteImport } from './routes/_authenticated/inventory/suppliers'
+import { Route as AuthenticatedInventoryStockRouteImport } from './routes/_authenticated/inventory/stock'
+import { Route as AuthenticatedInventoryDashboardRouteImport } from './routes/_authenticated/inventory/dashboard'
+import { Route as AuthenticatedInventorySuppliersIndexRouteImport } from './routes/_authenticated/inventory/suppliers/index'
+import { Route as AuthenticatedInventorySuppliersNewRouteImport } from './routes/_authenticated/inventory/suppliers.new'
+import { Route as AuthenticatedInventoryItemsNewRouteImport } from './routes/_authenticated/inventory/items.new'
+import { Route as AuthenticatedInventorySuppliersSupplierIdEditRouteImport } from './routes/_authenticated/inventory/suppliers.$supplierId.edit'
+import { Route as AuthenticatedInventoryItemsItemIdEditRouteImport } from './routes/_authenticated/inventory/items.$itemId.edit'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -50,6 +61,11 @@ const AuthenticatedJobsRoute = AuthenticatedJobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedClientsRoute = AuthenticatedClientsRouteImport.update({
   id: '/clients',
   path: '/clients',
@@ -66,6 +82,12 @@ const AuthenticatedJobsIndexRoute = AuthenticatedJobsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedJobsRoute,
 } as any)
+const AuthenticatedInventoryIndexRoute =
+  AuthenticatedInventoryIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedInventoryRoute,
+  } as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
     id: '/dashboard/',
@@ -78,86 +100,202 @@ const AuthenticatedClientsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedClientsRoute,
   } as any)
+const AuthenticatedQuotationsQuotationIdRoute =
+  AuthenticatedQuotationsQuotationIdRouteImport.update({
+    id: '/quotations/$quotationId',
+    path: '/quotations/$quotationId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedJobsJobIdRoute = AuthenticatedJobsJobIdRouteImport.update({
   id: '/$jobId',
   path: '/$jobId',
   getParentRoute: () => AuthenticatedJobsRoute,
 } as any)
+const AuthenticatedInventorySuppliersRoute =
+  AuthenticatedInventorySuppliersRouteImport.update({
+    id: '/suppliers',
+    path: '/suppliers',
+    getParentRoute: () => AuthenticatedInventoryRoute,
+  } as any)
+const AuthenticatedInventoryStockRoute =
+  AuthenticatedInventoryStockRouteImport.update({
+    id: '/stock',
+    path: '/stock',
+    getParentRoute: () => AuthenticatedInventoryRoute,
+  } as any)
+const AuthenticatedInventoryDashboardRoute =
+  AuthenticatedInventoryDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedInventoryRoute,
+  } as any)
+const AuthenticatedInventorySuppliersIndexRoute =
+  AuthenticatedInventorySuppliersIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedInventorySuppliersRoute,
+  } as any)
+const AuthenticatedInventorySuppliersNewRoute =
+  AuthenticatedInventorySuppliersNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedInventorySuppliersRoute,
+  } as any)
+const AuthenticatedInventoryItemsNewRoute =
+  AuthenticatedInventoryItemsNewRouteImport.update({
+    id: '/items/new',
+    path: '/items/new',
+    getParentRoute: () => AuthenticatedInventoryRoute,
+  } as any)
+const AuthenticatedInventorySuppliersSupplierIdEditRoute =
+  AuthenticatedInventorySuppliersSupplierIdEditRouteImport.update({
+    id: '/$supplierId/edit',
+    path: '/$supplierId/edit',
+    getParentRoute: () => AuthenticatedInventorySuppliersRoute,
+  } as any)
+const AuthenticatedInventoryItemsItemIdEditRoute =
+  AuthenticatedInventoryItemsItemIdEditRouteImport.update({
+    id: '/items/$itemId/edit',
+    path: '/items/$itemId/edit',
+    getParentRoute: () => AuthenticatedInventoryRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/clients': typeof AuthenticatedClientsRouteWithChildren
+  '/inventory': typeof AuthenticatedInventoryRouteWithChildren
   '/jobs': typeof AuthenticatedJobsRouteWithChildren
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
   '/': typeof PublicIndexRoute
+  '/inventory/dashboard': typeof AuthenticatedInventoryDashboardRoute
+  '/inventory/stock': typeof AuthenticatedInventoryStockRoute
+  '/inventory/suppliers': typeof AuthenticatedInventorySuppliersRouteWithChildren
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
+  '/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
   '/clients/': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/jobs/': typeof AuthenticatedJobsIndexRoute
   '/quotations': typeof AuthenticatedQuotationsIndexRoute
+  '/inventory/items/new': typeof AuthenticatedInventoryItemsNewRoute
+  '/inventory/suppliers/new': typeof AuthenticatedInventorySuppliersNewRoute
+  '/inventory/suppliers/': typeof AuthenticatedInventorySuppliersIndexRoute
+  '/inventory/items/$itemId/edit': typeof AuthenticatedInventoryItemsItemIdEditRoute
+  '/inventory/suppliers/$supplierId/edit': typeof AuthenticatedInventorySuppliersSupplierIdEditRoute
 }
 export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/register': typeof PublicRegisterRoute
   '/': typeof PublicIndexRoute
+  '/inventory/dashboard': typeof AuthenticatedInventoryDashboardRoute
+  '/inventory/stock': typeof AuthenticatedInventoryStockRoute
   '/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
+  '/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
   '/clients': typeof AuthenticatedClientsIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/inventory': typeof AuthenticatedInventoryIndexRoute
   '/jobs': typeof AuthenticatedJobsIndexRoute
   '/quotations': typeof AuthenticatedQuotationsIndexRoute
+  '/inventory/items/new': typeof AuthenticatedInventoryItemsNewRoute
+  '/inventory/suppliers/new': typeof AuthenticatedInventorySuppliersNewRoute
+  '/inventory/suppliers': typeof AuthenticatedInventorySuppliersIndexRoute
+  '/inventory/items/$itemId/edit': typeof AuthenticatedInventoryItemsItemIdEditRoute
+  '/inventory/suppliers/$supplierId/edit': typeof AuthenticatedInventorySuppliersSupplierIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_authenticated/clients': typeof AuthenticatedClientsRouteWithChildren
+  '/_authenticated/inventory': typeof AuthenticatedInventoryRouteWithChildren
   '/_authenticated/jobs': typeof AuthenticatedJobsRouteWithChildren
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/register': typeof PublicRegisterRoute
   '/_public/': typeof PublicIndexRoute
+  '/_authenticated/inventory/dashboard': typeof AuthenticatedInventoryDashboardRoute
+  '/_authenticated/inventory/stock': typeof AuthenticatedInventoryStockRoute
+  '/_authenticated/inventory/suppliers': typeof AuthenticatedInventorySuppliersRouteWithChildren
   '/_authenticated/jobs/$jobId': typeof AuthenticatedJobsJobIdRoute
+  '/_authenticated/quotations/$quotationId': typeof AuthenticatedQuotationsQuotationIdRoute
   '/_authenticated/clients/': typeof AuthenticatedClientsIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
   '/_authenticated/jobs/': typeof AuthenticatedJobsIndexRoute
   '/_authenticated/quotations/': typeof AuthenticatedQuotationsIndexRoute
+  '/_authenticated/inventory/items/new': typeof AuthenticatedInventoryItemsNewRoute
+  '/_authenticated/inventory/suppliers/new': typeof AuthenticatedInventorySuppliersNewRoute
+  '/_authenticated/inventory/suppliers/': typeof AuthenticatedInventorySuppliersIndexRoute
+  '/_authenticated/inventory/items/$itemId/edit': typeof AuthenticatedInventoryItemsItemIdEditRoute
+  '/_authenticated/inventory/suppliers/$supplierId/edit': typeof AuthenticatedInventorySuppliersSupplierIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/clients'
+    | '/inventory'
     | '/jobs'
     | '/profile'
     | '/register'
     | '/'
+    | '/inventory/dashboard'
+    | '/inventory/stock'
+    | '/inventory/suppliers'
     | '/jobs/$jobId'
+    | '/quotations/$quotationId'
     | '/clients/'
     | '/dashboard'
+    | '/inventory/'
     | '/jobs/'
     | '/quotations'
+    | '/inventory/items/new'
+    | '/inventory/suppliers/new'
+    | '/inventory/suppliers/'
+    | '/inventory/items/$itemId/edit'
+    | '/inventory/suppliers/$supplierId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/profile'
     | '/register'
     | '/'
+    | '/inventory/dashboard'
+    | '/inventory/stock'
     | '/jobs/$jobId'
+    | '/quotations/$quotationId'
     | '/clients'
     | '/dashboard'
+    | '/inventory'
     | '/jobs'
     | '/quotations'
+    | '/inventory/items/new'
+    | '/inventory/suppliers/new'
+    | '/inventory/suppliers'
+    | '/inventory/items/$itemId/edit'
+    | '/inventory/suppliers/$supplierId/edit'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_public'
     | '/_authenticated/clients'
+    | '/_authenticated/inventory'
     | '/_authenticated/jobs'
     | '/_authenticated/profile'
     | '/_public/register'
     | '/_public/'
+    | '/_authenticated/inventory/dashboard'
+    | '/_authenticated/inventory/stock'
+    | '/_authenticated/inventory/suppliers'
     | '/_authenticated/jobs/$jobId'
+    | '/_authenticated/quotations/$quotationId'
     | '/_authenticated/clients/'
     | '/_authenticated/dashboard/'
+    | '/_authenticated/inventory/'
     | '/_authenticated/jobs/'
     | '/_authenticated/quotations/'
+    | '/_authenticated/inventory/items/new'
+    | '/_authenticated/inventory/suppliers/new'
+    | '/_authenticated/inventory/suppliers/'
+    | '/_authenticated/inventory/items/$itemId/edit'
+    | '/_authenticated/inventory/suppliers/$supplierId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -209,6 +347,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedJobsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/inventory': {
+      id: '/_authenticated/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof AuthenticatedInventoryRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/clients': {
       id: '/_authenticated/clients'
       path: '/clients'
@@ -230,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedJobsIndexRouteImport
       parentRoute: typeof AuthenticatedJobsRoute
     }
+    '/_authenticated/inventory/': {
+      id: '/_authenticated/inventory/'
+      path: '/'
+      fullPath: '/inventory/'
+      preLoaderRoute: typeof AuthenticatedInventoryIndexRouteImport
+      parentRoute: typeof AuthenticatedInventoryRoute
+    }
     '/_authenticated/dashboard/': {
       id: '/_authenticated/dashboard/'
       path: '/dashboard'
@@ -244,12 +396,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedClientsIndexRouteImport
       parentRoute: typeof AuthenticatedClientsRoute
     }
+    '/_authenticated/quotations/$quotationId': {
+      id: '/_authenticated/quotations/$quotationId'
+      path: '/quotations/$quotationId'
+      fullPath: '/quotations/$quotationId'
+      preLoaderRoute: typeof AuthenticatedQuotationsQuotationIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/jobs/$jobId': {
       id: '/_authenticated/jobs/$jobId'
       path: '/$jobId'
       fullPath: '/jobs/$jobId'
       preLoaderRoute: typeof AuthenticatedJobsJobIdRouteImport
       parentRoute: typeof AuthenticatedJobsRoute
+    }
+    '/_authenticated/inventory/suppliers': {
+      id: '/_authenticated/inventory/suppliers'
+      path: '/suppliers'
+      fullPath: '/inventory/suppliers'
+      preLoaderRoute: typeof AuthenticatedInventorySuppliersRouteImport
+      parentRoute: typeof AuthenticatedInventoryRoute
+    }
+    '/_authenticated/inventory/stock': {
+      id: '/_authenticated/inventory/stock'
+      path: '/stock'
+      fullPath: '/inventory/stock'
+      preLoaderRoute: typeof AuthenticatedInventoryStockRouteImport
+      parentRoute: typeof AuthenticatedInventoryRoute
+    }
+    '/_authenticated/inventory/dashboard': {
+      id: '/_authenticated/inventory/dashboard'
+      path: '/dashboard'
+      fullPath: '/inventory/dashboard'
+      preLoaderRoute: typeof AuthenticatedInventoryDashboardRouteImport
+      parentRoute: typeof AuthenticatedInventoryRoute
+    }
+    '/_authenticated/inventory/suppliers/': {
+      id: '/_authenticated/inventory/suppliers/'
+      path: '/'
+      fullPath: '/inventory/suppliers/'
+      preLoaderRoute: typeof AuthenticatedInventorySuppliersIndexRouteImport
+      parentRoute: typeof AuthenticatedInventorySuppliersRoute
+    }
+    '/_authenticated/inventory/suppliers/new': {
+      id: '/_authenticated/inventory/suppliers/new'
+      path: '/new'
+      fullPath: '/inventory/suppliers/new'
+      preLoaderRoute: typeof AuthenticatedInventorySuppliersNewRouteImport
+      parentRoute: typeof AuthenticatedInventorySuppliersRoute
+    }
+    '/_authenticated/inventory/items/new': {
+      id: '/_authenticated/inventory/items/new'
+      path: '/items/new'
+      fullPath: '/inventory/items/new'
+      preLoaderRoute: typeof AuthenticatedInventoryItemsNewRouteImport
+      parentRoute: typeof AuthenticatedInventoryRoute
+    }
+    '/_authenticated/inventory/suppliers/$supplierId/edit': {
+      id: '/_authenticated/inventory/suppliers/$supplierId/edit'
+      path: '/$supplierId/edit'
+      fullPath: '/inventory/suppliers/$supplierId/edit'
+      preLoaderRoute: typeof AuthenticatedInventorySuppliersSupplierIdEditRouteImport
+      parentRoute: typeof AuthenticatedInventorySuppliersRoute
+    }
+    '/_authenticated/inventory/items/$itemId/edit': {
+      id: '/_authenticated/inventory/items/$itemId/edit'
+      path: '/items/$itemId/edit'
+      fullPath: '/inventory/items/$itemId/edit'
+      preLoaderRoute: typeof AuthenticatedInventoryItemsItemIdEditRouteImport
+      parentRoute: typeof AuthenticatedInventoryRoute
     }
   }
 }
@@ -264,6 +479,53 @@ const AuthenticatedClientsRouteChildren: AuthenticatedClientsRouteChildren = {
 
 const AuthenticatedClientsRouteWithChildren =
   AuthenticatedClientsRoute._addFileChildren(AuthenticatedClientsRouteChildren)
+
+interface AuthenticatedInventorySuppliersRouteChildren {
+  AuthenticatedInventorySuppliersNewRoute: typeof AuthenticatedInventorySuppliersNewRoute
+  AuthenticatedInventorySuppliersIndexRoute: typeof AuthenticatedInventorySuppliersIndexRoute
+  AuthenticatedInventorySuppliersSupplierIdEditRoute: typeof AuthenticatedInventorySuppliersSupplierIdEditRoute
+}
+
+const AuthenticatedInventorySuppliersRouteChildren: AuthenticatedInventorySuppliersRouteChildren =
+  {
+    AuthenticatedInventorySuppliersNewRoute:
+      AuthenticatedInventorySuppliersNewRoute,
+    AuthenticatedInventorySuppliersIndexRoute:
+      AuthenticatedInventorySuppliersIndexRoute,
+    AuthenticatedInventorySuppliersSupplierIdEditRoute:
+      AuthenticatedInventorySuppliersSupplierIdEditRoute,
+  }
+
+const AuthenticatedInventorySuppliersRouteWithChildren =
+  AuthenticatedInventorySuppliersRoute._addFileChildren(
+    AuthenticatedInventorySuppliersRouteChildren,
+  )
+
+interface AuthenticatedInventoryRouteChildren {
+  AuthenticatedInventoryDashboardRoute: typeof AuthenticatedInventoryDashboardRoute
+  AuthenticatedInventoryStockRoute: typeof AuthenticatedInventoryStockRoute
+  AuthenticatedInventorySuppliersRoute: typeof AuthenticatedInventorySuppliersRouteWithChildren
+  AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
+  AuthenticatedInventoryItemsNewRoute: typeof AuthenticatedInventoryItemsNewRoute
+  AuthenticatedInventoryItemsItemIdEditRoute: typeof AuthenticatedInventoryItemsItemIdEditRoute
+}
+
+const AuthenticatedInventoryRouteChildren: AuthenticatedInventoryRouteChildren =
+  {
+    AuthenticatedInventoryDashboardRoute: AuthenticatedInventoryDashboardRoute,
+    AuthenticatedInventoryStockRoute: AuthenticatedInventoryStockRoute,
+    AuthenticatedInventorySuppliersRoute:
+      AuthenticatedInventorySuppliersRouteWithChildren,
+    AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
+    AuthenticatedInventoryItemsNewRoute: AuthenticatedInventoryItemsNewRoute,
+    AuthenticatedInventoryItemsItemIdEditRoute:
+      AuthenticatedInventoryItemsItemIdEditRoute,
+  }
+
+const AuthenticatedInventoryRouteWithChildren =
+  AuthenticatedInventoryRoute._addFileChildren(
+    AuthenticatedInventoryRouteChildren,
+  )
 
 interface AuthenticatedJobsRouteChildren {
   AuthenticatedJobsJobIdRoute: typeof AuthenticatedJobsJobIdRoute
@@ -280,16 +542,21 @@ const AuthenticatedJobsRouteWithChildren =
 
 interface AuthenticatedRouteChildren {
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRouteWithChildren
+  AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRouteWithChildren
   AuthenticatedJobsRoute: typeof AuthenticatedJobsRouteWithChildren
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedQuotationsQuotationIdRoute: typeof AuthenticatedQuotationsQuotationIdRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedQuotationsIndexRoute: typeof AuthenticatedQuotationsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedClientsRoute: AuthenticatedClientsRouteWithChildren,
+  AuthenticatedInventoryRoute: AuthenticatedInventoryRouteWithChildren,
   AuthenticatedJobsRoute: AuthenticatedJobsRouteWithChildren,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedQuotationsQuotationIdRoute:
+    AuthenticatedQuotationsQuotationIdRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedQuotationsIndexRoute: AuthenticatedQuotationsIndexRoute,
 }
